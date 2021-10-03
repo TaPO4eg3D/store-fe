@@ -41,6 +41,16 @@ div
                 :class="{ active: n - 1 === currentSlide }"
                 @click="slider.moveToSlideRelative(n - 1)"
               )
+      // Info under slider
+      el-row
+        el-col(:span="24")
+          .quote Вы можете приобрести оригинальные ключи активации для операционных систем, офисных программ, антивирусов, софта и другого по самым выгодным ценам. У нас быстрая, вежливая и грамотная техподдержка. Если что-то пойдёт не так - поможет решить возникший вопрос.
+          // TODO: delete
+          product-card(
+            :price="200",
+            :discountPrice="160",
+            :product="testProduct",
+          )
 
 </template>
 
@@ -50,11 +60,15 @@ import { defineComponent, ref, onMounted } from 'vue'
 import KeenSlider from 'keen-slider'
 
 import Navigation from '@/components/Home/Navigation.vue'
+import ProductCard from '@/components/ProductCard.vue'
+
+import { Product } from '@/common/interfaces/product'
 
 export default defineComponent({
   name: 'Home',
   components: {
     Navigation,
+    ProductCard,
   },
   setup() {
     const slider = ref();
@@ -76,10 +90,17 @@ export default defineComponent({
       console.log(slider.value);
     });
 
+    // TODO: Delete
+    const testProduct: Product = {
+      image: 'https://os-market.store/image/cache/catalog/office2016/201910-pro-1-180x180.jpg',
+      name: 'Test Product 1',
+    }
+
     return {
       slider,
       slidesNumber,
       currentSlide,
+      testProduct,
     }
   }
 })
@@ -109,6 +130,8 @@ export default defineComponent({
   margin-top: 15px;
 
   position: relative;
+  border: 1px solid #DCDFE6;
+  border-radius: 4px;
 
   .dots {
     display: flex;
