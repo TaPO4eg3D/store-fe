@@ -28,28 +28,46 @@ div
       el-row
         el-col(:span="24")
           .slider-wrapper
-            #slider.keen-slider
-              .keen-slider__slide
-                img(src="../assets/test_image.jpg")
-              .keen-slider__slide
-                img(src="../assets/test_image.jpg")
-              .keen-slider__slide
-                img(src="../assets/test_image.jpg")
+            .daily-slider
+              .splide__track
+                .splide__list
+                  li.splide__slide
+                    img(src="../assets/test_image.jpg")
+                  li.splide__slide
+                    img(src="../assets/test_image.jpg")
+                  li.splide__slide
+                    img(src="../assets/test_image.jpg")
             .dots
               .dot(
-                v-for="n in slidesNumber",
-                :class="{ active: n - 1 === currentSlide }"
-                @click="slider.moveToSlideRelative(n - 1)"
+                v-for="i in slidesNumber",
+                :class="{ active: i - 1 === activeSlide }"
+                @click="slider.go(i - 1)"
               )
       // Info under slider
       el-row
         el-col(:span="24")
           .quote Вы можете приобрести оригинальные ключи активации для операционных систем, офисных программ, антивирусов, софта и другого по самым выгодным ценам. У нас быстрая, вежливая и грамотная техподдержка. Если что-то пойдёт не так - поможет решить возникший вопрос.
-          // TODO: delete
+  el-row(:gutter="20", style="margin-top: 15px")
+    el-col(:span="5")
+      general-card.selling-hits(
+        header="Хиты продаж",
+        :isSlider="true",
+      )
+        .splide__slide
           product-card(
-            :price="200",
-            :discountPrice="160",
-            :product="testProduct",
+            :product="testProduct"
+          )
+        .splide__slide
+          product-card(
+            :product="testProduct"
+          )
+        .splide__slide
+          product-card(
+            :product="testProduct"
+          )
+        .splide__slide
+          product-card(
+            :product="testProduct"
           )
 
 </template>
@@ -57,10 +75,11 @@ div
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 
-import KeenSlider from 'keen-slider'
+import Splide from '@splidejs/splide';
 
 import Navigation from '@/components/Home/Navigation.vue'
 import ProductCard from '@/components/ProductCard.vue'
+import GeneralCard from '@/components/GeneralCard.vue'
 
 import { Product } from '@/common/interfaces/product'
 
@@ -69,25 +88,26 @@ export default defineComponent({
   components: {
     Navigation,
     ProductCard,
+    GeneralCard,
   },
   setup() {
     const slider = ref();
     const slidesNumber = ref(3);
-
-    const currentSlide = ref(0);
+    const activeSlide = ref(0);
 
     onMounted(() => {
-      console.log('mounted!');
-      slider.value = new KeenSlider(
-        '#slider', {
-          initial: currentSlide.value,
-          slideChanged: (slider) => {
-            currentSlide.value = slider.details().relativeSlide;
-          }
-        }
-      );
+      slider.value = new Splide('.daily-slider', {
+        type: 'loop',
+        arrows: false,
+        pagination: false,
+        autoplay: true,
+        interval: 8000,
+      });
 
-      console.log(slider.value);
+      slider.value.mount();
+      slider.value.on('move', () => {
+        activeSlide.value = slider.value.index;
+      })
     });
 
     // TODO: Delete
@@ -99,8 +119,8 @@ export default defineComponent({
     return {
       slider,
       slidesNumber,
-      currentSlide,
       testProduct,
+      activeSlide
     }
   }
 })
@@ -119,7 +139,7 @@ export default defineComponent({
   }
 }
 
-.keen-slider  {
+.slider-wrapper  {
   img {
     width: 100%;
     height: 100%;

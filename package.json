@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
+    "@splidejs/splide": "^3.1.1",
     "core-js": "^3.6.5",
     "element-plus": "^1.1.0-beta.19",
-    "keen-slider": "^5.5.1",
+    "uuid": "^8.3.2",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.0-beta.9",
     "vue-router": "^4.0.0-0",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@intlify/vue-i18n-loader": "^3.0.0",
+    "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",

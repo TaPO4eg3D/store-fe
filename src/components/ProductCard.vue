@@ -4,7 +4,7 @@
   img.picture(:src="product.image", draggable="false")
   a.title(href="#") {{ product.name }}
   .price-section
-    .original-price {{ price }} руб.
+    .original-price(v-if="discountPrice") {{ price }} руб.
     .price {{ discountPrice || price }} руб.
   .control
     el-button-group(style="display: flex")
@@ -51,7 +51,7 @@ export default defineComponent({
 <style lang="scss">
 .product-card {
   position: relative;
-  max-width: 160px;
+  max-width: 210px;
 }
 
 .product-card .discount-label {
