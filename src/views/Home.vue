@@ -1,9 +1,9 @@
 <template lang="pug">
 div
-  h1 {{ $t('message') }}
+  h1 Store
   el-row(:gutter="20")
     // Navigation section
-    el-col(:span="5")
+    el-col.hidden-md-and-down(:span="5")
       navigation
     // Search Section
     el-col(:span="19")
@@ -69,11 +69,34 @@ div
           product-card(
             :product="testProduct"
           )
+    el-col(:span="19")
+      general-card.recommended(
+        header="Мы рекоммендуем",
+        :isSlider="true",
+        :itemsPerSlide="itemsPerSlide",
+        :slideBreakpoints="slideBreakpoints",
+      )
+        .splide__slide
+          product-card(
+            :product="testProduct"
+          )
+        .splide__slide
+          product-card(
+            :product="testProduct"
+          )
+        .splide__slide
+          product-card(
+            :product="testProduct"
+          )
+        .splide__slide
+          product-card(
+            :product="testProduct"
+          )
 
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { inject, defineComponent, ref, Ref, onMounted, watch } from 'vue'
 
 import Splide from '@splidejs/splide';
 
@@ -82,6 +105,32 @@ import ProductCard from '@/components/ProductCard.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
 
 import { Product } from '@/common/interfaces/product'
+import { getWindowWidth } from '@/common/utils/get-window-width'
+
+/**
+ * Setting up a Splide slider.
+ */
+function setupSlider(): [Ref<Splide | undefined>, Ref<number>] {
+  const slider = ref();
+  const activeSlide = ref(0);
+  
+  onMounted(() => {
+    slider.value = new Splide('.daily-slider', {
+      type: 'loop',
+      arrows: false,
+      pagination: false,
+      autoplay: true,
+      interval: 8000,
+    });
+
+    slider.value.mount();
+    slider.value.on('move', () => {
+      activeSlide.value = slider.value.index;
+    })
+  });
+
+  return [slider, activeSlide];
+}
 
 export default defineComponent({
   name: 'Home',
@@ -91,24 +140,22 @@ export default defineComponent({
     GeneralCard,
   },
   setup() {
-    const slider = ref();
+    const breakpoints: {[point: string]: number} | undefined = inject('breakpoints');
+
+    const itemsPerSlide = ref(5);
+
+    const slideBreakpoints = ref();
+    if (breakpoints)  {
+      slideBreakpoints.value = {
+        [breakpoints['lg']]: 4,
+        [breakpoints['md']]: 3,
+        [breakpoints['sm']]: 2,
+        [breakpoints['xs']]: 1,
+      };
+    }
+
+    const [slider, activeSlide] = setupSlider();
     const slidesNumber = ref(3);
-    const activeSlide = ref(0);
-
-    onMounted(() => {
-      slider.value = new Splide('.daily-slider', {
-        type: 'loop',
-        arrows: false,
-        pagination: false,
-        autoplay: true,
-        interval: 8000,
-      });
-
-      slider.value.mount();
-      slider.value.on('move', () => {
-        activeSlide.value = slider.value.index;
-      })
-    });
 
     // TODO: Delete
     const testProduct: Product = {
@@ -120,7 +167,9 @@ export default defineComponent({
       slider,
       slidesNumber,
       testProduct,
-      activeSlide
+      activeSlide,
+      itemsPerSlide,
+      slideBreakpoints,
     }
   }
 })

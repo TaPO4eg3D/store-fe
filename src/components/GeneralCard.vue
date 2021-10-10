@@ -32,6 +32,14 @@ export default defineComponent({
     isSlider: {
       type: Boolean,
       default: false,
+    },
+    itemsPerSlide: {
+      type: Number,
+      default: 1,
+    },
+    slideBreakpoints: {
+      type: Object,
+      default: {}
     }
   },
   setup(props) {
@@ -43,11 +51,21 @@ export default defineComponent({
         return;
       }
 
+      const breakpoints: any = {};
+      Object.entries(props.slideBreakpoints).forEach(([point, value]) => {
+        breakpoints[point] = {
+          perPage: value,
+        }
+      })
+      
       slider.value = new Splide(sliderRef.value, {
         type: 'loop',
         arrows: false,
         pagination: false,
         autoplay: true,
+        perPage: props.itemsPerSlide,
+        gap: '10px',
+        breakpoints,
       });
       slider.value.mount();
     });
@@ -66,6 +84,8 @@ export default defineComponent({
   border-radius: 8px 8px 0px 0px;
 
   .header-wrapper {
+    user-select: none;
+
     display: flex;
     background-color: #F5F5F5;
   }

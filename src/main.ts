@@ -17,8 +17,20 @@ import {
 
 import '@splidejs/splide/dist/css/splide-core.min.css'
 import 'element-plus/dist/index.css'
+// import 'element-plus/lib/theme-chalk/display.css'
 
 const app = createApp(App);
+
+const breakpoints = {
+  xs: 576,
+  sm: 768,
+  md: 992,
+  lg: 1200,
+  xlg: 1600,
+  slg: 1800,
+}
+app.provide('breakpoints', breakpoints);
+
 
 // Icons
 app.component('more', More);
