@@ -1,29 +1,14 @@
 <template lang="pug">
 div
-  h1 Store
   el-row(:gutter="20")
     // Navigation section
     el-col.hidden-md-and-down(:span="5")
-      navigation
+      navigation(:isHidden="false")
     // Search Section
     el-col(:span="19")
       el-row(:gutter="20")
-        el-col(:span="20")
-          el-input(
-            prefix-icon="el-icon-search",
-            :placeholder="$t('product_search_placeholder')",
-          )
-        // Cart section
-        el-col(:span="4")
-          el-badge.cart-button.item(:value="12")
-            el-button(
-              plain,
-              type="primary",
-              size="large",
-            )
-              el-icon
-                shopping-cart
-              | {{ $t('cart') }}
+        search
+        cart-button
       // Slider of offers
       el-row
         el-col(:span="24")
@@ -103,6 +88,8 @@ import Splide from '@splidejs/splide';
 import Navigation from '@/components/Home/Navigation.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
+import Search from '@/components/Home/Search.vue'
+import CartButton from '@/components/Home/CartButton.vue'
 
 import { Product } from '@/common/interfaces/product'
 import { getWindowWidth } from '@/common/utils/get-window-width'
@@ -138,6 +125,8 @@ export default defineComponent({
     Navigation,
     ProductCard,
     GeneralCard,
+    Search,
+    CartButton,
   },
   setup() {
     const breakpoints: {[point: string]: number} | undefined = inject('breakpoints');
@@ -176,18 +165,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.cart-button {
-  width: 100%;
-
-  .el-icon {
-    margin-right: 4px;
-  }
-
-  button {
-    width: 100%;
-  }
-}
-
 .slider-wrapper  {
   img {
     width: 100%;

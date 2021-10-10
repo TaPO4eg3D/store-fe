@@ -1,7 +1,12 @@
 <template lang="pug">
 .navigation_menu
   .header {{ $t('catalog') }}
-  el-menu.el-menu-vertical-demo(default-active='2' @open='handleOpen' @close='handleClose')
+  el-menu.el-menu-vertical-demo(
+    v-if="!isHidden"
+    default-active='2',
+    @open='handleOpen',
+    @close='handleClose',
+  )
     el-sub-menu(index='1')
       template(#title='')
         i.el-icon-location
@@ -29,7 +34,13 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'Navigation'
+  name: 'Navigation',
+  props: {
+    isHidden: {
+      type: Boolean,
+      default: true
+    },
+  }
 })
 </script>
 
