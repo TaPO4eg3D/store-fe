@@ -9,7 +9,10 @@ el-sub-menu(
 el-menu-item(
   v-if="!category.child",
   :index="category.id.toString()"
-) {{ category.name }}
+).menu-item
+  router-link(
+    :to="{ name: 'Category', params: { id: category.id } }"
+  ) {{ category.name }}
 </template>
 
 <script lang="ts">
@@ -29,3 +32,16 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss">
+.menu-item {
+  a {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    color: #303133;
+    text-decoration: none;
+  }
+}
+</style>
