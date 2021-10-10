@@ -19,6 +19,13 @@ import '@splidejs/splide/dist/css/splide-core.min.css'
 import 'element-plus/dist/index.css'
 // import 'element-plus/lib/theme-chalk/display.css'
 
+import axios from 'axios'
+
+axios.defaults.baseURL = 
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8000'
+    : 'TODO'
+
 const app = createApp(App);
 
 const breakpoints = {
