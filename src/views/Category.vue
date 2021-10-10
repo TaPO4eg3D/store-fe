@@ -6,7 +6,7 @@ el-row(:gutter="20")
     el-row(:gutter="20")
       search
       cart-button
-el-row(style="margin-top: 40px")
+el-row(style="margin-top: 25px")
   el-col
     h2 {{ categoryName }}
 el-row(:gutter="20")

@@ -13,10 +13,15 @@
           el-icon
             shopping-cart-full
           .text Buy
-      el-button
-        .text-wrapper
-          el-icon
-            more
+      el-tooltip.item(
+        effect="dark",
+        content="Show additional information",
+        placement="top-start",
+      )
+        el-button
+          .text-wrapper
+            el-icon
+              more
 </template>
 
 <script lang="ts">
