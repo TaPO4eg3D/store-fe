@@ -1,11 +1,11 @@
 <template lang="pug">
 .product-card
   .discount-label(v-if="discountTag !== 0") - {{ discountTag }}%
-  img.picture(:src="product.image", draggable="false")
+  img.picture(:src="product.preview_image", draggable="false")
   a.title(href="#") {{ product.name }}
   .price-section
-    .original-price(v-if="discountPrice") {{ price }} руб.
-    .price {{ discountPrice || price }} руб.
+    .original-price(v-if="product.discount_price") {{ product.price }} руб.
+    .price {{ product.discount_price || product.price }} руб.
   .control
     el-button-group(style="display: flex")
       el-button.buy-button
@@ -30,8 +30,6 @@ import { Product } from '@/common/interfaces/product'
 
 export default defineComponent({
   props: {
-    price: Number,
-    discountPrice: Number,
     product: {
       type: Object as PropType<Product>,
       requred: true,
@@ -39,11 +37,11 @@ export default defineComponent({
   },
   setup(props) {
     const discountTag = computed(() => {
-      if (!props.discountPrice || !props.price) {
+      if (!props.product?.discount_price || !props.product.price) {
         return 0
       }
 
-      return 100 - (props.discountPrice / props.price * 100)
+      return 100 - (props.product.discount_price / props.product.price * 100)
     })
 
     return {
@@ -69,6 +67,13 @@ export default defineComponent({
 
 .product-card .picture {
   user-select: none;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+
+  margin-bottom: 20px;
 }
 
 .product-card .title {

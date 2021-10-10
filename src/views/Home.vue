@@ -34,53 +34,23 @@ div
           .quote Вы можете приобрести оригинальные ключи активации для операционных систем, офисных программ, антивирусов, софта и другого по самым выгодным ценам. У нас быстрая, вежливая и грамотная техподдержка. Если что-то пойдёт не так - поможет решить возникший вопрос.
   el-row(:gutter="20", style="margin-top: 15px")
     el-col(:span="5")
-      general-card.selling-hits(
-        header="Хиты продаж",
-        :isSlider="true",
-      )
-        .splide__slide
-          product-card(
-            :product="testProduct"
-          )
-        .splide__slide
-          product-card(
-            :product="testProduct"
-          )
-        .splide__slide
-          product-card(
-            :product="testProduct"
-          )
-        .splide__slide
-          product-card(
-            :product="testProduct"
-          )
+      popular-products
     el-col(:span="19")
       general-card.recommended(
-        header="Мы рекоммендуем",
+        header="Recommended products",
         :isSlider="true",
         :itemsPerSlide="itemsPerSlide",
         :slideBreakpoints="slideBreakpoints",
       )
-        .splide__slide
+        .splide__slide(v-for="product in recommendedProducts")
           product-card(
-            :product="testProduct"
+            :product="product"
           )
-        .splide__slide
-          product-card(
-            :product="testProduct"
-          )
-        .splide__slide
-          product-card(
-            :product="testProduct"
-          )
-        .splide__slide
-          product-card(
-            :product="testProduct"
-          )
-
 </template>
 
 <script lang="ts">
+import axios from 'axios';
+
 import { inject, defineComponent, ref, Ref, onMounted, watch } from 'vue'
 
 import Splide from '@splidejs/splide';
@@ -90,9 +60,11 @@ import ProductCard from '@/components/ProductCard.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
 import Search from '@/components/Home/Search.vue'
 import CartButton from '@/components/Home/CartButton.vue'
+import PopularProducts from '@/components/Home/PopularProducts.vue'
 
 import { Product } from '@/common/interfaces/product'
 import { getWindowWidth } from '@/common/utils/get-window-width'
+import { ListResponse } from '@/common/interfaces/list-response';
 
 /**
  * Setting up a Splide slider.
@@ -127,6 +99,7 @@ export default defineComponent({
     GeneralCard,
     Search,
     CartButton,
+    PopularProducts,
   },
   setup() {
     const breakpoints: {[point: string]: number} | undefined = inject('breakpoints');
@@ -146,19 +119,21 @@ export default defineComponent({
     const [slider, activeSlide] = setupSlider();
     const slidesNumber = ref(3);
 
-    // TODO: Delete
-    const testProduct: Product = {
-      image: 'https://os-market.store/image/cache/catalog/office2016/201910-pro-1-180x180.jpg',
-      name: 'Test Product 1',
-    }
+    const recommendedProducts: Ref<Product[]> = ref([]);
+
+    onMounted(async () => {
+      // TODO: Add exception handling and refactor in general
+      const response = await axios.get<ListResponse<Product>>('/api/products/');
+      recommendedProducts.value = response.data.results;
+    });
 
     return {
       slider,
       slidesNumber,
-      testProduct,
       activeSlide,
       itemsPerSlide,
       slideBreakpoints,
+      recommendedProducts,
     }
   }
 })

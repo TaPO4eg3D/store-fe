@@ -12,8 +12,8 @@ el-dialog(
       el-col(:span="12")
         .product-info
           .product-price
-            .original-price(v-if="product.discountPrice") {{ product.price }} руб.
-            .price {{ product.discountPrice || product.price }} руб.
+            .original-price(v-if="product.discount_price") {{ product.price }} руб.
+            .price {{ product.discount_price || product.price }} руб.
           .product-description {{ product.description }}
   template(#footer)
     .product-dialog-footer

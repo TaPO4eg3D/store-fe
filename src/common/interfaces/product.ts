@@ -1,8 +1,13 @@
-export interface Product {
-  name: string,
-  image: string,
+import { Category } from "./category";
 
-  price?: number;
-  discountPrice?: number;
-  description?: string;
+export interface Product {
+  id: number;
+  name: string,
+  preview_image: string,
+
+  price: number;
+  discount_price: number;
+  description: string;
+
+  category: Category;
 }

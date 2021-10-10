@@ -12,37 +12,8 @@ el-row(style="margin-top: 25px")
 el-row(:gutter="20")
   el-col(:span="5")
     product-filter
-    general-card.selling-hits(
-      header="Хиты продаж",
-      :isSlider="true",
-      style="margin-top: 20px"
-    )
-      .splide__slide
-        product-card(
-          :product="testProduct"
-        )
-      .splide__slide
-        product-card(
-          :product="testProduct"
-        )
-      .splide__slide
-        product-card(
-          :product="testProduct"
-        )
-      .splide__slide
-        product-card(
-          :product="testProduct"
-        )
   el-col(:span="19")
     .product-list
-      product-dialog(
-        :isVisible="true",
-        :product="testProduct",
-      )
-      product-card(
-        v-for="i in 4"
-        :product="testProduct"
-      )
 </template>
 
 <script lang="ts">
@@ -75,20 +46,8 @@ export default defineComponent({
   setup() {
     const categoryName = ref('Buy: Test Category');
 
-    // TODO: Delete
-    const testProduct: Product = {
-      image: 'https://os-market.store/image/cache/catalog/office2016/201910-pro-1-180x180.jpg',
-      name: 'Test Product 1',
-      description: `
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      `,
-      price: 1000,
-      discountPrice: 2000,
-    }
-
     return {
       categoryName,
-      testProduct,
     }
   },
 })

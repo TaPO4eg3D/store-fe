@@ -9,5 +9,8 @@ module.exports = {
       compositionOnly: false,
       fullInstall: true
     }
+  },
+  devServer: {
+    proxy: 'http://localhost:8000'
   }
 }
