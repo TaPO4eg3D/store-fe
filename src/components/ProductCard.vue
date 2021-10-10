@@ -8,7 +8,7 @@
     .price {{ product.discount_price || product.price }} руб.
   .control
     el-button-group(style="display: flex")
-      el-button.buy-button
+      el-button.buy-button(@click="addCartItem()")
         .text-wrapper
           el-icon
             shopping-cart-full
@@ -43,9 +43,15 @@ export default defineComponent({
     const store = useStore();
 
     const showProductDialog = () => {
-      console.log('123');
       store.dispatch('setDialogProduct', props.product);
     };
+
+    const addCartItem = () => {
+      store.dispatch('addCartItem', {
+        product: props.product,
+        amount: 1,
+      });
+    }
 
     const discountTag = computed(() => {
       if (!props.product?.discount_price || !props.product.price) {
@@ -58,6 +64,7 @@ export default defineComponent({
     return {
       discountTag,
       showProductDialog,
+      addCartItem,
     }
   },
 })

@@ -1,7 +1,7 @@
 <template lang="pug">
 // Cart section
 el-col(:span="4")
-  el-badge.cart-button.item(:value="12")
+  el-badge.cart-button.item(:value="itemsInCart")
     el-button(
       plain,
       type="primary",
@@ -13,11 +13,16 @@ el-col(:span="4")
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   setup() {
-    
+    const store = useStore();
+
+    return {
+      itemsInCart: computed(() => store.getters.itemsInCart),
+    }
   },
 })
 </script>

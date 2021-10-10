@@ -23,7 +23,7 @@ el-dialog(
         :min="1"
         style="margin-right: 20px"
       )
-      el-button.buy-button(type="primary", plain) Add to cart
+      el-button.buy-button(type="primary", plain, @click="addCartItem()") Add to cart
 </template>
 
 <script lang="ts">
@@ -53,12 +53,21 @@ export default defineComponent({
     const productAmount = ref(1);
 
     const handleClose = () => {
+      productAmount.value = 1;
       store.dispatch('setProductDialogVisibility', false);
+    }
+
+    const addCartItem = () => {
+      store.dispatch('addCartItem', {
+        product: props.product,
+        amount: productAmount.value,
+      });
     }
 
     return {
       productAmount,
       handleClose,
+      addCartItem,
     }
   },
 })
