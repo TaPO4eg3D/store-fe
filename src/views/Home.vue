@@ -41,6 +41,7 @@ div
         :isSlider="true",
         :itemsPerSlide="itemsPerSlide",
         :slideBreakpoints="slideBreakpoints",
+        v-if="recommendedProducts.length != 0"
       )
         .splide__slide(v-for="product in recommendedProducts")
           product-card(
@@ -123,8 +124,10 @@ export default defineComponent({
 
     onMounted(async () => {
       // TODO: Add exception handling and refactor in general
-      const response = await axios.get<ListResponse<Product>>('/api/products/');
-      recommendedProducts.value = response.data.results;
+      const response = await axios.get<ListResponse<any>>('/api/recommended-product-slides/');
+      recommendedProducts.value = response.data.results.map(item => {
+        return item.product;
+      })
     });
 
     return {

@@ -12,12 +12,27 @@ el-row(style="margin-top: 25px")
 el-row(:gutter="20")
   el-col(:span="5")
     product-filter
+    popular-products(style="margin-top: 25px")
   el-col(:span="19")
     .product-list
+      .empty-container(
+        v-if="products.length === 0",
+      )
+        el-empty(
+          description="No products here"
+        )
+      product-card(
+        v-for="product in products",
+        :key="product.id",
+        :product="product"
+      )
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import axios from 'axios'
+
+import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 import Navigation from '@/components/Home/Navigation.vue'
 import Search from '@/components/Home/Search.vue'
@@ -29,8 +44,11 @@ import ProductFilter from '@/components/Category/ProductFilter.vue'
 import ProductCard from '@/components/ProductCard.vue'
 
 import ProductDialog from '@/components/Category/ProductDialog.vue'
+import PopularProducts from '@/components/Home/PopularProducts.vue'
 
 import { Product } from '@/common/interfaces/product'
+import { ListResponse } from '@/common/interfaces/list-response'
+import { Category } from '@/common/interfaces/category'
 
 
 export default defineComponent({
@@ -42,11 +60,26 @@ export default defineComponent({
     ProductCard,
     GeneralCard,
     ProductDialog,
+    PopularProducts,
   },
   setup() {
-    const categoryName = ref('Buy: Test Category');
+    const route = useRoute();
+    const categoryName = ref();
+
+    const products: Ref<Product[]> = ref([]);
+
+    onMounted(async () => {
+      const categoryID = route.params.id;
+
+      const responseCategory = await axios.get<Category>(`/api/categories/${categoryID}/`);
+      const responseProduct = await axios.get<ListResponse<Product>>(`/api/products/?category=${categoryID}`);
+
+      products.value = responseProduct.data.results;
+      categoryName.value = responseCategory.data.name;
+    });
 
     return {
+      products,
       categoryName,
     }
   },
@@ -55,6 +88,8 @@ export default defineComponent({
 
 <style lang="scss">
 .product-list {
+  width: 100%;
+
   display: flex;
   flex-wrap: wrap;
 
@@ -63,5 +98,10 @@ export default defineComponent({
   .product-card {
     max-width: 248px;
   }
+}
+
+.empty-container {
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

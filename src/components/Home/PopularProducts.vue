@@ -2,6 +2,8 @@
 general-card.selling-hits(
   header="Bestsellers",
   :isSlider="true",
+  ref="cardRef",
+  v-if="products.length != 0"
 )
   .splide__slide(
     v-for="product in products",
@@ -27,6 +29,7 @@ export default defineComponent({
     GeneralCard,
   },
   setup() {
+    const cardRef = ref();
     const products: Ref<Product[]> | Ref<never[]> = ref([]);
 
     onMounted(async () => {
@@ -34,10 +37,15 @@ export default defineComponent({
         = await axios.get<Product[]>('/api/popular-products');
       
       products.value = response.data;
+
+      if (cardRef) {
+        cardRef.value.refreshSlider();
+      }
     });
 
     return {
       products,
+      cardRef,
     }
   },
 })

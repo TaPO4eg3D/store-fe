@@ -16,7 +16,7 @@
       el-tooltip.item(
         effect="dark",
         content="Show additional information",
-        placement="top-start",
+        placement="top-start"
       )
         el-button(@click="showProductDialog()")
           .text-wrapper
@@ -25,49 +25,48 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, ref, computed, PropType } from "vue";
+import { useStore } from "vuex";
 
-import { Product } from '@/common/interfaces/product'
+import { Product } from "@/common/interfaces/product";
 
 export default defineComponent({
   props: {
     product: {
       type: Object as PropType<Product>,
       requred: true,
-    }
+    },
   },
-  components: {
-  },
+  components: {},
   setup(props) {
     const store = useStore();
 
     const showProductDialog = () => {
-      store.dispatch('setDialogProduct', props.product);
+      store.dispatch("setDialogProduct", props.product);
     };
 
     const addCartItem = () => {
-      store.dispatch('addCartItem', {
+      store.dispatch("addCartItem", {
         product: props.product,
         amount: 1,
       });
-    }
+    };
 
     const discountTag = computed(() => {
       if (!props.product?.discount_price || !props.product.price) {
-        return 0
+        return 0;
       }
 
-      return 100 - (props.product.discount_price / props.product.price * 100)
-    })
+      return 100 - (props.product.discount_price / props.product.price) * 100;
+    });
 
     return {
       discountTag,
       showProductDialog,
       addCartItem,
-    }
+    };
   },
-})
+});
 </script>
 
 <style lang="scss">
@@ -88,7 +87,7 @@ export default defineComponent({
   user-select: none;
 
   width: 100%;
-  height: auto;
+  height: 240px;
 
   object-fit: contain;
 

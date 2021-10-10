@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import Splide from '@splidejs/splide';
-import { defineComponent, onMounted, ref, Ref } from 'vue';
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
 
 export default defineComponent({
   props: {
@@ -45,6 +45,14 @@ export default defineComponent({
   setup(props) {
     const slider = ref();
     const sliderRef: Ref<HTMLElement> | Ref<undefined> = ref();
+
+    const refreshSlider = () => {
+      if (!slider.value) {
+        return;
+      }
+
+      slider.value.refresh();
+    }
 
     onMounted(() => {
       if (!sliderRef.value) {
@@ -73,6 +81,7 @@ export default defineComponent({
     return {
       slider,
       sliderRef,
+      refreshSlider,
     }
   },
 })
