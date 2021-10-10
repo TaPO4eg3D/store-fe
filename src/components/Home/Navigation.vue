@@ -3,8 +3,6 @@
   .header {{ $t('catalog') }}
   el-menu.el-menu-vertical-demo(
     v-if="!isHidden"
-    @open='handleOpen',
-    @close='handleClose',
   )
     navigation-node(
       v-for="category in categories",

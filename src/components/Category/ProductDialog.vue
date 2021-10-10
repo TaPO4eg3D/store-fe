@@ -1,14 +1,15 @@
 <template lang="pug">
 el-dialog(
   :model-value="isVisible",
-  :title="product.name"
-  width="40%"
+  :title="product?.name",
+  width="40%",
+  @closed="handleClose()",
 )
   .product-dialog
     el-row(:gutter="30")
       el-col(:span="12")
         .product-preview
-          img(:src="product.image")
+          img(:src="product.preview_image")
       el-col(:span="12")
         .product-info
           .product-price
@@ -31,7 +32,10 @@ import {
     defineComponent,
     PropType,
     ref,
+    watch,
 } from 'vue'
+
+import { useStore } from 'vuex'
 
 export default defineComponent({
   props: {
@@ -44,11 +48,17 @@ export default defineComponent({
       required: true,
     }
   },
-  setup() {
+  setup(props) {
+    const store = useStore();
     const productAmount = ref(1);
+
+    const handleClose = () => {
+      store.dispatch('setProductDialogVisibility', false);
+    }
 
     return {
       productAmount,
+      handleClose,
     }
   },
 })
@@ -62,6 +72,7 @@ export default defineComponent({
 .product-dialog .product-preview {
   img {
     width: 100%;
+    height: auto;
   }
 }
 

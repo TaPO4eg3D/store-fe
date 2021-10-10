@@ -2,7 +2,7 @@
 .product-card
   .discount-label(v-if="discountTag !== 0") - {{ discountTag }}%
   img.picture(:src="product.preview_image", draggable="false")
-  a.title(href="#") {{ product.name }}
+  .title(href="#") {{ product.name }}
   .price-section
     .original-price(v-if="product.discount_price") {{ product.price }} руб.
     .price {{ product.discount_price || product.price }} руб.
@@ -18,14 +18,16 @@
         content="Show additional information",
         placement="top-start",
       )
-        el-button
+        el-button(@click="showProductDialog()")
           .text-wrapper
             el-icon
               more
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue'
+import { defineComponent, ref, computed, PropType } from 'vue'
+import { useStore } from 'vuex'
+
 import { Product } from '@/common/interfaces/product'
 
 export default defineComponent({
@@ -35,7 +37,16 @@ export default defineComponent({
       requred: true,
     }
   },
+  components: {
+  },
   setup(props) {
+    const store = useStore();
+
+    const showProductDialog = () => {
+      console.log('123');
+      store.dispatch('setDialogProduct', props.product);
+    };
+
     const discountTag = computed(() => {
       if (!props.product?.discount_price || !props.product.price) {
         return 0
@@ -46,6 +57,7 @@ export default defineComponent({
 
     return {
       discountTag,
+      showProductDialog,
     }
   },
 })

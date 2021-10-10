@@ -1,7 +1,33 @@
 <template lang="pug">
 h1 Store!
+product-dialog(
+  :isVisible="showDialog",
+  :product="dialogProduct",
+)
 router-view
 </template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
+import { useStore } from 'vuex'
+
+import ProductDialog from '@/components/Category/ProductDialog.vue'
+
+export default defineComponent({
+  components: {
+    ProductDialog,
+  },
+  setup() {
+    const store = useStore();
+
+    return {
+      showDialog: computed(() => store.state.productDialog.show),
+      dialogProduct: computed(() => store.state.productDialog.product),
+    }
+  },
+})
+</script>
+
 
 <style lang="scss">
 // TODO: Extract most of this to a separate SCSS file
