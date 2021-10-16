@@ -57,7 +57,7 @@ export default defineComponent({
         return 0;
       }
 
-      return 100 - (props.product.discount_price / props.product.price) * 100;
+      return Math.ceil(100 - (props.product.discount_price / props.product.price) * 100);
     });
 
     return {
