@@ -2,12 +2,12 @@ import { createStore } from 'vuex'
 
 import { ElNotification } from 'element-plus'
 
+import type { Cart } from './interfaces/cart'
+import type { CartItem } from './interfaces/cart-item'
+
 import type { Product } from '@/common/interfaces/product'
 import type { CartDialog } from './interfaces/cart-dialog'
 import type { ProductDialog } from './interfaces/product-dialog'
-import type { CartItem } from './interfaces/cart-item'
-import type { Cart } from './interfaces/cart'
-import { createInterpolation } from '@vue/compiler-core'
 
 export default createStore({
   state: {
@@ -48,14 +48,20 @@ export default createStore({
       if (cartItem.product.id in state.cart) {
         const existedItem = state.cart[cartItem.product.id]
 
-        state.cart[cartItem.product.id] = {
-          ...existedItem,
-          amount: existedItem.amount + cartItem.amount,
-        };
+        state.cart = {
+          ...state.cart,
+          [cartItem.product.id]: {
+            ...existedItem,
+            amount: existedItem.amount + cartItem.amount,
+          },
+        }
       } else {
-        state.cart[cartItem.product.id] = {
-          ...cartItem,
-        };
+        state.cart = {
+          ...state.cart,
+          [cartItem.product.id]: {
+            ...cartItem,
+          },
+        }
       }
 
       localStorage.setItem('cart', JSON.stringify(state.cart));

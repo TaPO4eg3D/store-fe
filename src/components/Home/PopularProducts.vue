@@ -39,7 +39,7 @@ export default defineComponent({
       products.value = response.data;
 
       if (cardRef) {
-        cardRef.value.refreshSlider();
+        cardRef.value?.refreshSlider();
       }
     });
 

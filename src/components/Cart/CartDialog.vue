@@ -1,9 +1,9 @@
 <template lang="pug">
 el-dialog(
-  v-model="isVisible",
   title="Cart",
   width="50%",
-  :before-close="handleDialogClose"
+  :model-value="isVisible",
+  :before-close="handleDialogClose",
 )
   .cart-items(
     v-if="cartItems.length !== 0"

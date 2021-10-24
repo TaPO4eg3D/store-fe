@@ -9,16 +9,23 @@
       :min="1",
     )
   .price
-    strong 123 руб.
+    strong {{ totalPrice }} руб.
   .control
-    el-button(
-      type="danger",
-      icon="el-icon-delete",
+    el-popconfirm(
+      title="Are you sure that you want to delete that item?",
+      @confirm="deleteCartItem()",
     )
+      template(#reference)
+        el-button(
+          type="danger",
+          icon="el-icon-delete",
+        )
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, computed } from 'vue'
+import { useStore } from 'vuex';
+
+import { defineComponent, PropType, ref, computed, watch } from 'vue'
 
 import type { CartItem } from '@/store/interfaces/cart-item';
 
@@ -29,7 +36,13 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const store = useStore();
+
     const productQuanitity = ref(props.cartItem?.amount || 1);
+
+    watch(props, (newValue) => {
+      productQuanitity.value = newValue.cartItem?.amount || 1;
+    })
     
     const totalPrice = computed(() => {
       const product = props.cartItem?.product;
@@ -42,10 +55,15 @@ export default defineComponent({
         || product.price;
 
       return price * productQuanitity.value;
-    })
+    });
+
+    const deleteCartItem = () => {
+      store.dispatch('removeCartItem', props.cartItem?.product);
+    };
 
     return {
       totalPrice,
+      deleteCartItem,
       productQuanitity,
     }
   },
