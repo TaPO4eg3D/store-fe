@@ -9,6 +9,7 @@ import ElementPlus from 'element-plus'
 
 import { 
   More,
+  Delete,
   ShoppingCart,
   ArrowLeftBold,
   ArrowRightBold,
@@ -41,6 +42,7 @@ app.provide('breakpoints', breakpoints);
 
 // Icons
 app.component('more', More);
+app.component('delete', Delete);
 app.component('shopping-cart', ShoppingCart);
 app.component('shopping-cart-full', ShoppingCartFull);
 

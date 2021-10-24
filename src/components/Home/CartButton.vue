@@ -6,6 +6,7 @@ el-col(:span="4")
       plain,
       type="primary",
       size="large",
+      @click="openCartDialog()",
     )
       el-icon
         shopping-cart
@@ -20,7 +21,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
+    const openCartDialog = () => {
+      store.dispatch('setCartDialogVisibility', true);
+    };
+
     return {
+      openCartDialog,
       itemsInCart: computed(() => store.getters.itemsInCart),
     }
   },

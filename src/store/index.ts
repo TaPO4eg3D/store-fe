@@ -1,17 +1,13 @@
-import { Product } from '@/common/interfaces/product'
 import { createStore } from 'vuex'
 
 import { ElNotification } from 'element-plus'
 
-interface ProductDialog {
-  show: boolean;
-  product: Product | null;
-}
-
-interface CartItem {
-  product: Product,
-  amount: number,
-}
+import type { Product } from '@/common/interfaces/product'
+import type { CartDialog } from './interfaces/cart-dialog'
+import type { ProductDialog } from './interfaces/product-dialog'
+import type { CartItem } from './interfaces/cart-item'
+import type { Cart } from './interfaces/cart'
+import { createInterpolation } from '@vue/compiler-core'
 
 export default createStore({
   state: {
@@ -19,14 +15,23 @@ export default createStore({
       show: false,
       product: null,
     } as ProductDialog,
+    cartDialog: {
+      show: false,
+    } as CartDialog,
     cart: JSON.parse(
-      localStorage.getItem('cart') || '[]'
-    ) as CartItem[],
+      localStorage.getItem('cart') || '{}'
+    ) as Cart,
   },
   mutations: {
     setProductDialogVisibility(state, isVisible: boolean) {
       state.productDialog = {
         ...state.productDialog,
+        show: isVisible,
+      }
+    },
+    setCartDialogVisibility(state, isVisible: boolean) {
+      state.cartDialog = {
+        ...state.cartDialog,
         show: isVisible,
       }
     },
@@ -37,24 +42,32 @@ export default createStore({
       }
     },
     addCartItem(state, cartItem: CartItem) {
-      state.cart.push(cartItem);
+      // If a product is in already in the cart, than just
+      // increase an amount in the cart
+
+      if (cartItem.product.id in state.cart) {
+        const existedItem = state.cart[cartItem.product.id]
+
+        state.cart[cartItem.product.id] = {
+          ...existedItem,
+          amount: existedItem.amount + cartItem.amount,
+        };
+      } else {
+        state.cart[cartItem.product.id] = {
+          ...cartItem,
+        };
+      }
 
       localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     removeCartItem(state, productId: number) {
-      state.cart = state.cart.reduce((acc: CartItem[], cartItem: CartItem) => {
-        if (cartItem.product.id != productId) {
-          acc.push(cartItem);
-        }
-        return acc;
-      }, [] as CartItem[])
-
+      delete state.cart[productId];
       localStorage.setItem('cart', JSON.stringify(state.cart));
     }
   },
   getters: {
     itemsInCart: state => {
-      return state.cart.reduce((acc: number, cartItem: CartItem) => {
+      return Object.values(state.cart).reduce((acc: number, cartItem: CartItem) => {
         acc += cartItem.amount;
         return acc;
       }, 0)
@@ -67,6 +80,9 @@ export default createStore({
     },
     setProductDialogVisibility(context, isVisible: boolean) {
       context.commit('setProductDialogVisibility', isVisible);
+    },
+    setCartDialogVisibility(context, isVisible: boolean) {
+      context.commit('setCartDialogVisibility', isVisible);
     },
     addCartItem(context, cartItem: CartItem) {
       ElNotification.success({

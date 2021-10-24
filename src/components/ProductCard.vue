@@ -121,11 +121,11 @@ export default defineComponent({
   }
 }
 
-.control {
+.product-card .control {
   margin-top: 20px;
 }
 
-.control .buy-button {
+.product-card .control .buy-button {
   width: 100%;
 
   .text-wrapper {
@@ -133,11 +133,11 @@ export default defineComponent({
   }
 }
 
-.control .text-wrapper {
+.product-card .control .text-wrapper {
   display: flex;
 }
 
-.control .text {
+.product-card .control .text {
   margin-left: 2px;
 }
 </style>

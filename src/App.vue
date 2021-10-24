@@ -1,8 +1,11 @@
 <template lang="pug">
 h1 Store!
 product-dialog(
-  :isVisible="showDialog",
+  :isVisible="showProductDialog",
   :product="dialogProduct",
+)
+cart-dialog(
+  :isVisible="showCartDialog"
 )
 router-view
 </template>
@@ -11,18 +14,24 @@ router-view
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 
+import CartDialog from '@/components/Cart/CartDialog.vue'
 import ProductDialog from '@/components/Category/ProductDialog.vue'
 
 export default defineComponent({
   components: {
+    CartDialog,
     ProductDialog,
   },
   setup() {
     const store = useStore();
 
     return {
-      showDialog: computed(() => store.state.productDialog.show),
+      showProductDialog: computed(() => store.state.productDialog.show),
       dialogProduct: computed(() => store.state.productDialog.product),
+
+      showCartDialog: computed(() => {
+        return store.state.cartDialog.show;
+      })
     }
   },
 })
