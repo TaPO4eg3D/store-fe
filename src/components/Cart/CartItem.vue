@@ -1,8 +1,8 @@
 <template lang="pug">
 .cart-item
   .preview
-    img(:src="cartItem.product.preview_image")
-  .name {{ cartItem.product.name }}
+    img(:src="cartItem?.product?.preview_image")
+  .name {{ cartItem?.product?.name }}
   .quantiy
     el-input-number(
       v-model="productQuanitity",
@@ -38,12 +38,18 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
 
-    const productQuanitity = ref(props.cartItem?.amount || 1);
+    const productQuanitity: any = computed({
+      set(value: number): void {
+        store.dispatch('setCartItemAmount', {
+          productId: props.cartItem?.product.id,
+          amount: value,
+        });
+      },
+      get(): number {
+        return props.cartItem?.amount || 1;
+      }
+    });
 
-    watch(props, (newValue) => {
-      productQuanitity.value = newValue.cartItem?.amount || 1;
-    })
-    
     const totalPrice = computed(() => {
       const product = props.cartItem?.product;
 

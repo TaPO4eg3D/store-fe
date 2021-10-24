@@ -66,6 +66,14 @@ export default createStore({
 
       localStorage.setItem('cart', JSON.stringify(state.cart));
     },
+    setCartItemAmount(state, { productId, amount }: { productId: number, amount: number }) {
+      const cartItem = state.cart[productId];
+
+      state.cart[productId] = {
+        ...cartItem,
+        amount
+      }
+    },
     removeCartItem(state, productId: number) {
       delete state.cart[productId];
       localStorage.setItem('cart', JSON.stringify(state.cart));
@@ -106,6 +114,9 @@ export default createStore({
 
       context.commit('removeCartItem', product.id);
     },
+    setCartItemAmount(context, { productId, amount }: {productId: number, amount: number}) {
+      context.commit('setCartItemAmount', { productId, amount });
+    }
   },
   modules: {
   }
