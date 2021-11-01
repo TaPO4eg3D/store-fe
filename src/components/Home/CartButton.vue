@@ -10,7 +10,7 @@ el-col(:span="4")
     )
       el-icon
         shopping-cart
-      | {{ $t('cart') }}
+      | {{ $t('cart.title') }}
 </template>
 
 <script lang="ts">

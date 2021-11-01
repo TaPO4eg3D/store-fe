@@ -8,40 +8,47 @@ import type { CartItem } from './interfaces/cart-item'
 import type { Product } from '@/common/interfaces/product'
 import type { CartDialog } from './interfaces/cart-dialog'
 import type { ProductDialog } from './interfaces/product-dialog'
+import type { Currency } from '@/common/interfaces/currency'
 
 export default createStore({
   state: {
     productDialog: {
       show: false,
-      product: null,
+      product: null
     } as ProductDialog,
+
     cartDialog: {
-      show: false,
+      show: false
     } as CartDialog,
+
     cart: JSON.parse(
       localStorage.getItem('cart') || '{}'
     ) as Cart,
+
+    currencies: [] as Currency[],
+
+    currentCurrency: {} as Currency
   },
   mutations: {
-    setProductDialogVisibility(state, isVisible: boolean) {
+    setProductDialogVisibility (state, isVisible: boolean) {
       state.productDialog = {
         ...state.productDialog,
-        show: isVisible,
+        show: isVisible
       }
     },
-    setCartDialogVisibility(state, isVisible: boolean) {
+    setCartDialogVisibility (state, isVisible: boolean) {
       state.cartDialog = {
         ...state.cartDialog,
-        show: isVisible,
+        show: isVisible
       }
     },
-    setDialogProduct(state, product: Product) {
+    setDialogProduct (state, product: Product) {
       state.productDialog = {
         ...state.productDialog,
-        product,
+        product
       }
     },
-    addCartItem(state, cartItem: CartItem) {
+    addCartItem (state, cartItem: CartItem) {
       // If a product is in already in the cart, than just
       // increase an amount in the cart
 
@@ -52,70 +59,87 @@ export default createStore({
           ...state.cart,
           [cartItem.product.id]: {
             ...existedItem,
-            amount: existedItem.amount + cartItem.amount,
-          },
+            amount: existedItem.amount + cartItem.amount
+          }
         }
       } else {
         state.cart = {
           ...state.cart,
           [cartItem.product.id]: {
-            ...cartItem,
-          },
+            ...cartItem
+          }
         }
       }
 
-      localStorage.setItem('cart', JSON.stringify(state.cart));
+      localStorage.setItem('cart', JSON.stringify(state.cart))
     },
-    setCartItemAmount(state, { productId, amount }: { productId: number, amount: number }) {
-      const cartItem = state.cart[productId];
+    setCartItemAmount (state, { productId, amount }: { productId: number, amount: number }) {
+      const cartItem = state.cart[productId]
 
       state.cart[productId] = {
         ...cartItem,
         amount
       }
     },
-    removeCartItem(state, productId: number) {
-      delete state.cart[productId];
-      localStorage.setItem('cart', JSON.stringify(state.cart));
+    removeCartItem (state, productId: number) {
+      delete state.cart[productId]
+      localStorage.setItem('cart', JSON.stringify(state.cart))
+    },
+    setCurrencies (state, payload: any) {
+      const currencies = [
+        payload.default,
+        ...payload.available
+      ]
+      currencies.forEach((item) => {
+        item.isDefault = item.code === payload.default.code
+        item.title = item.code
+      })
+
+      state.currencies = currencies
+      state.currentCurrency = payload.default
     }
   },
   getters: {
     itemsInCart: state => {
       return Object.values(state.cart).reduce((acc: number, cartItem: CartItem) => {
-        acc += cartItem.amount;
-        return acc;
+        acc += cartItem.amount
+        return acc
       }, 0)
     },
+    getCurrencies: (state) => state.currencies
   },
   actions: {
-    setDialogProduct(context, product: Product) {
-      context.commit('setDialogProduct', product);
-      context.commit('setProductDialogVisibility', true);
+    setDialogProduct (context, product: Product) {
+      context.commit('setDialogProduct', product)
+      context.commit('setProductDialogVisibility', true)
     },
-    setProductDialogVisibility(context, isVisible: boolean) {
-      context.commit('setProductDialogVisibility', isVisible);
+    setProductDialogVisibility (context, isVisible: boolean) {
+      context.commit('setProductDialogVisibility', isVisible)
     },
-    setCartDialogVisibility(context, isVisible: boolean) {
-      context.commit('setCartDialogVisibility', isVisible);
+    setCartDialogVisibility (context, isVisible: boolean) {
+      context.commit('setCartDialogVisibility', isVisible)
     },
-    addCartItem(context, cartItem: CartItem) {
+    addCartItem (context, cartItem: CartItem) {
       ElNotification.success({
         title: 'Item has been added',
-        message: `${cartItem.product.name} (x${cartItem.amount}) has been added to your cart`,
-      });
+        message: `${cartItem.product.name} (x${cartItem.amount}) has been added to your cart`
+      })
 
-      context.commit('addCartItem', cartItem);
+      context.commit('addCartItem', cartItem)
     },
-    removeCartItem(context, product: Product) {
+    removeCartItem (context, product: Product) {
       ElNotification.success({
         title: 'Item has been removed',
-        message: `${product.name} has been removed from your cart`,
-      });
+        message: `${product.name} has been removed from your cart`
+      })
 
-      context.commit('removeCartItem', product.id);
+      context.commit('removeCartItem', product.id)
     },
-    setCartItemAmount(context, { productId, amount }: {productId: number, amount: number}) {
-      context.commit('setCartItemAmount', { productId, amount });
+    setCartItemAmount (context, { productId, amount }: {productId: number, amount: number}) {
+      context.commit('setCartItemAmount', { productId, amount })
+    },
+    fetchCurrencies ({ commit }, payload) {
+      commit('setCurrencies', payload)
     }
   },
   modules: {

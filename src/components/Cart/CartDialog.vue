@@ -1,6 +1,6 @@
 <template lang="pug">
 el-dialog(
-  title="Cart",
+  :title="$t('cart.title')",
   width="50%",
   :model-value="isVisible",
   :before-close="handleDialogClose",
@@ -14,15 +14,17 @@ el-dialog(
     )
   el-empty(
     v-else,
-    description="No items in your cart",
+    :description="$t('cart.description_empty')",
   )
 
   template(#footer="")
     span.dialog-footer
       el-button(
         @click="handleDialogClose()",
-      ) Cancel
-      el-button(type="primary") Confirm
+      ) {{ $t('cart.button_cancel') }}
+      el-button(
+        type="primary"
+        ) {{ $t('cart.button_confirm') }}
 </template>
 
 <script lang="ts">

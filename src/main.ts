@@ -7,10 +7,11 @@ import store from './store'
 import i18n from './i18n'
 import ElementPlus from 'element-plus'
 
-import { 
+import {
   More,
   Delete,
   ShoppingCart,
+  ArrowDown,
   ArrowLeftBold,
   ArrowRightBold,
   ShoppingCartFull,
@@ -22,7 +23,7 @@ import 'element-plus/dist/index.css'
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 
+axios.defaults.baseURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8000'
     : 'TODO'
@@ -48,6 +49,7 @@ app.component('shopping-cart-full', ShoppingCartFull);
 
 app.component('arrow-left-bold', ArrowLeftBold);
 app.component('arrow-right-bold', ArrowRightBold);
+app.component('arrow-down', ArrowDown);
 
 app.use(i18n)
   .use(store)

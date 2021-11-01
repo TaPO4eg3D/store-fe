@@ -31,7 +31,7 @@ div
       // Info under slider
       el-row
         el-col(:span="24")
-          .quote Вы можете приобрести оригинальные ключи активации для операционных систем, офисных программ, антивирусов, софта и другого по самым выгодным ценам. У нас быстрая, вежливая и грамотная техподдержка. Если что-то пойдёт не так - поможет решить возникший вопрос.
+          .quote {{ $t('home.info_description') }}
   el-row(:gutter="20", style="margin-top: 15px")
     el-col(:span="5")
       popular-products
@@ -73,7 +73,7 @@ import { ListResponse } from '@/common/interfaces/list-response';
 function setupSlider(): [Ref<Splide | undefined>, Ref<number>] {
   const slider = ref();
   const activeSlide = ref(0);
-  
+
   onMounted(() => {
     slider.value = new Splide('.daily-slider', {
       type: 'loop',
