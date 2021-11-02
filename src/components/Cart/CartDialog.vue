@@ -28,38 +28,38 @@ el-dialog(
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent } from 'vue'
 
-import { useStore } from 'vuex';
+import { useStore } from 'vuex'
 
-import CartItem from './CartItem.vue';
+import CartItem from './CartItem.vue'
 
 export default defineComponent({
   props: {
     isVisible: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   components: {
-    CartItem,
+    CartItem
   },
-  setup() {
-    const store = useStore();
+  setup () {
+    const store = useStore()
 
     const handleDialogClose = () => {
-      store.dispatch('setCartDialogVisibility', false);
-    };
+      store.dispatch('setCartDialogVisibility', false)
+    }
 
     const cartItems = computed(() => {
-      return Object.values(store.state.cart);
+      return Object.values(store.state.cart)
     })
 
     return {
       cartItems,
-      handleDialogClose,
+      handleDialogClose
     }
-  },
-});
+  }
+})
 </script>
 
 <style lang="scss" scoped>

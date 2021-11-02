@@ -45,7 +45,12 @@ export default defineComponent({
     onMounted(() => {
       store.commit('setCurrencies', addCurrencies)
       store.commit('setDefaultCurrency', addCurrencies.default)
-      store.commit('setCurrentCurrency', addCurrencies.default)
+      const local = localStorage.getItem('currency')
+      if (local === null) {
+        store.commit('setCurrentCurrency', addCurrencies.default)
+      } else {
+        store.commit('setCurrentCurrency', JSON.parse(local))
+      }
     })
 
     return {

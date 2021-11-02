@@ -29,9 +29,7 @@ export default createStore({
 
     defaultCurrency: {} as Currency,
 
-    currentCurrency: JSON.parse(
-      localStorage.getItem('currency') || '{}'
-    ) as Currency
+    currentCurrency: {} as Currency
   },
   mutations: {
     setProductDialogVisibility (state, isVisible: boolean) {
@@ -95,7 +93,6 @@ export default createStore({
         ...payload.available
       ]
       currencies.forEach((item) => {
-        // item.isDefault = item.code === payload.default.code
         item.title = item.code
       })
 
@@ -105,7 +102,7 @@ export default createStore({
       state.defaultCurrency = defaultCurrency
     },
     setCurrentCurrency (state, currentCurrency: Currency) {
-      state.currentCurrency = Object.keys(state.currentCurrency).length === 0 ? state.defaultCurrency : currentCurrency
+      state.currentCurrency = currentCurrency
       localStorage.setItem('currency', JSON.stringify(state.currentCurrency))
     }
   },

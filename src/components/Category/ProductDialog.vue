@@ -29,10 +29,10 @@ el-dialog(
 <script lang="ts">
 import { Product } from '@/common/interfaces/product'
 import {
-    defineComponent,
-    PropType,
-    ref,
-    watch,
+  defineComponent,
+  PropType,
+  ref,
+  watch
 } from 'vue'
 
 import { useStore } from 'vuex'
@@ -41,39 +41,39 @@ export default defineComponent({
   props: {
     isVisible: {
       type: Boolean,
-      default: false,
+      default: false
     },
     product: {
       type: Object as PropType<Product>,
-      required: true,
+      required: true
     }
   },
-  setup(props) {
-    const store = useStore();
-    const productAmount = ref(1);
+  setup (props) {
+    const store = useStore()
+    const productAmount = ref(1)
 
     const handleClose = () => {
-      productAmount.value = 1;
-      store.dispatch('setProductDialogVisibility', false);
+      productAmount.value = 1
+      store.dispatch('setProductDialogVisibility', false)
     }
 
     const addCartItem = () => {
       store.dispatch('addCartItem', {
         product: props.product,
-        amount: productAmount.value,
-      });
+        amount: productAmount.value
+      })
     }
 
     return {
       productAmount,
       handleClose,
-      addCartItem,
+      addCartItem
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .product-dialog .product-info {
   padding: 30px;
 }

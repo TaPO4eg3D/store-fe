@@ -5,7 +5,7 @@
   .name {{ cartItem?.product?.name }}
   .quantiy
     el-input-number(
-      v-model="productQuanitity",
+      v-model="productQuantity",
       :min="1",
     )
   .price
@@ -23,11 +23,11 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
+import { useStore } from 'vuex'
 
 import { defineComponent, PropType, ref, computed, watch } from 'vue'
 
-import type { CartItem } from '@/store/interfaces/cart-item';
+import type { CartItem } from '@/store/interfaces/cart-item'
 
 export default defineComponent({
   props: {
@@ -35,48 +35,48 @@ export default defineComponent({
       type: Object as PropType<CartItem>
     }
   },
-  setup(props) {
-    const store = useStore();
+  setup (props) {
+    const store = useStore()
 
-    const productQuanitity: any = computed({
-      set(value: number): void {
+    const productQuantity: any = computed({
+      set (value: number): void {
         store.dispatch('setCartItemAmount', {
           productId: props.cartItem?.product.id,
-          amount: value,
-        });
+          amount: value
+        })
       },
-      get(): number {
-        return props.cartItem?.amount || 1;
+      get (): number {
+        return props.cartItem?.amount || 1
       }
-    });
+    })
 
     const totalPrice = computed(() => {
-      const product = props.cartItem?.product;
+      const product = props.cartItem?.product
 
       if (!product) {
-        return 0;
+        return 0
       }
 
-      const price = product.discount_price
-        || product.price;
+      const price = product.discount_price ||
+        product.price
 
-      return price * productQuanitity.value;
-    });
+      return price * productQuantity.value
+    })
 
     const deleteCartItem = () => {
-      store.dispatch('removeCartItem', props.cartItem?.product);
-    };
+      store.dispatch('removeCartItem', props.cartItem?.product)
+    }
 
     return {
       totalPrice,
       deleteCartItem,
-      productQuanitity,
+      productQuantity
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cart-item {
   display: flex;
   align-items: center;

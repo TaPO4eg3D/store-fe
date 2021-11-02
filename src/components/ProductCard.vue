@@ -25,51 +25,51 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from "vue";
-import { useStore } from "vuex";
+import { defineComponent, ref, computed, PropType } from 'vue'
+import { useStore } from 'vuex'
 
-import { Product } from "@/common/interfaces/product";
+import { Product } from '@/common/interfaces/product'
 
 export default defineComponent({
   props: {
     product: {
       type: Object as PropType<Product>,
-      requred: true,
-    },
+      requred: true
+    }
   },
   components: {},
-  setup(props) {
-    const store = useStore();
+  setup (props) {
+    const store = useStore()
 
     const showProductDialog = () => {
-      store.dispatch("setDialogProduct", props.product);
-    };
+      store.dispatch('setDialogProduct', props.product)
+    }
 
     const addCartItem = () => {
-      store.dispatch("addCartItem", {
+      store.dispatch('addCartItem', {
         product: props.product,
-        amount: 1,
-      });
-    };
+        amount: 1
+      })
+    }
 
     const discountTag = computed(() => {
       if (!props.product?.discount_price || !props.product.price) {
-        return 0;
+        return 0
       }
 
-      return Math.ceil(100 - (props.product.discount_price / props.product.price) * 100);
-    });
+      return Math.ceil(100 - (props.product.discount_price / props.product.price) * 100)
+    })
 
     return {
       discountTag,
       showProductDialog,
-      addCartItem,
-    };
-  },
-});
+      addCartItem
+    }
+  }
+})
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .product-card {
   position: relative;
   max-width: 210px;

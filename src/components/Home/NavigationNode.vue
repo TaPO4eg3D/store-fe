@@ -24,16 +24,16 @@ export default defineComponent({
   props: {
     category: {
       type: Object as PropType<Category>,
-      required: true,
+      required: true
     }
   },
-  setup(props) {
+  setup (props) {
     console.log(props.category.id)
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .menu-item {
   a {
     width: 100%;

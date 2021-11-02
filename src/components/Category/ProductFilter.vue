@@ -20,19 +20,19 @@ import GeneralCard from '@/components/GeneralCard.vue'
 
 export default defineComponent({
   components: {
-    GeneralCard,
+    GeneralCard
   },
-  setup() {
-    const priceRange = ref([0, 5000]);
+  setup () {
+    const priceRange = ref([0, 5000])
 
     return {
-      priceRange,
+      priceRange
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .product-filter {
   padding: 10px;
 }

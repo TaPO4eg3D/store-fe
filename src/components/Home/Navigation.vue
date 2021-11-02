@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
+import axios from 'axios'
 
-import { defineComponent, onMounted, Ref, ref } from 'vue';
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 
-import { Category } from '@/common/interfaces/category';
-import { ListResponse } from '@/common/interfaces/list-response';
+import { Category } from '@/common/interfaces/category'
+import { ListResponse } from '@/common/interfaces/list-response'
 
 import NavigationNode from '@/components/Home/NavigationNode.vue'
 
@@ -27,31 +27,31 @@ export default defineComponent({
     isHidden: {
       type: Boolean,
       default: true
-    },
+    }
   },
   components: {
-    NavigationNode,
+    NavigationNode
   },
-  setup() {
-    const categories: Ref<Category[]> | Ref<never[]> = ref([]); 
+  setup () {
+    const categories: Ref<Category[]> | Ref<never[]> = ref([])
 
     onMounted(async () => {
       // TODO: Add an exception handling
 
       const response = await axios.get<ListResponse<Category>>(
         '/api/categories/'
-      );
-      categories.value = response.data.results;
-    });
+      )
+      categories.value = response.data.results
+    })
 
     return {
-      categories,
+      categories
     }
   }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .navigation_menu .header {
   padding: 10px;
   font-weight: bold;

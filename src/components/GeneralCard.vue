@@ -20,52 +20,52 @@
 </template>
 
 <script lang="ts">
-import Splide from '@splidejs/splide';
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import Splide from '@splidejs/splide'
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
 
 export default defineComponent({
   props: {
     header: {
       type: String,
-      required: true,
+      required: true
     },
     isSlider: {
       type: Boolean,
-      default: false,
+      default: false
     },
     itemsPerSlide: {
       type: Number,
-      default: 1,
+      default: 1
     },
     slideBreakpoints: {
       type: Object,
       default: {}
     }
   },
-  setup(props) {
-    const slider = ref();
-    const sliderRef: Ref<HTMLElement> | Ref<undefined> = ref();
+  setup (props) {
+    const slider = ref()
+    const sliderRef: Ref<HTMLElement> | Ref<undefined> = ref()
 
     const refreshSlider = () => {
       if (!slider.value) {
-        return;
+        return
       }
 
-      slider.value.refresh();
+      slider.value.refresh()
     }
 
     onMounted(() => {
       if (!sliderRef.value) {
-        return;
+        return
       }
 
-      const breakpoints: any = {};
+      const breakpoints: any = {}
       Object.entries(props.slideBreakpoints).forEach(([point, value]) => {
         breakpoints[point] = {
-          perPage: value,
+          perPage: value
         }
       })
-      
+
       slider.value = new Splide(sliderRef.value, {
         type: 'loop',
         arrows: false,
@@ -73,21 +73,21 @@ export default defineComponent({
         autoplay: true,
         perPage: props.itemsPerSlide,
         gap: '10px',
-        breakpoints,
-      });
-      slider.value.mount();
-    });
+        breakpoints
+      })
+      slider.value.mount()
+    })
 
     return {
       slider,
       sliderRef,
-      refreshSlider,
+      refreshSlider
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .general-card {
   border: 1px solid #DCDFE6;
   border-radius: 8px 8px 0px 0px;

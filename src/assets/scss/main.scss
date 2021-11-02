@@ -23,3 +23,11 @@ body {
   border-left: 2px solid #DDDDDD;
   font-weight: 100;
 }
+
+.el-badge__content.is-fixed {
+  transform: translateY(10%) translateX(35%) !important;
+}
+
+.el-overlay-dialog {
+  overflow: hidden !important;
+}

@@ -5,7 +5,6 @@ el-row(:gutter="20")
   el-col(:span="19")
     el-row(:gutter="20")
       search
-      cart-button
 el-row(style="margin-top: 25px")
   el-col
     h2 {{ categoryName }}
@@ -36,7 +35,6 @@ import { useRoute } from 'vue-router'
 
 import Navigation from '@/components/Home/Navigation.vue'
 import Search from '@/components/Home/Search.vue'
-import CartButton from '@/components/Home/CartButton.vue'
 
 import GeneralCard from '@/components/GeneralCard.vue'
 
@@ -50,43 +48,41 @@ import { Product } from '@/common/interfaces/product'
 import { ListResponse } from '@/common/interfaces/list-response'
 import { Category } from '@/common/interfaces/category'
 
-
 export default defineComponent({
   components: {
     Navigation,
     Search,
     ProductFilter,
-    CartButton,
     ProductCard,
     GeneralCard,
     ProductDialog,
-    PopularProducts,
+    PopularProducts
   },
-  setup() {
-    const route = useRoute();
-    const categoryName = ref();
+  setup () {
+    const route = useRoute()
+    const categoryName = ref()
 
-    const products: Ref<Product[]> = ref([]);
+    const products: Ref<Product[]> = ref([])
 
     onMounted(async () => {
-      const categoryID = route.params.id;
+      const categoryID = route.params.id
 
-      const responseCategory = await axios.get<Category>(`/api/categories/${categoryID}/`);
-      const responseProduct = await axios.get<ListResponse<Product>>(`/api/products/?category=${categoryID}`);
+      const responseCategory = await axios.get<Category>(`/api/categories/${categoryID}/`)
+      const responseProduct = await axios.get<ListResponse<Product>>(`/api/products/?category=${categoryID}`)
 
-      products.value = responseProduct.data.results;
-      categoryName.value = responseCategory.data.name;
-    });
+      products.value = responseProduct.data.results
+      categoryName.value = responseCategory.data.name
+    })
 
     return {
       products,
-      categoryName,
+      categoryName
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .product-list {
   width: 100%;
 

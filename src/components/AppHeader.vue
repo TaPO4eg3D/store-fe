@@ -7,20 +7,22 @@
       @selected="handleSelectCurrency"
     )
     .app-header__right
-      span {{ $t('title') }}
+      cart-button
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
+import CartButton from '@/components/Home/CartButton.vue'
 import BaseDropdown from '@/components/ui/BaseDropdown.vue'
 import { Currency } from '@/common/interfaces/currency'
 
 export default defineComponent({
   name: 'AppHeader',
   components: {
-    BaseDropdown
+    BaseDropdown,
+    CartButton
   },
   watch: {
     currencies: {
@@ -48,7 +50,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .app-header {
   padding: 5px 0;
   top: 0;
@@ -60,6 +62,7 @@ export default defineComponent({
     @include container;
     margin: 0 auto;
     display: flex;
+    align-items: center;
     justify-content: space-between;
   }
 }
