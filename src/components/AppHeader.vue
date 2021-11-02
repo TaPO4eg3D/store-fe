@@ -1,31 +1,46 @@
 <template lang="pug">
 .app-header
   .app-header__container
-    h1 {{ $t('title') }}
-    base-dropdown(:items="currencies")
+    base-dropdown(
+      :items="currencies"
+      :initial-value="selectedCurrency"
+      @selected="handleSelectCurrency"
+    )
+    .app-header__right
+      span {{ $t('title') }}
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useStore } from 'vuex'
 
 import BaseDropdown from '@/components/ui/BaseDropdown.vue'
+import { Currency } from '@/common/interfaces/currency'
 
 export default defineComponent({
   name: 'AppHeader',
   components: {
     BaseDropdown
   },
-  props: {
+  watch: {
     currencies: {
-      type: Array,
-      default () { return [] }
+      handler () {
+        this.selectedCurrency = this.currencies[0]
+      }
     }
   },
   setup () {
-    const select = ''
+    const store = useStore()
+    let selectedCurrency = {}
+
+    const handleSelectCurrency = (value: Currency) => {
+      selectedCurrency = value
+    }
 
     return {
-      select
+      selectedCurrency,
+      handleSelectCurrency,
+      currencies: computed(() => store.getters.getCurrencies)
     }
   }
 })
@@ -33,6 +48,7 @@ export default defineComponent({
 
 <style lang="scss">
 .app-header {
+  padding: 5px 0;
   top: 0;
   position: sticky;
   box-shadow: 0 0 16px rgba(38, 38, 38, 0.16);
@@ -41,6 +57,8 @@ export default defineComponent({
   &__container {
     @include container;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>

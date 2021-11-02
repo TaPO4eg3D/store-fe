@@ -1,5 +1,5 @@
 <template lang="pug">
-app-header(:currencies="currencies")
+app-header
 .app-content
   product-dialog(
     :isVisible="showProductDialog",
@@ -49,7 +49,6 @@ export default defineComponent({
     return {
       showProductDialog: computed(() => store.state.productDialog.show),
       dialogProduct: computed(() => store.state.productDialog.product),
-      currencies: computed(() => store.getters.getCurrencies),
 
       showCartDialog: computed(() => {
         return store.state.cartDialog.show

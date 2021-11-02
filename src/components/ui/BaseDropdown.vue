@@ -1,22 +1,22 @@
 <template lang="pug">
 el-dropdown.base-dropdown(
   trigger="click"
-  @command="handleCommand"
 )
-  span.el-dropdown-link selected
+  span.el-dropdown-link {{ selectedValue.title }}
     el-icon.el-icon--right
       arrow-down
   template(#dropdown="")
     el-dropdown-menu
       el-dropdown-item(
         v-for="item in items"
-        :command="item.title"
+        :command="item"
+        @click="selectValue(item)"
       ) {{ item.title }}
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, watch } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent } from 'vue'
+import { Currency } from '@/common/interfaces/currency'
 
 export default defineComponent({
   name: 'BaseDropdown',
@@ -25,27 +25,29 @@ export default defineComponent({
       type: Array,
       default () { return [] }
     },
-    value: {
-      type: [String, Number],
-      default: ''
+    initialValue: {
+      type: Object,
+      default () { return {} }
     }
   },
-  setup (props) {
-    let selectedValue = ''
-    // watch(
-    //   () => props.value,
-    //   (selectedValue, prevSelectedValue) => {
-    //     console.log('changing')
-    //   }
-    // )
-    const handleCommand = (command: string) => {
-      console.log(`${command}`)
-      selectedValue = command
-      // this.$emit('input', command)
-    }
+  emits: ['selected'],
+  data () {
     return {
-      selectedValue,
-      handleCommand
+      selectedValue: {}
+    }
+  },
+  watch: {
+    initialValue: {
+      handler (value) {
+        console.log('initialValue', value)
+        this.selectedValue = value
+      }
+    }
+  },
+  methods: {
+    selectValue (value: Currency) {
+      this.selectedValue = value
+      this.$emit('selected', value)
     }
   }
 })
@@ -53,6 +55,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .base-dropdown {
-
+  .el-dropdown-selfdefine {
+    background: #f5f5f5;
+    border: 1px solid #DDDDDD;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    &:hover {
+      cursor: pointer;
+      background: #fff;
+      border-color: #ccc;
+    }
+  }
 }
 </style>
