@@ -25,7 +25,7 @@ export default defineComponent({
   watch: {
     currencies: {
       handler () {
-        this.selectedCurrency = this.currencies[0]
+        this.selectedCurrency = this.currentCurrency
       }
     }
   },
@@ -35,12 +35,14 @@ export default defineComponent({
 
     const handleSelectCurrency = (value: Currency) => {
       selectedCurrency = value
+      store.commit('setCurrentCurrency', value)
     }
 
     return {
       selectedCurrency,
       handleSelectCurrency,
-      currencies: computed(() => store.getters.getCurrencies)
+      currencies: computed(() => store.getters.getCurrencies),
+      currentCurrency: computed(() => store.getters.getCurrentCurrency)
     }
   }
 })

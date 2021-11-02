@@ -39,7 +39,6 @@ export default defineComponent({
   watch: {
     initialValue: {
       handler (value) {
-        console.log('initialValue', value)
         this.selectedValue = value
       }
     }

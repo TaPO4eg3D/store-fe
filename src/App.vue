@@ -44,6 +44,8 @@ export default defineComponent({
 
     onMounted(() => {
       store.commit('setCurrencies', addCurrencies)
+      store.commit('setDefaultCurrency', addCurrencies.default)
+      store.commit('setCurrentCurrency', addCurrencies.default)
     })
 
     return {
@@ -60,7 +62,6 @@ export default defineComponent({
 
 <style lang="scss">
 // TODO: Extract most of this to a separate SCSS file
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
 
 $breakpoints: (
   xs: 576px,
@@ -102,8 +103,6 @@ $breakpoints: (
 }
 
 #app {
-  font-family: 'Roboto', sans-serif;
-  //margin: 60px 260px;
   display: grid;
   grid-gap: 20px;
 }
@@ -130,13 +129,4 @@ $breakpoints: (
 //    margin: 40px 40px;
 //  }
 //}
-
-.quote {
-  margin: 20px 0px;
-
-  padding: 20px;
-  border-left: 2px solid black;
-
-  font-weight: 100;
-}
 </style>

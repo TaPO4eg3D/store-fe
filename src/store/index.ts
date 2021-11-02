@@ -27,7 +27,11 @@ export default createStore({
 
     currencies: [] as Currency[],
 
-    currentCurrency: {} as Currency
+    defaultCurrency: {} as Currency,
+
+    currentCurrency: JSON.parse(
+      localStorage.getItem('currency') || '{}'
+    ) as Currency
   },
   mutations: {
     setProductDialogVisibility (state, isVisible: boolean) {
@@ -85,18 +89,24 @@ export default createStore({
       delete state.cart[productId]
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
-    setCurrencies (state, payload: any) {
+    setCurrencies (state, payload: { default: Currency, available: Currency[] }) {
       const currencies = [
         payload.default,
         ...payload.available
       ]
       currencies.forEach((item) => {
-        item.isDefault = item.code === payload.default.code
+        // item.isDefault = item.code === payload.default.code
         item.title = item.code
       })
 
       state.currencies = currencies
-      state.currentCurrency = payload.default
+    },
+    setDefaultCurrency (state, defaultCurrency: Currency) {
+      state.defaultCurrency = defaultCurrency
+    },
+    setCurrentCurrency (state, currentCurrency: Currency) {
+      state.currentCurrency = Object.keys(state.currentCurrency).length === 0 ? state.defaultCurrency : currentCurrency
+      localStorage.setItem('currency', JSON.stringify(state.currentCurrency))
     }
   },
   getters: {
@@ -106,7 +116,9 @@ export default createStore({
         return acc
       }, 0)
     },
-    getCurrencies: (state) => state.currencies
+    getCurrencies: (state) => state.currencies,
+    getDefaultCurrency: (state) => state.defaultCurrency,
+    getCurrentCurrency: (state) => state.currentCurrency
   },
   actions: {
     setDialogProduct (context, product: Product) {
