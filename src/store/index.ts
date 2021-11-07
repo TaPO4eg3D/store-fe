@@ -86,6 +86,12 @@ export default createStore({
         return acc;
       }, 0)
     },
+    totalPrice: state => {
+      return Object.values(state.cart).reduce((total: number, cartItem: CartItem) => {
+        const price = cartItem.product.discount_price || cartItem.product.price;
+        return total + (cartItem.amount * price)
+      }, 0)
+    },
   },
   actions: {
     setDialogProduct(context, product: Product) {
