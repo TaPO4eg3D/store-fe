@@ -15,13 +15,11 @@ import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
 import CartButton from '@/components/Home/CartButton.vue'
-import BaseDropdown from '@/components/ui/BaseDropdown.vue'
 import { Currency } from '@/common/interfaces/currency'
 
 export default defineComponent({
   name: 'AppHeader',
   components: {
-    BaseDropdown,
     CartButton
   },
   watch: {
@@ -33,7 +31,7 @@ export default defineComponent({
   },
   setup () {
     const store = useStore()
-    let selectedCurrency = {}
+    let selectedCurrency = {} as Currency
 
     const handleSelectCurrency = (value: Currency) => {
       selectedCurrency = value

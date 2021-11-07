@@ -1,11 +1,12 @@
 <template lang="pug">
 // Cart section
 el-badge.cart-button(:value="itemsInCart")
-  el-button(
-    plain,
+  base-button(
+    :title="$t('cart.title')",
+    styles="plain",
     type="primary",
     size="large",
-    @click="openCartDialog()",
+    @click="openCartDialog()"
   )
     el-icon
       shopping-cart
@@ -17,6 +18,7 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
+  name: 'CartButton',
   setup () {
     const store = useStore()
 
@@ -34,19 +36,5 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .cart-button {
-  width: 100%;
-  min-width: 150px;
-  .el-button span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .el-icon {
-    margin-right: 4px;
-  }
-
-  button {
-    width: 100%;
-  }
 }
 </style>

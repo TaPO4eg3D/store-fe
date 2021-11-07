@@ -1,37 +1,29 @@
 <template lang="pug">
 div
-  el-row(:gutter="20")
-    // Navigation section
-    el-col.hidden-md-and-down(:span="5")
-      navigation(:isHidden="false")
-    // Search Section
-    el-col(:span="19")
-      el-row(:gutter="20")
-        search
-        //cart-button
-      // Slider of offers
-      el-row
-        el-col(:span="24")
-          .slider-wrapper
-            .daily-slider
-              .splide__track
-                .splide__list
-                  li.splide__slide
-                    img(src="../assets/test_image.jpg")
-                  li.splide__slide
-                    img(src="../assets/test_image.jpg")
-                  li.splide__slide
-                    img(src="../assets/test_image.jpg")
-            .dots
-              .dot(
-                v-for="i in slidesNumber",
-                :class="{ active: i - 1 === activeSlide }"
-                @click="slider.go(i - 1)"
-              )
+  app-menu
+  // Slider of offers
+  el-row
+    el-col(:span="24")
+      .slider-wrapper
+        .daily-slider
+          .splide__track
+            .splide__list
+              li.splide__slide
+                img(src="../assets/test_image.jpg")
+              li.splide__slide
+                img(src="../assets/test_image.jpg")
+              li.splide__slide
+                img(src="../assets/test_image.jpg")
+        .dots
+          .dot(
+            v-for="i in slidesNumber",
+            :class="{ active: i - 1 === activeSlide }"
+            @click="slider.go(i - 1)"
+          )
       // Info under slider
-      el-row
-        el-col(:span="24")
-          .quote {{ $t('home.info_description') }}
+  el-row
+    el-col(:span="24")
+      .quote {{ $t('home.info_description') }}
   el-row(:gutter="20", style="margin-top: 15px")
     el-col(:span="5")
       popular-products
@@ -56,11 +48,11 @@ import { inject, defineComponent, ref, Ref, onMounted, watch } from 'vue'
 
 import Splide from '@splidejs/splide'
 
+import AppMenu from '@/components/AppMenu.vue'
 import Navigation from '@/components/Home/Navigation.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
 import Search from '@/components/Home/Search.vue'
-// import CartButton from '@/components/Home/CartButton.vue'
 import PopularProducts from '@/components/Home/PopularProducts.vue'
 
 import { Product } from '@/common/interfaces/product'
@@ -95,11 +87,11 @@ function setupSlider (): [Ref<Splide | undefined>, Ref<number>] {
 export default defineComponent({
   name: 'Home',
   components: {
+    AppMenu,
     Navigation,
     ProductCard,
     GeneralCard,
     Search,
-    // CartButton,
     PopularProducts
   },
   setup () {

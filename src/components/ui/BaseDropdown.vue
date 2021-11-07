@@ -16,7 +16,6 @@ el-dropdown.base-dropdown(
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Currency } from '@/common/interfaces/currency'
 
 export default defineComponent({
   name: 'BaseDropdown',
@@ -44,7 +43,7 @@ export default defineComponent({
     }
   },
   methods: {
-    selectValue (value: Currency) {
+    selectValue (value: any) {
       this.selectedValue = value
       this.$emit('selected', value)
     }

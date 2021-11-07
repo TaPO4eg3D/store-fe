@@ -28,7 +28,7 @@ export default defineComponent({
     }
   },
   setup (props) {
-    console.log(props.category.id)
+    // console.log(props.category.id)
   }
 })
 </script>
