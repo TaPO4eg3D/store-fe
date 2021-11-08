@@ -4,6 +4,8 @@
     v-if="item.item == 'button-group'"
     :item="item",
     :selectedElements="selectedElements",
+    @select="$emit('select', $event)",
+    @unselect="$emit('unselect', $event)",
   )
     option-item(
       v-for="child in item.children",

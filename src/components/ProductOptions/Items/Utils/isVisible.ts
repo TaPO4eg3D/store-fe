@@ -1,4 +1,5 @@
 import { ProductOptionElement } from "@/common/interfaces/product-options";
+import { conditionalExpression } from "@babel/types";
 import { computed, ComputedRef, watch } from "vue";
 
 export function getVisibility(props: any): ComputedRef<boolean> {
@@ -19,10 +20,8 @@ export function getVisibility(props: any): ComputedRef<boolean> {
 export function setVisibilityWatcher(emit: any, item: ProductOptionElement, isVisible: ComputedRef<boolean>): void {
   // TODO: Do we really need that?
 
-  watch(isVisible, (value: boolean) => {
-    console.log(value, item);
-
-    if (value) {
+  watch(isVisible, () => {
+    if (isVisible.value) {
       return;
     }
 
@@ -30,6 +29,7 @@ export function setVisibilityWatcher(emit: any, item: ProductOptionElement, isVi
       emit('unselect', child.uuid);
     });
 
+    console.log('PENDING UNSELECT: ', item.uuid);
     emit('unselect', item.uuid);
   })
 }

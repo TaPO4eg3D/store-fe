@@ -45,10 +45,12 @@ export default defineComponent({
     });
 
     const handleSelect = (uuid: string) => {
+      console.log('SELECT: ', uuid);
       selectedElements.value.add(uuid);
     };
 
     const handleUnselect = (uuid: string) => {
+      console.log('UNSELECT: ', uuid);
       selectedElements.value.delete(uuid);
     };
 
