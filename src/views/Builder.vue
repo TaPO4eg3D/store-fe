@@ -22,7 +22,7 @@ const testSchema: ProductOptionSection[] = [
     name: 'Section 1',
     children: [
       {
-        uuid: uuidv4(),
+        uuid: '123',
         item: 'button-group',
         children: [
           {
@@ -32,9 +32,6 @@ const testSchema: ProductOptionSection[] = [
             item: 'button',
             price_modifier: 20.0,
             is_selected: false,
-            children: [
-
-            ],
             hint: 'Test hint'
           },
           {
@@ -43,9 +40,6 @@ const testSchema: ProductOptionSection[] = [
             item: 'button',
             price_modifier: 20.0,
             is_selected: false,
-            children: [
-
-            ],
             hint: 'Test hint'
           },
           {
@@ -54,26 +48,14 @@ const testSchema: ProductOptionSection[] = [
             item: 'button',
             price_modifier: 20.0,
             is_selected: false,
-            children: [
-              {
-                uuid: uuidv4(),
-                name: 'Test button',
-                item: 'button',
-                price_modifier: 20.0,
-                is_selected: false,
-                children: [
-
-                ],
-                hint: 'Test hint'
-              },
-            ],
             hint: 'Test hint'
           },
         ],
       },
       {
-        uuid: uuidv4(),
+        uuid: '321',
         item: 'button-group',
+        condition: '123',
         children: [
           {
             uuid: uuidv4(),
@@ -81,9 +63,6 @@ const testSchema: ProductOptionSection[] = [
             item: 'button',
             price_modifier: 20.0,
             is_selected: false,
-            children: [
-
-            ],
             hint: 'Test hint'
           },
         ]
@@ -91,6 +70,7 @@ const testSchema: ProductOptionSection[] = [
       {
         uuid: uuidv4(),
         item: 'button-group',
+        condition: '321',
         children: [
           {
             uuid: uuidv4(),

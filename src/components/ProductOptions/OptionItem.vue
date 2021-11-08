@@ -3,6 +3,7 @@
   option-button-group(
     v-if="item.item == 'button-group'"
     :item="item",
+    :selectedElements="selectedElements",
   )
     option-item(
       v-for="child in item.children",

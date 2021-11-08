@@ -4,10 +4,14 @@ export interface ProductOptionElement {
 
   name?: string;
   price_modifier?: number;
-  is_selected?: boolean;
+
   children?: ProductOptionElement[];
+
+  is_selected?: boolean;
   hint?: string;
   style?: object;
+
+  condition?: string;
 }
 
 export interface ProductOptionSection {

@@ -1,5 +1,6 @@
 <template lang="pug">
 el-button.options-button(
+  v-if="isVisible",
   :type="isSelected ? 'primary' : ''",
   @click="handleButtonClick"
 ) {{ item.name }}
@@ -8,6 +9,7 @@ el-button.options-button(
 <script lang="ts">
 import { ProductOptionElement } from '@/common/interfaces/product-options'
 import { defineComponent, PropType, computed, Prop } from 'vue'
+import { getVisibility, setVisibilityWatcher } from './Utils/isVisible';
 
 export default defineComponent({
   props: {
@@ -34,7 +36,11 @@ export default defineComponent({
       }
     };
 
+    const isVisible = getVisibility(props);
+    setVisibilityWatcher(emit, props.item, isVisible);
+
     return {
+      isVisible,
       isSelected,
       handleButtonClick,
     }
