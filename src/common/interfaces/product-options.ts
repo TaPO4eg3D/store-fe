@@ -11,7 +11,7 @@ export interface ProductOptionElement {
   hint?: string;
   style?: object;
 
-  condition?: string;
+  condition?: string[];
 }
 
 export interface ProductOptionSection {

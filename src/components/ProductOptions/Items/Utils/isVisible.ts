@@ -5,13 +5,19 @@ import { computed, ComputedRef, watch } from "vue";
 export function getVisibility(props: any): ComputedRef<boolean> {
   const isVisible = computed(() => {
     const has_condition = 
-      props.item.condition && props.item.condition !== '';
+      props.item.condition && props.item.condition.length > 0;
 
     if (!has_condition) {
       return true;
     }
 
-    return props.selectedElements.has(props.item.condition as string);
+    for (const uuid of props.item.condition) {
+      if (!props.selectedElements.has(uuid)) {
+        return false;
+      }
+    }
+
+    return true;
   });
 
   return isVisible;

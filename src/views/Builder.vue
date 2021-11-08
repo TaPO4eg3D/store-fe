@@ -55,7 +55,7 @@ const testSchema: ProductOptionSection[] = [
       {
         uuid: '321',
         item: 'button-group',
-        condition: '123',
+        condition: ['123'],
         children: [
           {
             uuid: uuidv4(),
@@ -70,7 +70,7 @@ const testSchema: ProductOptionSection[] = [
       {
         uuid: uuidv4(),
         item: 'button-group',
-        condition: '321',
+        condition: ['321'],
         children: [
           {
             uuid: uuidv4(),
