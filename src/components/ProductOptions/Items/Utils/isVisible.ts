@@ -1,5 +1,4 @@
 import { ProductOptionElement } from "@/common/interfaces/product-options";
-import { conditionalExpression } from "@babel/types";
 import { computed, ComputedRef, watch } from "vue";
 
 export function getVisibility(props: any): ComputedRef<boolean> {

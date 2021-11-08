@@ -53,6 +53,17 @@ const testSchema: ProductOptionSection[] = [
         ],
       },
       {
+        uuid: uuidv4(),
+        item: 'choice',
+        children: [
+          {
+            uuid: uuidv4(),
+            name: 'choice-item 1',
+            item: 'choice-item',
+          }
+        ]
+      },
+      {
         uuid: '321',
         item: 'button-group',
         condition: ['123'],

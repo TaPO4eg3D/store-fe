@@ -22,6 +22,22 @@
     @select="$emit('select', $event)",
     @unselect="$emit('unselect', $event)",
   )
+  option-choice(
+    v-if="item.item == 'choice'"
+    :item="item",
+    :selectedElements="selectedElements",
+    @select="$emit('select', $event)",
+    @unselect="$emit('unselect', $event)",
+  )
+    option-choice-item(
+      v-for="child in item.children",
+      :item="child",
+      :level="0",
+      :selectedElements="selectedElements",
+      @select="handleChoiceSelect(item, $event)",
+      @unselect="handleChoiceUnselect(item, $event)",
+    )
+
 </template>
 
 <script lang="ts">
@@ -31,9 +47,9 @@ import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/
 
 import OptionButton from './Items/Button.vue';
 import OptionButtonGroup from './Items/ButtonGroup.vue';
-import OptionChoice from './Items/Button.vue';
-import OptionChoiceItem from './Items/Button.vue';
-import OptionRadioItem from './Items/Button.vue';
+import OptionChoice from './Items/Choice.vue';
+import OptionChoiceItem from './Items/ChoiceItem.vue';
+import OptionRadioItem from './Items/RadioItem.vue';
 
 export default defineComponent({
   name: 'option-item',
@@ -82,9 +98,29 @@ export default defineComponent({
       emit('unselect', item.uuid);
     }
 
+    const handleChoiceSelect = (item: ProductOptionElement, uuid: string) => {
+      emit('select', uuid);
+      emit('select', item.uuid)
+    };
+
+    const handleChoiceUnselect = (item: ProductOptionElement, uuid: string) => {
+      emit('unselect', uuid);
+
+      for (let child of item.children || []) {
+        if (props.selectedElements.has(child.uuid)) {
+          return;
+        }
+      }
+
+      emit('unselect', item.uuid);
+    };
+
     return {
       handleButtonGroupSelect,
       handleButtonGroupUnselect,
+
+      handleChoiceSelect,
+      handleChoiceUnselect,
     }
   },
 })
