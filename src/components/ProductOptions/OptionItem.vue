@@ -37,6 +37,21 @@
       @select="handleChoiceSelect(item, $event)",
       @unselect="handleChoiceUnselect(item, $event)",
     )
+  option-radio(
+    v-if="item.item == 'radio'"
+    :item="item",
+    :selectedElements="selectedElements",
+    @select="$emit('select', $event)",
+    @unselect="$emit('unselect', $event)",
+  )
+    option-radio-item(
+      v-for="child in item.children",
+      :item="child",
+      :level="0",
+      :selectedElements="selectedElements",
+      @select="handeRadioSelect(item, $event)",
+      @unselect="handeRadioUnselect(item, $event)",
+    )
 
 </template>
 
@@ -49,6 +64,7 @@ import OptionButton from './Items/Button.vue';
 import OptionButtonGroup from './Items/ButtonGroup.vue';
 import OptionChoice from './Items/Choice.vue';
 import OptionChoiceItem from './Items/ChoiceItem.vue';
+import OptionRadio from './Items/Radio.vue';
 import OptionRadioItem from './Items/RadioItem.vue';
 
 export default defineComponent({
@@ -74,6 +90,7 @@ export default defineComponent({
    OptionChoice,
    OptionChoiceItem,
    OptionRadioItem,
+   OptionRadio,
   },
   setup(props, { emit }) {
     const handleButtonGroupSelect = (item: ProductOptionElement, uuid: string) => {
@@ -115,12 +132,32 @@ export default defineComponent({
       emit('unselect', item.uuid);
     };
 
+    const handeRadioUnselect = (item: ProductOptionElement, uuid: string) => {
+      emit('unselect', uuid);
+
+      item.children?.forEach(child => {
+        emit('unselect', child.uuid);
+      });
+
+      emit('unselect', item.uuid)
+    };
+
+    const handeRadioSelect = (item: ProductOptionElement, uuid: string) => {
+      handeRadioUnselect(item, uuid);
+
+      emit('select', uuid);
+      emit('select', item.uuid)
+    };
+
     return {
       handleButtonGroupSelect,
       handleButtonGroupUnselect,
 
       handleChoiceSelect,
       handleChoiceUnselect,
+
+      handeRadioSelect,
+      handeRadioUnselect,
     }
   },
 })

@@ -64,6 +64,27 @@ const testSchema: ProductOptionSection[] = [
         ]
       },
       {
+        uuid: uuidv4(),
+        item: 'radio',
+        children: [
+          {
+            uuid: uuidv4(),
+            name: 'choice-item 1',
+            item: 'radio-item',
+          },
+          {
+            uuid: uuidv4(),
+            name: 'choice-item 2',
+            item: 'radio-item',
+          },
+          {
+            uuid: uuidv4(),
+            name: 'choice-item 3',
+            item: 'radio-item',
+          },
+        ]
+      },
+      {
         uuid: '321',
         item: 'button-group',
         condition: ['123'],
