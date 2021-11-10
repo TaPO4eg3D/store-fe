@@ -1,10 +1,5 @@
 <template lang="pug">
-el-row(:gutter="20")
-  el-col.hidden-md-and-down(:span="5")
-    navigation(:isHidden="true")
-  el-col(:span="19")
-    el-row(:gutter="20")
-      search
+app-menu
 el-row(style="margin-top: 25px")
   el-col
     h2 {{ categoryName }}
@@ -36,6 +31,7 @@ import { useRoute } from 'vue-router'
 import Navigation from '@/components/Home/Navigation.vue'
 import Search from '@/components/Home/Search.vue'
 
+import AppMenu from '@/components/AppMenu.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
 
 import ProductFilter from '@/components/Category/ProductFilter.vue'
@@ -50,6 +46,7 @@ import { Category } from '@/common/interfaces/category'
 
 export default defineComponent({
   components: {
+    AppMenu,
     Navigation,
     Search,
     ProductFilter,

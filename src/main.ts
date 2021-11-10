@@ -12,6 +12,7 @@ import BaseDropdown from '@/components/ui/BaseDropdown.vue'
 
 import {
   More,
+  MoreFilled,
   Delete,
   ShoppingCart,
   ArrowDown,
@@ -50,6 +51,7 @@ app.component('base-dropdown', BaseDropdown)
 
 // Icons
 app.component('more', More)
+app.component('more-filled', MoreFilled)
 app.component('delete', Delete)
 app.component('shopping-cart', ShoppingCart)
 app.component('shopping-cart-full', ShoppingCartFull)

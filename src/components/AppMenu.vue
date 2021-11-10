@@ -1,17 +1,21 @@
 <template lang="pug">
-.app-menu
-  navigation(:isHidden="false")
-  search
-  base-button(
-    :title="$t('cart.title')",
-    styles="plain",
-    type="primary",
-    size="large",
-    :link="appLinks.SELL_TO_US"
+.app-menu.divider
+  navigation(
+    :isHidden="isHiddenNavigation"
+    @hidden-state="changeHiddenState"
   )
-    span {{ $t('sell_to_us') }}
-      el-icon
-        top-right
+  .app-menu__right
+    search
+    base-button(
+      :title="$t('cart.title')",
+      styles="plain",
+      type="primary",
+      size="large",
+      :link="appLinks.SELL_TO_US"
+    )
+      span {{ $t('sell_to_us') }}
+        el-icon
+          top-right
 </template>
 
 <script lang="ts">
@@ -27,6 +31,31 @@ export default defineComponent({
     Navigation,
     Search
   },
+  data () {
+    return {
+      isHiddenNavigation: false
+    }
+  },
+  computed: {
+    currentPath () {
+      return this.$route.path
+    }
+  },
+  watch: {
+    currentPath: {
+      handler (value) {
+        this.isHiddenNavigation = value !== '/'
+      }
+    }
+  },
+  mounted () {
+    this.isHiddenNavigation = this.currentPath !== '/'
+  },
+  methods: {
+    changeHiddenState (value: boolean) {
+      this.isHiddenNavigation = value
+    }
+  },
   setup () {
     const appLinks = constants.LINKS
     return {
@@ -38,8 +67,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .app-menu {
-  display: grid;
-  grid-template-columns: 1fr 2.5fr .5fr;
-  grid-gap: 20px;
+  &__right {
+    display: grid;
+    grid-template-columns: 2.5fr .5fr;
+    grid-gap: 20px;
+  }
 }
 </style>

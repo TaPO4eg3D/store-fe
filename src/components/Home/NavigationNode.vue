@@ -9,7 +9,7 @@ el-sub-menu(
 el-menu-item(
   v-if="!category.child",
   :index="category.id.toString()"
-).menu-item
+)
   router-link(
     :to="{ name: 'Category', params: { id: category.id } }"
   ) {{ category.name }}
@@ -34,14 +34,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.menu-item {
+.el-menu-item::v-deep {
+  height: 35px;
+  line-height: 35px;
+  &:hover {
+    border-radius: 4px;
+  }
   a {
-    width: 100%;
-    height: 100%;
     display: block;
-
     color: #303133;
-    text-decoration: none;
   }
 }
 </style>

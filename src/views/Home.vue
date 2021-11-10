@@ -1,9 +1,10 @@
 <template lang="pug">
-div
+.home
   app-menu
   // Slider of offers
-  el-row
-    el-col(:span="24")
+  .home__slider.divider
+    div
+    div
       .slider-wrapper
         .daily-slider
           .splide__track
@@ -21,24 +22,23 @@ div
             @click="slider.go(i - 1)"
           )
       // Info under slider
-  el-row
-    el-col(:span="24")
-      .quote {{ $t('home.info_description') }}
-  el-row(:gutter="20", style="margin-top: 15px")
-    el-col(:span="5")
-      popular-products
-    el-col(:span="19")
-      general-card.recommended(
-        header="Recommended products",
-        :isSlider="true",
-        :itemsPerSlide="itemsPerSlide",
-        :slideBreakpoints="slideBreakpoints",
-        v-if="recommendedProducts.length != 0"
-      )
-        .splide__slide(v-for="product in recommendedProducts")
-          product-card(
-            :product="product"
-          )
+      .home__info
+        .quote {{ $t('home.info_description') }}
+
+  .home__popular
+    popular-products
+  div
+    general-card.recommended(
+      header="Recommended products",
+      :isSlider="true",
+      :itemsPerSlide="itemsPerSlide",
+      :slideBreakpoints="slideBreakpoints",
+      v-if="recommendedProducts.length != 0"
+    )
+      .splide__slide(v-for="product in recommendedProducts")
+        product-card(
+          :product="product"
+        )
 </template>
 
 <script lang="ts">
@@ -135,19 +135,17 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.slider-wrapper  {
-  img {
-    width: 100%;
-    height: 100%;
-  }
-}
-
 .slider-wrapper {
   margin-top: 15px;
 
   position: relative;
   border: 1px solid #DCDFE6;
   border-radius: 4px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 
   .dots {
     display: flex;
