@@ -15,6 +15,8 @@ export interface ProductOptionElement {
 }
 
 export interface ProductOptionSection {
+  uuid: string;
+  item: string;
   name: string | null;
   children: ProductOptionElement[],
 }
