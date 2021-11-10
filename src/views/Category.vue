@@ -1,25 +1,24 @@
 <template lang="pug">
-app-menu
-el-row(style="margin-top: 25px")
-  el-col
-    h2 {{ categoryName }}
-el-row(:gutter="20")
-  el-col(:span="5")
-    product-filter
-    popular-products(style="margin-top: 25px")
-  el-col(:span="19")
-    .product-list
-      .empty-container(
-        v-if="products.length === 0",
-      )
-        el-empty(
-          description="No products here"
+.category
+  app-menu
+  h2.category__title {{ categoryName }}
+  .category__content.divider
+    div
+      product-filter
+      popular-products
+    div
+      .product-list
+        .empty-container(
+          v-if="products.length === 0",
         )
-      product-card(
-        v-for="product in products",
-        :key="product.id",
-        :product="product"
-      )
+          el-empty(
+            :description="$t('category.empty')"
+          )
+        product-card(
+          v-for="product in products",
+          :key="product.id",
+          :product="product"
+        )
 </template>
 
 <script lang="ts">
@@ -80,6 +79,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.category {
+  display: grid;
+  grid-gap: 20px;
+  &__title {
+    font-weight: normal;
+  }
+}
+
 .product-list {
   width: 100%;
 
@@ -94,7 +101,6 @@ export default defineComponent({
 }
 
 .empty-container {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 </style>

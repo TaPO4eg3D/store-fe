@@ -1,10 +1,10 @@
 <template lang="pug">
 .home
   app-menu
-  // Slider of offers
   .home__slider.divider
     div
-    div
+    .home__offers
+      // Slider of offers
       .slider-wrapper
         .daily-slider
           .splide__track
@@ -135,9 +135,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.home {
+  display: grid;
+  grid-gap: 20px;
+  &__offers {
+    display: grid;
+    grid-gap: 20px;
+  }
+}
 .slider-wrapper {
-  margin-top: 15px;
-
   position: relative;
   border: 1px solid #DCDFE6;
   border-radius: 4px;
@@ -149,6 +155,7 @@ export default defineComponent({
 
   .dots {
     display: flex;
+    grid-gap: 5px;
 
     position: absolute;
     bottom: 24px;
@@ -163,8 +170,6 @@ export default defineComponent({
 
     border-radius: 50%;
     background-color: #C5C5C5;
-
-    margin-left: 5px;
   }
 
   .dot.active {
