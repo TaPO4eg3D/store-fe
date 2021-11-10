@@ -17,6 +17,8 @@ el-dialog(
     :description="$t('cart.description_empty')",
   )
 
+  .total-price Total price: {{ totalPrice }} руб.
+
   template(#footer="")
     span.dialog-footer
       el-button(
@@ -54,8 +56,13 @@ export default defineComponent({
       return Object.values(store.state.cart)
     })
 
+    const totalPrice = computed(() => {
+      return store.getters.totalPrice
+    })
+
     return {
       cartItems,
+      totalPrice,
       handleDialogClose
     }
   }
@@ -68,5 +75,13 @@ export default defineComponent({
   flex-direction: column;
 
   gap: 20px;
+}
+
+.total-price {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 14px;
+
+  text-align: right;
 }
 </style>

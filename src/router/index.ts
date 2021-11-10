@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 
 const Category = import('../views/Category.vue')
+const Builder = import('../views/Builder.vue')
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -14,6 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/category/:id',
     name: 'Category',
     component: Category,
+  },
+  {
+    path: '/builder',
+    name: 'Builder',
+    component: Builder,
   }
 ]
 
