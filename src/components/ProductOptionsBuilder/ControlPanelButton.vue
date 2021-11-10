@@ -10,6 +10,12 @@
     placeholder="Name",
     @input="onNameChange",
   )
+  el-input(
+    :model-value="selectedItem.price_modifier"
+    type="number",
+    placeholder="Price modifier",
+    @input="onPriceChange",
+  )
   el-button(
     type="primary",
     @click="onAddCondition"
@@ -101,10 +107,17 @@ export default defineComponent({
       emit('schemaChanged', newSchema);
     };
 
+    const onPriceChange = (value: number) => {
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { price_modifier: +value });
+      emit('schemaChanged', newSchema);
+    }
+
     return {
       allItems,
       onNameChange,
       onAddCondition,
+
+      onPriceChange,
 
       onConditionSelect,
       onConditionRemove,
