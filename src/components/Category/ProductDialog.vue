@@ -2,7 +2,7 @@
 el-dialog(
   :model-value="isVisible",
   :title="product?.name",
-  width="40%",
+  width="50%",
   @closed="handleClose()",
 )
   .product-dialog
@@ -14,8 +14,12 @@ el-dialog(
         .product-info
           .product-price
             .original-price(v-if="product.discount_price") {{ product.price }} руб.
-            .price {{ product.discount_price || product.price }} руб.
+            .price {{ product.discount_price || product.price }} руб. + 0 руб.
           .product-description {{ product.description }}
+          .options
+            product-options(
+              :sections="product.additional_options || []"
+            )
   template(#footer)
     .product-dialog-footer
       el-input-number(
@@ -37,6 +41,8 @@ import {
 
 import { useStore } from 'vuex'
 
+import ProductOptions from '@/components/ProductOptions/ProductOptions.vue';
+
 export default defineComponent({
   props: {
     isVisible: {
@@ -47,6 +53,9 @@ export default defineComponent({
       type: Object as PropType<Product>,
       required: true,
     }
+  },
+  components: {
+    ProductOptions,
   },
   setup(props) {
     const store = useStore();
@@ -79,6 +88,8 @@ export default defineComponent({
 }
 
 .product-dialog .product-preview {
+  max-width: 400px;
+
   img {
     width: 100%;
     height: auto;

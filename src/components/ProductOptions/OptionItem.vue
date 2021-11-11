@@ -1,5 +1,5 @@
 <template lang="pug">
-.item(:style="{ 'margin-left': `${20 * level}px` }")
+.option-item(:style="{ 'margin-left': `${20 * level}px` }")
   option-button-group(
     v-if="item.item == 'button-group'"
     :item="item",
@@ -164,7 +164,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.item {
+.option-item {
   width: 100%;
   margin-bottom: 5px;
 

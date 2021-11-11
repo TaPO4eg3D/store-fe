@@ -53,6 +53,11 @@
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
     )
+    el-button(
+      type="success",
+      style="margin-top: 40px",
+      @click="saveSchema",
+    ) Save Schema
   .preview
     product-options(
       :sections="workingSchema",
@@ -60,9 +65,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRoute } from 'vue-router';
 
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 import ControlPanelMain from '@/components/ProductOptionsBuilder/ControlPanelMain.vue'
 import ControlPanelSection from '@/components/ProductOptionsBuilder/ControlPanelSection.vue'
@@ -77,113 +83,9 @@ import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/
 
 import Hierarchy from '@/components/ProductOptions/Hierarchy/Hierarchy.vue'
 import ProductOptions from '@/components/ProductOptions/ProductOptions.vue'
+import { Product } from '@/common/interfaces/product';
+import { ListResponse } from '@/common/interfaces/list-response';
 
-
-const testSchema: ProductOptionSection[] = [
-  {
-    name: 'Section 1',
-    item: 'section',
-    uuid: 'section-1',
-    children: [
-      {
-        uuid: '123',
-        item: 'button-group',
-        children: [
-          {
-            uuid: uuidv4(),
-
-            name: 'Test button 1',
-            item: 'button',
-            price_modifier: 20.0,
-            is_selected: false,
-            hint: 'Test hint'
-          },
-          {
-            uuid: uuidv4(),
-            name: 'Test button 2',
-            item: 'button',
-            price_modifier: 20.0,
-            is_selected: false,
-            hint: 'Test hint'
-          },
-          {
-            uuid: uuidv4(),
-            name: 'Test button 3',
-            item: 'button',
-            price_modifier: 20.0,
-            is_selected: false,
-            hint: 'Test hint'
-          },
-        ],
-      },
-      {
-        uuid: uuidv4(),
-        item: 'choice',
-        children: [
-          {
-            uuid: uuidv4(),
-            name: 'choice-item 1',
-            item: 'choice-item',
-          }
-        ]
-      },
-      {
-        uuid: uuidv4(),
-        item: 'radio',
-        children: [
-          {
-            uuid: uuidv4(),
-            name: 'choice-item 1',
-            item: 'radio-item',
-          },
-          {
-            uuid: uuidv4(),
-            name: 'choice-item 2',
-            item: 'radio-item',
-          },
-          {
-            uuid: uuidv4(),
-            name: 'choice-item 3',
-            item: 'radio-item',
-          },
-        ]
-      },
-      {
-        uuid: '321',
-        item: 'button-group',
-        condition: ['123'],
-        children: [
-          {
-            uuid: uuidv4(),
-            name: 'Test button 4',
-            item: 'button',
-            price_modifier: 20.0,
-            is_selected: false,
-            hint: 'Test hint'
-          },
-        ]
-      },
-      {
-        uuid: uuidv4(),
-        item: 'button-group',
-        condition: ['321'],
-        children: [
-          {
-            uuid: uuidv4(),
-            name: 'Test button 5',
-            item: 'button',
-            price_modifier: 20.0,
-            is_selected: false,
-            children: [
-
-            ],
-            hint: 'Test hint'
-          },
-        ]
-      },
-    ]
-  }
-]
 
 export default defineComponent({
   components: {
@@ -201,6 +103,8 @@ export default defineComponent({
     ProductOptions,
   },
   setup() {
+    const route = useRoute();
+
     const itemMap: Ref<Map<string, ProductOptionElement>> = ref(new Map());
     const workingSchema: Ref<ProductOptionSection[]> = ref([]);
 
@@ -227,7 +131,6 @@ export default defineComponent({
     };
 
     const onSchemaChange = (schema: ProductOptionSection[]) => {
-      console.log(schema);
       workingSchema.value = schema;
       updateItemMap();
     };
@@ -251,8 +154,31 @@ export default defineComponent({
       return _selectedItem;
     });
 
+    let product: Product | null = null;
+
+    onMounted(async () => {
+      const productID = route.params.id;
+      const responseProduct = await axios.get<Product>(`/api/products/${productID}/`);
+
+      product = responseProduct.data;
+      const additionalOptions = product.additional_options;
+
+      if (additionalOptions) {
+        onSchemaChange(additionalOptions);
+      }
+    });
+
+    const saveSchema = async () => {
+      const productID = route.params.id;
+
+      await axios.put(`/api/products/${productID}/`, {
+        additional_options: workingSchema.value,
+      } as Partial<Product>);
+
+      alert('Done!');
+    };
+    
     return {
-      testSchema,
       workingSchema,
 
       selectedItem,
@@ -260,6 +186,8 @@ export default defineComponent({
 
       onSchemaChange,
       onSelectItem,
+
+      saveSchema,
     }
   },
 })
