@@ -1,5 +1,5 @@
 <template lang="pug">
-.options-choice
+.radio-choice
   slot
 </template>
 
@@ -25,5 +25,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-
+.radio-choice {
+  display: flex;
+  flex-direction: column;
+}
 </style>

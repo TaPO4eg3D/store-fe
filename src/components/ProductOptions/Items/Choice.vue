@@ -25,5 +25,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-
+.options-choice {
+  display: flex;
+  flex-direction: column;
+}
 </style>
