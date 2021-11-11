@@ -1,6 +1,5 @@
 <template lang="pug">
 .home
-  app-menu
   .home__slider.divider
     div
     .home__offers
@@ -25,6 +24,10 @@
       .home__info
         .quote {{ $t('home.info_description') }}
 
+  about(
+    :title="aboutInfo.title"
+    :items="aboutInfo.items"
+    )
   .home__popular
     popular-products
   div
@@ -48,7 +51,7 @@ import { inject, defineComponent, ref, Ref, onMounted, watch } from 'vue'
 
 import Splide from '@splidejs/splide'
 
-import AppMenu from '@/components/AppMenu.vue'
+import About from '@/components/Home/About.vue'
 import Navigation from '@/components/Home/Navigation.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
@@ -87,7 +90,7 @@ function setupSlider (): [Ref<Splide | undefined>, Ref<number>] {
 export default defineComponent({
   name: 'Home',
   components: {
-    AppMenu,
+    About,
     Navigation,
     ProductCard,
     GeneralCard,
@@ -114,6 +117,34 @@ export default defineComponent({
 
     const recommendedProducts: Ref<Product[]> = ref([])
 
+    const aboutInfo = {
+      title: 'About services',
+      items: [
+        {
+          id: 0,
+          img: 'security.png',
+          title: 'Security guarantee',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
+            'labore et dolore magna aliqua.'
+        },
+        {
+          id: 1,
+          img: 'delivery.png',
+          title: 'Instant delivery',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
+            'labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ' +
+            'ut aliquip ex ea commodo consequat.'
+        },
+        {
+          id: 2,
+          img: 'support.png',
+          title: 'Customer support',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
+            'labore et dolore magna aliqua.'
+        }
+      ]
+    }
+
     onMounted(async () => {
       // TODO: Add exception handling and refactor in general
       const response = await axios.get<ListResponse<any>>('/api/recommended-product-slides/')
@@ -128,7 +159,8 @@ export default defineComponent({
       activeSlide,
       itemsPerSlide,
       slideBreakpoints,
-      recommendedProducts
+      recommendedProducts,
+      aboutInfo
     }
   }
 })

@@ -1,6 +1,5 @@
 <template lang="pug">
 .category
-  app-menu
   h2.category__title {{ categoryName }}
   .category__content.divider
     div
@@ -30,7 +29,6 @@ import { useRoute } from 'vue-router'
 import Navigation from '@/components/Home/Navigation.vue'
 import Search from '@/components/Home/Search.vue'
 
-import AppMenu from '@/components/AppMenu.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
 
 import ProductFilter from '@/components/Category/ProductFilter.vue'
@@ -45,7 +43,6 @@ import { Category } from '@/common/interfaces/category'
 
 export default defineComponent({
   components: {
-    AppMenu,
     Navigation,
     Search,
     ProductFilter,

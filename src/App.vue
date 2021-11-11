@@ -1,6 +1,7 @@
 <template lang="pug">
 app-header
 .app-content
+  app-menu
   product-dialog(
     :isVisible="showProductDialog",
     :product="dialogProduct",
@@ -16,12 +17,14 @@ import { defineComponent, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 import AppHeader from '@/components/AppHeader.vue'
+import AppMenu from '@/components/AppMenu.vue'
 import CartDialog from '@/components/Cart/CartDialog.vue'
 import ProductDialog from '@/components/Category/ProductDialog.vue'
 
 export default defineComponent({
   components: {
     AppHeader,
+    AppMenu,
     CartDialog,
     ProductDialog
   },
@@ -115,6 +118,8 @@ $breakpoints: (
 .app-content {
   @include container;
   margin: 0 auto;
+  display: grid;
+  grid-gap: 20px;
 }
 
 //@include respond-below(slg) {
