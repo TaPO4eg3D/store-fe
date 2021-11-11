@@ -1,6 +1,10 @@
 <template lang="pug">
 .control-panel.control-panel-section
-  .header Button Control Panel
+  .header Radio Control Panel
+  el-button(
+    type="primary",
+    @click="createRadioItem"
+  ) Create Radio Item
   control-panel-common(
     :schema="schema",
     :selectedItem="selectedItem",
@@ -13,6 +17,9 @@ import { defineComponent, PropType, ref, watch } from 'vue'
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
 
 import ControlPanelCommon from './ControlPanelCommon.vue';
+import { updateItemProps } from './Utils/update-item-props';
+
+import { v4 as uuid } from 'uuid';
 
 export default defineComponent({
   props: {
@@ -30,7 +37,25 @@ export default defineComponent({
   },
   emits: ['schemaChanged'],
   setup(props, { emit }) {
+    const createRadioItem = () => {
+      const children = props.selectedItem.children || [];
+      children.push({
+        uuid: uuid(),
+        item: 'radio-item',
+        name: 'New Radio Item',
+      });
+
+      const newSchema = updateItemProps(
+        props.selectedItem.uuid,
+        props.schema,
+        { children },
+      );
+
+      emit('schemaChanged', newSchema);
+    };
+
     return {
+      createRadioItem,
     }
   },
 })

@@ -23,6 +23,36 @@
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
     )
+    control-panel-button-group(
+      v-if="selectedItemComponent?.item === 'button-group'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-choice(
+      v-if="selectedItemComponent?.item === 'choice'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-choice-item(
+      v-if="selectedItemComponent?.item === 'choice-item'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-radio(
+      v-if="selectedItemComponent?.item === 'radio'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-radio-item(
+      v-if="selectedItemComponent?.item === 'radio-item'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
   .preview
     product-options(
       :sections="workingSchema",
@@ -37,6 +67,11 @@ import { v4 as uuidv4 } from 'uuid';
 import ControlPanelMain from '@/components/ProductOptionsBuilder/ControlPanelMain.vue'
 import ControlPanelSection from '@/components/ProductOptionsBuilder/ControlPanelSection.vue'
 import ControlPanelButton from '@/components/ProductOptionsBuilder/ControlPanelButton.vue'
+import ControlPanelButtonGroup from '@/components/ProductOptionsBuilder/ControlPanelButtonGroup.vue'
+import ControlPanelChoice from '@/components/ProductOptionsBuilder/ControlPanelChoice.vue'
+import ControlPanelChoiceItem from '@/components/ProductOptionsBuilder/ControlPanelChoiceItem.vue'
+import ControlPanelRadio from '@/components/ProductOptionsBuilder/ControlPanelRadio.vue'
+import ControlPanelRadioItem from '@/components/ProductOptionsBuilder/ControlPanelRadioItem.vue'
 
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
 
@@ -157,6 +192,11 @@ export default defineComponent({
     ControlPanelMain,
     ControlPanelSection,
     ControlPanelButton,
+    ControlPanelButtonGroup,
+    ControlPanelChoice,
+    ControlPanelChoiceItem,
+    ControlPanelRadio,
+    ControlPanelRadioItem,
 
     ProductOptions,
   },
@@ -229,7 +269,7 @@ export default defineComponent({
 .builder {
   display: grid;
 
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 400px 1fr;
 
   .control-container {
     display: flex;

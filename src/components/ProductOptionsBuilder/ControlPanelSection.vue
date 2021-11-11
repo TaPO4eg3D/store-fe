@@ -7,15 +7,15 @@
   ) Create Button
   el-button(
     type="primary",
-    @click="createSection",
+    @click="createButtonGroup",
   ) Create Button Group
   el-button(
     type="primary",
-    @click="createSection",
+    @click="createChoice",
   ) Create Choice
   el-button(
     type="primary",
-    @click="createSection",
+    @click="createRadio",
   ) Create Radio
 </template>
 
@@ -67,9 +67,63 @@ export default defineComponent({
       emit('schemaChanged', schema);
     };
 
+    const createButtonGroup = () => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (!section) {
+        return;
+      }
+
+      section.children?.push({
+        uuid: uuid(),
+        item: 'button-group',
+        name: 'New button group',
+      });
+
+      emit('schemaChanged', schema);
+    };
+
+    const createChoice = () => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (!section) {
+        return;
+      }
+
+      section.children?.push({
+        uuid: uuid(),
+        item: 'choice',
+        name: 'New choice',
+      });
+
+      emit('schemaChanged', schema);
+    };
+
+    const createRadio = () => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (!section) {
+        return;
+      }
+
+      section.children?.push({
+        uuid: uuid(),
+        item: 'radio',
+        name: 'New radio',
+      });
+
+      emit('schemaChanged', schema);
+    };
+
     return {
       createSection,
       createButton,
+      createButtonGroup,
+      createChoice,
+      createRadio,
     }
   },
 })

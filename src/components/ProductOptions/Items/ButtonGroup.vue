@@ -38,7 +38,9 @@ export default defineComponent({
 
 <style lang="scss">
 .button-group {
-  display: flex;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 4px;
 }
 </style>
