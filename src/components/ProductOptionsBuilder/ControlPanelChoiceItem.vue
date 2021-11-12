@@ -1,6 +1,6 @@
 <template lang="pug">
 .control-panel.control-panel-section
-  .header Button Control Panel
+  .header Choice Item Control Panel
   control-panel-common(
     :schema="schema",
     :selectedItem="selectedItem",

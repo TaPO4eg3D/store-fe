@@ -1,6 +1,6 @@
 <template lang="pug">
 .control-panel.control-panel-section
-  .header Button Control Panel
+  .header Radio Item Control Panel
   control-panel-common(
     :schema="schema",
     :selectedItem="selectedItem",
@@ -18,7 +18,7 @@ export default defineComponent({
   props: {
     schema: {
       required: true,
-      type: Array as PropType<ProductOptionSection[]>
+      type: Array as PropType<ProductOptionSection[]>,
     },
     selectedItem: {
       required: true,

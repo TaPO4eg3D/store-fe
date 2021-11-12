@@ -1,25 +1,89 @@
 <template lang="pug">
 .builder
-  control-panel-main
+  .control-container
+    hierarchy(
+      :schema="workingSchema",
+      :selectedItem="selectedItem",
+      @selectItem="onSelectItem",
+    )
+    control-panel-main(
+      v-if="selectedItem === null",
+      :schema="workingSchema",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-section(
+      v-if="selectedItemComponent?.item === 'section'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-button(
+      v-if="selectedItemComponent?.item === 'button'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-button-group(
+      v-if="selectedItemComponent?.item === 'button-group'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-choice(
+      v-if="selectedItemComponent?.item === 'choice'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-choice-item(
+      v-if="selectedItemComponent?.item === 'choice-item'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-radio(
+      v-if="selectedItemComponent?.item === 'radio'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
+    control-panel-radio-item(
+      v-if="selectedItemComponent?.item === 'radio-item'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+    )
   .preview
     product-options(
-      :sections="testSchema",
+      :sections="workingSchema",
     )
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, Ref, ref } from 'vue'
 
 import { v4 as uuidv4 } from 'uuid';
 
 import ControlPanelMain from '@/components/ProductOptionsBuilder/ControlPanelMain.vue'
-import { ProductOptionSection } from '@/common/interfaces/product-options';
+import ControlPanelSection from '@/components/ProductOptionsBuilder/ControlPanelSection.vue'
+import ControlPanelButton from '@/components/ProductOptionsBuilder/ControlPanelButton.vue'
+import ControlPanelButtonGroup from '@/components/ProductOptionsBuilder/ControlPanelButtonGroup.vue'
+import ControlPanelChoice from '@/components/ProductOptionsBuilder/ControlPanelChoice.vue'
+import ControlPanelChoiceItem from '@/components/ProductOptionsBuilder/ControlPanelChoiceItem.vue'
+import ControlPanelRadio from '@/components/ProductOptionsBuilder/ControlPanelRadio.vue'
+import ControlPanelRadioItem from '@/components/ProductOptionsBuilder/ControlPanelRadioItem.vue'
 
+import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
+
+import Hierarchy from '@/components/ProductOptions/Hierarchy/Hierarchy.vue'
 import ProductOptions from '@/components/ProductOptions/ProductOptions.vue'
+
 
 const testSchema: ProductOptionSection[] = [
   {
     name: 'Section 1',
+    item: 'section',
+    uuid: 'section-1',
     children: [
       {
         uuid: '123',
@@ -123,15 +187,79 @@ const testSchema: ProductOptionSection[] = [
 
 export default defineComponent({
   components: {
+    Hierarchy,
+
     ControlPanelMain,
+    ControlPanelSection,
+    ControlPanelButton,
+    ControlPanelButtonGroup,
+    ControlPanelChoice,
+    ControlPanelChoiceItem,
+    ControlPanelRadio,
+    ControlPanelRadioItem,
+
     ProductOptions,
   },
   setup() {
-    const selectedComponent = ref(null);
+    const itemMap: Ref<Map<string, ProductOptionElement>> = ref(new Map());
+    const workingSchema: Ref<ProductOptionSection[]> = ref([]);
+
+    const selectedItem: Ref<string | null> = ref(null);
+
+    const traverseItem = (item: ProductOptionElement) => {
+      itemMap.value.set(item.uuid, item);
+
+      item.children?.forEach(child => {
+        traverseItem(child);
+      });
+    };
+
+    const updateItemMap = () => {
+      workingSchema.value.forEach(section => {
+        // TODO: FIX TYPINGS
+        // @ts-ignore
+        itemMap.value.set(section.uuid, section);
+
+        section.children.forEach(item => {
+          traverseItem(item);
+        });
+      });
+    };
+
+    const onSchemaChange = (schema: ProductOptionSection[]) => {
+      console.log(schema);
+      workingSchema.value = schema;
+      updateItemMap();
+    };
+
+    const onSelectItem = (uuid: string) => {
+      selectedItem.value = uuid;
+    };
+
+    const selectedItemComponent = computed(() => {
+      if (!selectedItem.value) {
+        return null;
+      }
+
+      const _selectedItem = itemMap.value.get(selectedItem.value);
+
+      if (!_selectedItem) {
+        return null;
+      }
+      
+      console.log(_selectedItem.item);
+      return _selectedItem;
+    });
 
     return {
-      selectedComponent,
       testSchema,
+      workingSchema,
+
+      selectedItem,
+      selectedItemComponent,
+
+      onSchemaChange,
+      onSelectItem,
     }
   },
 })
@@ -141,12 +269,16 @@ export default defineComponent({
 .builder {
   display: grid;
 
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 400px 1fr;
+
+  .control-container {
+    display: flex;
+    flex-direction: column;
+  }
 
   .control-panel {
     display: flex;
     gap: 10px;
-    max-width: 200px;
 
     border: 1px solid black;
     border-radius: 10px;
@@ -168,6 +300,7 @@ export default defineComponent({
   }
 
   .preview {
+    margin-left: 100px;
     max-width: 400px;
   }
 }
