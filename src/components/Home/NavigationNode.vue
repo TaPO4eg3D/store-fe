@@ -9,7 +9,7 @@ el-sub-menu(
 el-menu-item(
   v-if="!category.child",
   :index="category.id.toString()"
-).menu-item
+)
   router-link(
     :to="{ name: 'Category', params: { id: category.id } }"
   ) {{ category.name }}
@@ -24,24 +24,25 @@ export default defineComponent({
   props: {
     category: {
       type: Object as PropType<Category>,
-      required: true,
+      required: true
     }
   },
-  setup(props) {
-    console.log(props.category.id)
-  },
+  setup (props) {
+    // console.log(props.category.id)
+  }
 })
 </script>
 
-<style lang="scss">
-.menu-item {
+<style lang="scss" scoped>
+.el-menu-item::deep {
+  height: 35px;
+  line-height: 35px;
+  &:hover {
+    border-radius: 4px;
+  }
   a {
-    width: 100%;
-    height: 100%;
     display: block;
-
     color: #303133;
-    text-decoration: none;
   }
 }
 </style>

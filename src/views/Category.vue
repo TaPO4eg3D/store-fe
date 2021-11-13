@@ -1,31 +1,23 @@
 <template lang="pug">
-el-row(:gutter="20")
-  el-col.hidden-md-and-down(:span="5")
-    navigation(:isHidden="true")
-  el-col(:span="19")
-    el-row(:gutter="20")
-      search
-      cart-button
-el-row(style="margin-top: 25px")
-  el-col
-    h2 {{ categoryName }}
-el-row(:gutter="20")
-  el-col(:span="5")
-    product-filter
-    popular-products(style="margin-top: 25px")
-  el-col(:span="19")
-    .product-list
-      .empty-container(
-        v-if="products.length === 0",
-      )
-        el-empty(
-          description="No products here"
+.category
+  h2.category__title {{ categoryName }}
+  .category__content.divider
+    div
+      product-filter
+      popular-products
+    div
+      .product-list
+        .empty-container(
+          v-if="products.length === 0",
         )
-      product-card(
-        v-for="product in products",
-        :key="product.id",
-        :product="product"
-      )
+          el-empty(
+            :description="$t('category.empty')"
+          )
+        product-card(
+          v-for="product in products",
+          :key="product.id",
+          :product="product"
+        )
 </template>
 
 <script lang="ts">
@@ -36,7 +28,6 @@ import { useRoute } from 'vue-router'
 
 import Navigation from '@/components/Home/Navigation.vue'
 import Search from '@/components/Home/Search.vue'
-import CartButton from '@/components/Home/CartButton.vue'
 
 import GeneralCard from '@/components/GeneralCard.vue'
 
@@ -50,43 +41,49 @@ import { Product } from '@/common/interfaces/product'
 import { ListResponse } from '@/common/interfaces/list-response'
 import { Category } from '@/common/interfaces/category'
 
-
 export default defineComponent({
   components: {
     Navigation,
     Search,
     ProductFilter,
-    CartButton,
     ProductCard,
     GeneralCard,
     ProductDialog,
-    PopularProducts,
+    PopularProducts
   },
-  setup() {
-    const route = useRoute();
-    const categoryName = ref();
+  setup () {
+    const route = useRoute()
+    const categoryName = ref()
 
-    const products: Ref<Product[]> = ref([]);
+    const products: Ref<Product[]> = ref([])
 
     onMounted(async () => {
-      const categoryID = route.params.id;
+      const categoryID = route.params.id
 
-      const responseCategory = await axios.get<Category>(`/api/categories/${categoryID}/`);
-      const responseProduct = await axios.get<ListResponse<Product>>(`/api/products/?category=${categoryID}`);
+      const responseCategory = await axios.get<Category>(`/api/categories/${categoryID}/`)
+      const responseProduct = await axios.get<ListResponse<Product>>(`/api/products/?category=${categoryID}`)
 
-      products.value = responseProduct.data.results;
-      categoryName.value = responseCategory.data.name;
-    });
+      products.value = responseProduct.data.results
+      categoryName.value = responseCategory.data.name
+    })
 
     return {
       products,
-      categoryName,
+      categoryName
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.category {
+  display: grid;
+  grid-gap: 20px;
+  &__title {
+    font-weight: normal;
+  }
+}
+
 .product-list {
   width: 100%;
 
@@ -101,7 +98,6 @@ export default defineComponent({
 }
 
 .empty-container {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 </style>

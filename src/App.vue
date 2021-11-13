@@ -1,46 +1,75 @@
 <template lang="pug">
-h1 Store!
-product-dialog(
-  :isVisible="showProductDialog",
-  :product="dialogProduct",
-)
-cart-dialog(
-  :isVisible="showCartDialog"
-)
-router-view
+app-header
+.app-content
+  app-menu
+  product-dialog(
+    :isVisible="showProductDialog",
+    :product="dialogProduct",
+  )
+  cart-dialog(
+    :isVisible="showCartDialog"
+  )
+  router-view
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
+import AppHeader from '@/components/AppHeader.vue'
+import AppMenu from '@/components/AppMenu.vue'
 import CartDialog from '@/components/Cart/CartDialog.vue'
 import ProductDialog from '@/components/Category/ProductDialog.vue'
 
 export default defineComponent({
   components: {
+    AppHeader,
+    AppMenu,
     CartDialog,
-    ProductDialog,
+    ProductDialog
   },
-  setup() {
-    const store = useStore();
+  setup () {
+    const store = useStore()
+    const addCurrencies = {
+      default: {
+        code: 'USD',
+        display: '$',
+        rate: 1
+      },
+      available: [
+        {
+          code: 'RUB',
+          display: 'руб.',
+          rate: 74.5
+        }
+      ]
+    }
+
+    onMounted(() => {
+      store.commit('setCurrencies', addCurrencies)
+      store.commit('setDefaultCurrency', addCurrencies.default)
+      const local = localStorage.getItem('currency')
+      if (local === null) {
+        store.commit('setCurrentCurrency', addCurrencies.default)
+      } else {
+        store.commit('setCurrentCurrency', JSON.parse(local))
+      }
+    })
 
     return {
       showProductDialog: computed(() => store.state.productDialog.show),
       dialogProduct: computed(() => store.state.productDialog.product),
 
       showCartDialog: computed(() => {
-        return store.state.cartDialog.show;
+        return store.state.cartDialog.show
       })
     }
-  },
+  }
 })
 </script>
 
-
 <style lang="scss">
 // TODO: Extract most of this to a separate SCSS file
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
 
 $breakpoints: (
   xs: 576px,
@@ -82,35 +111,32 @@ $breakpoints: (
 }
 
 #app {
-  font-family: 'Roboto', sans-serif;
-  margin: 60px 260px;
+  display: grid;
+  grid-gap: 20px;
 }
 
-@include respond-below(slg) {
-  #app {
-    margin: 60px 160px;
-  }
+.app-content {
+  @include container;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 20px;
 }
 
-@include respond-below(xlg) {
-  #app {
-    margin: 60px 60px;
-  }
-}
-
-@include respond-below(xlg) {
-  #app {
-    margin: 40px 40px;
-  }
-}
-
-
-.quote {
-  margin: 20px 0px;
-
-  padding: 20px;
-  border-left: 2px solid black;
-
-  font-weight: 100;
-}
+//@include respond-below(slg) {
+//  #app {
+//    margin: 60px 160px;
+//  }
+//}
+//
+//@include respond-below(xlg) {
+//  #app {
+//    margin: 60px 60px;
+//  }
+//}
+//
+//@include respond-below(xlg) {
+//  #app {
+//    margin: 40px 40px;
+//  }
+//}
 </style>

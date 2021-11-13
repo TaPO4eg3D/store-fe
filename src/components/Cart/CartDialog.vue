@@ -1,6 +1,6 @@
 <template lang="pug">
 el-dialog(
-  title="Cart",
+  :title="$t('cart.title')",
   width="50%",
   :model-value="isVisible",
   :before-close="handleDialogClose",
@@ -14,7 +14,7 @@ el-dialog(
     )
   el-empty(
     v-else,
-    description="No items in your cart",
+    :description="$t('cart.description_empty')",
   )
 
   .total-price Total price: {{ totalPrice }} руб.
@@ -23,48 +23,50 @@ el-dialog(
     span.dialog-footer
       el-button(
         @click="handleDialogClose()",
-      ) Cancel
-      el-button(type="primary") Confirm
+      ) {{ $t('cart.button_cancel') }}
+      el-button(
+        type="primary"
+        ) {{ $t('cart.button_confirm') }}
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent } from 'vue'
 
-import { useStore } from 'vuex';
+import { useStore } from 'vuex'
 
-import CartItem from './CartItem.vue';
+import CartItem from './CartItem.vue'
 
 export default defineComponent({
   props: {
     isVisible: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   components: {
-    CartItem,
+    CartItem
   },
-  setup() {
-    const store = useStore();
+  setup () {
+    const store = useStore()
 
     const handleDialogClose = () => {
-      store.dispatch('setCartDialogVisibility', false);
-    };
+      store.dispatch('setCartDialogVisibility', false)
+    }
 
     const cartItems = computed(() => {
-      return Object.values(store.state.cart);
+      return Object.values(store.state.cart)
     })
 
     const totalPrice = computed(() => {
-      return store.getters.totalPrice;
-    });
+      return store.getters.totalPrice
+    })
 
     return {
       cartItems,
       totalPrice,
-      handleDialogClose,
+      handleDialogClose
     }
-  },
-});
+  }
+})
 </script>
 
 <style lang="scss" scoped>

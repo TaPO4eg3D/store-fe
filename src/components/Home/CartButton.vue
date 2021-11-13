@@ -1,16 +1,16 @@
 <template lang="pug">
 // Cart section
-el-col(:span="4")
-  el-badge.cart-button.item(:value="itemsInCart")
-    el-button(
-      plain,
-      type="primary",
-      size="large",
-      @click="openCartDialog()",
-    )
-      el-icon
-        shopping-cart
-      | {{ $t('cart') }}
+el-badge.cart-button(:value="itemsInCart")
+  base-button(
+    :title="$t('cart.title')",
+    styles="plain",
+    type="primary",
+    size="large",
+    @click="openCartDialog()"
+  )
+    el-icon
+      shopping-cart
+    | {{ $t('cart.title') }}
 </template>
 
 <script lang="ts">
@@ -18,31 +18,23 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
-  setup() {
-    const store = useStore();
+  name: 'CartButton',
+  setup () {
+    const store = useStore()
 
     const openCartDialog = () => {
-      store.dispatch('setCartDialogVisibility', true);
-    };
+      store.dispatch('setCartDialogVisibility', true)
+    }
 
     return {
       openCartDialog,
-      itemsInCart: computed(() => store.getters.itemsInCart),
+      itemsInCart: computed(() => store.getters.itemsInCart)
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cart-button {
-  width: 100%;
-
-  .el-icon {
-    margin-right: 4px;
-  }
-
-  button {
-    width: 100%;
-  }
 }
 </style>

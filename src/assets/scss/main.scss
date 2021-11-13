@@ -1,0 +1,45 @@
+@import 'mixins/index.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li {
+  margin: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+a,
+a span,
+a span::before,
+a:hover {
+  text-decoration: none;
+}
+
+.quote {
+  padding: 20px;
+  border-left: 2px solid #DDDDDD;
+  font-weight: 100;
+}
+
+.divider {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-gap: 20px;
+}
+
+.el-badge__content.is-fixed {
+  transform: translateY(10%) translateX(35%) !important;
+}
+
+.el-overlay-dialog {
+  overflow: hidden !important;
+}
