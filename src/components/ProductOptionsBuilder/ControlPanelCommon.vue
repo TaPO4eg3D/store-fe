@@ -1,5 +1,9 @@
 <template lang="pug">
 .control-panel.common-panel
+  el-checkbox(
+    :model-value="selectedItem.is_selected",
+    @change="onSetDefaultSelection",
+  ) Selected by default
   el-input(
     :model-value="selectedItem.uuid"
     placeholder="UUID",
@@ -117,6 +121,12 @@ export default defineComponent({
       emit('resetSelection');
     };
 
+    const onSetDefaultSelection = () => {
+      const isSelected = props.selectedItem.is_selected ?? false;
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { is_selected: !isSelected });
+      emit('schemaChanged', newSchema);
+    };
+
     return {
       allItems,
       onNameChange,
@@ -126,6 +136,7 @@ export default defineComponent({
 
       onConditionSelect,
       onConditionRemove,
+      onSetDefaultSelection,
 
       onItemRemove,
     }
