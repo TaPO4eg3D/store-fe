@@ -4,6 +4,8 @@
   control-panel-common(
     :schema="schema",
     :selectedItem="selectedItem",
+    @schemaChanged="$emit('schemaChanged', $event)",
+    @resetSelection="$emit('resetSelection', $event)",
   )
 </template>
 
@@ -28,7 +30,7 @@ export default defineComponent({
   components: {
     ControlPanelCommon,
   },
-  emits: ['schemaChanged'],
+  emits: ['schemaChanged', 'resetSelection'],
   setup(props, { emit }) {
     return {
     }

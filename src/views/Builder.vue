@@ -10,48 +10,56 @@
       v-if="selectedItem === null",
       :schema="workingSchema",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     control-panel-section(
       v-if="selectedItemComponent?.item === 'section'",
       :schema="workingSchema",
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     control-panel-button(
       v-if="selectedItemComponent?.item === 'button'",
       :schema="workingSchema",
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     control-panel-button-group(
       v-if="selectedItemComponent?.item === 'button-group'",
       :schema="workingSchema",
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     control-panel-choice(
       v-if="selectedItemComponent?.item === 'choice'",
       :schema="workingSchema",
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     control-panel-choice-item(
       v-if="selectedItemComponent?.item === 'choice-item'",
       :schema="workingSchema",
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     control-panel-radio(
       v-if="selectedItemComponent?.item === 'radio'",
       :schema="workingSchema",
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     control-panel-radio-item(
       v-if="selectedItemComponent?.item === 'radio-item'",
       :schema="workingSchema",
       :selectedItem="selectedItemComponent",
       @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
     )
     el-button(
       type="success",
@@ -131,6 +139,7 @@ export default defineComponent({
     };
 
     const onSchemaChange = (schema: ProductOptionSection[]) => {
+      console.log(schema);
       workingSchema.value = schema;
       updateItemMap();
     };
@@ -138,6 +147,10 @@ export default defineComponent({
     const onSelectItem = (uuid: string) => {
       selectedItem.value = uuid;
     };
+
+    const onResetSelection = () => {
+      selectedItem.value = null;
+    }
 
     const selectedItemComponent = computed(() => {
       if (!selectedItem.value) {
@@ -186,6 +199,7 @@ export default defineComponent({
 
       onSchemaChange,
       onSelectItem,
+      onResetSelection,
 
       saveSchema,
     }

@@ -8,6 +8,8 @@
   control-panel-common(
     :schema="schema",
     :selectedItem="selectedItem",
+    @schemaChanged="$emit('schemaChanged', $event)"
+    @resetSelection="$emit('resetSelection', $event)",
   )
 </template>
 
@@ -35,7 +37,7 @@ export default defineComponent({
   components: {
     ControlPanelCommon,
   },
-  emits: ['schemaChanged'],
+  emits: ['schemaChanged', 'resetSelection'],
   setup(props, { emit }) {
     const createButton = () => {
       const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, {
