@@ -8,20 +8,20 @@
     .price {{ product.discount_price || product.price }} руб.
   .control
     el-button-group(style="display: flex")
-      el-button.buy-button(@click="addCartItem()")
+      el-button.buy-button(@click="showProductDialog()")
         .text-wrapper
           el-icon
             shopping-cart-full
           .text Buy
-      el-tooltip.item(
-        effect="dark",
-        content="Show additional information",
-        placement="top-start"
-      )
-        el-button(@click="showProductDialog()")
-          .text-wrapper
-            el-icon
-              more
+      //- el-tooltip.item(
+      //-   effect="dark",
+      //-   content="Show additional information",
+      //-   placement="top-start"
+      //- )
+      //-   el-button(@click="showProductDialog()")
+      //-     .text-wrapper
+      //-       el-icon
+      //-         more
 </template>
 
 <script lang="ts">
@@ -37,9 +37,10 @@ export default defineComponent({
       requred: true
     }
   },
-  components: {},
-  setup (props) {
-    const store = useStore()
+  components: {
+  },
+  setup(props) {
+    const store = useStore();
 
     const showProductDialog = () => {
       store.dispatch('setDialogProduct', props.product)

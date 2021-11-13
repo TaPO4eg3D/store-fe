@@ -1,26 +1,77 @@
 import { ProductOptionSection, ProductOptionElement } from '@/common/interfaces/product-options';
 
+const cloneDeep = require('lodash.clonedeep');
+
 // TODO: This is probably the ugliest thing I've every written in my life but fuck it,
 // deal with it when I have time and much more sleep/energy
+interface GetItemSignature {
+  parent: ProductOptionElement | ProductOptionSection,
+  item: ProductOptionElement,
+  itemIndex: number,
+}
 
-export function getItem(uuid: string, item: ProductOptionElement): ProductOptionElement | null {
+export function _getItem(uuid: string, data: GetItemSignature): GetItemSignature | null {
+  const { parent, item, itemIndex } = data;
+
   if (item.uuid === uuid) {
-    return item;
+    return {
+      parent,
+      item,
+      itemIndex,
+    };
   }
 
-  for (const child of item.children || []) {
-    if (child.uuid === uuid) {
-      return child;
-    } else {
-      const foundItem = getItem(uuid, child);
+  const children = item.children || [];
 
-      if (foundItem) {
-        return foundItem;
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    const childData = {
+        parent: item,
+        item: child,
+        itemIndex: i,
+    }
+
+    if (child.uuid === uuid) {
+      return childData;
+    } else {
+      const foundItemData = _getItem(uuid, childData);
+
+      if (foundItemData) {
+        return foundItemData;
       }
     }
   }
 
   return null;
+}
+
+function getItem(uuid: string, schema: ProductOptionSection[]): [ProductOptionSection[], GetItemSignature | null] {
+  const schemaCopy = cloneDeep(schema);
+
+  let foundItemData: GetItemSignature | null = null;
+
+  for (let i = 0; i < schemaCopy.length; i++) {
+    const section = schemaCopy[i];
+
+    for (let j = 0; j < section.children.length; j++) {
+      const item = section.children[j];
+
+      foundItemData = _getItem(uuid, {
+        parent: section,
+        item: item,
+        itemIndex: j,
+      });
+      if (foundItemData) {
+        break;
+      }
+    }
+
+    if (foundItemData) {
+      break;
+    }
+  }
+
+  return [schemaCopy, foundItemData];
 }
 
 function fillItems(items: object, item: ProductOptionElement) {
@@ -47,24 +98,21 @@ export function getAllItems(schema: ProductOptionSection[]) {
 
 
 export function updateItemProps(uuid: string, schema: ProductOptionSection[], props: object) {
-  const schemaCopy = [...schema];
+  let [schemaCopy, foundItemData] = getItem(uuid, schema);
 
-  let foundItem: ProductOptionElement | null = null;
-
-  for (const section of schemaCopy) {
-    for (const item of section.children) {
-      foundItem = getItem(uuid, item);
-      if (foundItem) {
-        break;
-      }
-    }
-
-    if (foundItem) {
-      break;
-    }
+  if (foundItemData) {
+    Object.assign(foundItemData['item'], props);
   }
 
-  Object.assign(foundItem, props);
+  return schemaCopy;
+}
+
+export function deleteItem(uuid: string, schema: ProductOptionSection[]) {
+  let [schemaCopy, foundItemData] = getItem(uuid, schema);
+
+  if (foundItemData) {
+    foundItemData['parent'].children?.splice(foundItemData['itemIndex'], 1);
+  }
 
   return schemaCopy;
 }

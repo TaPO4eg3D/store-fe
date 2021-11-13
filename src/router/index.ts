@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Category
   },
   {
-    path: '/builder',
+    path: '/builder/:id',
     name: 'Builder',
     component: Builder
   }

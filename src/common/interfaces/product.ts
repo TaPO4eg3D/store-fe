@@ -1,4 +1,5 @@
-import { Category } from './category'
+import { Category } from "./category";
+import { ProductOptionSection } from "./product-options";
 
 export interface Product {
   id: number;
@@ -10,4 +11,5 @@ export interface Product {
   description: string;
 
   category: Category;
+  additional_options?: ProductOptionSection[] | null;
 }

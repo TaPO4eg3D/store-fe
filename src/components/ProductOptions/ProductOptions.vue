@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
-import { defineComponent, PropType, ref, Ref } from 'vue'
+import { defineComponent, PropType, ref, Ref, watch } from 'vue'
 
 import OptionSection from './Section.vue'
 
@@ -38,11 +38,13 @@ export default defineComponent({
       })
     };
 
-    props.sections.forEach(section => {
-      section.children.forEach(child => {
-        fillSelectedElements(child);
+    watch(props, () => {
+      props.sections.forEach(section => {
+        section.children.forEach(child => {
+          fillSelectedElements(child);
+        });
       });
-    });
+    })
 
     const handleSelect = (uuid: string) => {
       console.log('SELECT: ', uuid);

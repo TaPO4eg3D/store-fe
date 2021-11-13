@@ -1,5 +1,9 @@
 <template lang="pug">
 .control-panel.common-panel
+  el-checkbox(
+    :model-value="selectedItem.is_selected",
+    @change="onSetDefaultSelection",
+  ) Selected by default
   el-input(
     :model-value="selectedItem.uuid"
     placeholder="UUID",
@@ -38,6 +42,7 @@
     ) X
   el-button(
     type="danger",
+    @click="onItemRemove",
   ) Delete
 </template>
 
@@ -45,9 +50,8 @@
 import { defineComponent, PropType, ref, watch } from 'vue'
 
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
-import { getAllItems, getItem, updateItemProps } from './Utils/update-item-props';
+import { getAllItems, updateItemProps, deleteItem } from './Utils/update-item-props';
 
-import { v4 as uuid } from 'uuid';
 
 export default defineComponent({
   props: {
@@ -60,7 +64,7 @@ export default defineComponent({
       type: Object as PropType<ProductOptionElement>,
     },
   },
-  emits: ['schemaChanged'],
+  emits: ['schemaChanged', 'resetSelection'],
   setup(props, { emit }) {
     const allItems = ref(getAllItems(props.schema));
 
@@ -109,7 +113,19 @@ export default defineComponent({
     const onPriceChange = (value: number) => {
       const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { price_modifier: +value });
       emit('schemaChanged', newSchema);
-    }
+    };
+
+    const onItemRemove = () => {
+      const newSchema = deleteItem(props.selectedItem.uuid, props.schema);
+      emit('schemaChanged', newSchema);
+      emit('resetSelection');
+    };
+
+    const onSetDefaultSelection = () => {
+      const isSelected = props.selectedItem.is_selected ?? false;
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { is_selected: !isSelected });
+      emit('schemaChanged', newSchema);
+    };
 
     return {
       allItems,
@@ -120,6 +136,9 @@ export default defineComponent({
 
       onConditionSelect,
       onConditionRemove,
+      onSetDefaultSelection,
+
+      onItemRemove,
     }
   },
 })
