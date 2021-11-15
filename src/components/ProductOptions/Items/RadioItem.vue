@@ -1,5 +1,6 @@
 <template lang="pug">
 el-radio(
+  v-if="isVisible",
   :label="1",
   :model-value="isSelected",
   @change="handleChange"
@@ -9,6 +10,7 @@ el-radio(
 <script lang="ts">
 import { ProductOptionElement } from '@/common/interfaces/product-options'
 import { computed, defineComponent, PropType, ref } from 'vue'
+import { getVisibility, setVisibilityWatcher } from './Utils/isVisible';
 
 export default defineComponent({
   props: {
@@ -34,8 +36,12 @@ export default defineComponent({
       }
     };
 
+    const isVisible = getVisibility(props);
+    setVisibilityWatcher(emit, props.item, isVisible);
+
     return {
       isSelected,
+      isVisible,
       handleChange,
     }
   },

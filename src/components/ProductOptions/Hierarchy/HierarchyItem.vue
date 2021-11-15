@@ -25,7 +25,6 @@ export default defineComponent({
   name: 'hierarchy-item',
   props: {
     item: {
-      required: true,
       type: Object as PropType<ProductOptionElement>,
     },
     level: {
@@ -34,7 +33,6 @@ export default defineComponent({
       default: 0,
     },
     selectedItem: {
-      required: true,
       type: String,
     },
   },
