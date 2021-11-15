@@ -34,7 +34,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.el-menu-item::deep {
+.el-menu-item::v-deep {
   height: 35px;
   line-height: 35px;
   &:hover {
