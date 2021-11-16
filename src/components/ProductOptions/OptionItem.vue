@@ -52,6 +52,14 @@
       @select="handeRadioSelect(item, $event)",
       @unselect="handeRadioUnselect(item, $event)",
     )
+  option-text-input(
+    v-if="item.item == 'text-input'"
+    :item="item",
+    :selectedElements="selectedElements",
+    :selectedElementsAdditionOptions="selectedElementsAdditionOptions",
+    @select="$emit('select', $event)",
+    @unselect="$emit('unselect', $event)",
+  )
 
 </template>
 
@@ -66,6 +74,7 @@ import OptionChoice from './Items/Choice.vue';
 import OptionChoiceItem from './Items/ChoiceItem.vue';
 import OptionRadio from './Items/Radio.vue';
 import OptionRadioItem from './Items/RadioItem.vue';
+import OptionTextInput from './Items/TextInput.vue';
 
 export default defineComponent({
   name: 'option-item',
@@ -81,7 +90,10 @@ export default defineComponent({
     selectedElements: {
       required: true,
       type: Set as PropType<Set<string>>,
-    }
+    },
+    selectedElementsAdditionOptions: {
+      type: Object,
+    },
   },
   emits: ['select', 'unselect'],
   components: {
@@ -91,20 +103,21 @@ export default defineComponent({
    OptionChoiceItem,
    OptionRadioItem,
    OptionRadio,
+   OptionTextInput,
   },
   setup(props, { emit }) {
-    const handleButtonGroupSelect = (item: ProductOptionElement, uuid: string) => {
+    const handleButtonGroupSelect = (item: ProductOptionElement, { uuid }: { uuid: string }) => {
       // Unselect everything from this group
       item.children?.forEach(child => {
         if (child.uuid !== uuid) {
           emit('unselect', child.uuid);
         } else {
-          emit('select', child.uuid);
+          emit('select', { uuid });
         }
       });
 
       // And mark the group itself as selected
-      emit('select', item.uuid);
+      emit('select', { uuid: item.uuid });
     }
 
     const handleButtonGroupUnselect = (item: ProductOptionElement) => {
@@ -117,7 +130,7 @@ export default defineComponent({
 
     const handleChoiceSelect = (item: ProductOptionElement, uuid: string) => {
       emit('select', uuid);
-      emit('select', item.uuid)
+      emit('select', { uuid: item.uuid })
     };
 
     const handleChoiceUnselect = (item: ProductOptionElement, uuid: string) => {
@@ -146,7 +159,7 @@ export default defineComponent({
       handeRadioUnselect(item, uuid);
 
       emit('select', uuid);
-      emit('select', item.uuid)
+      emit('select', { uuid: item.uuid })
     };
 
     return {

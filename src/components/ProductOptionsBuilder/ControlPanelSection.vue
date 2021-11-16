@@ -22,6 +22,10 @@
     @click="createRadio",
   ) Create Radio
   el-button(
+    type="primary",
+    @click="createTextInput",
+  ) Create TextInput
+  el-button(
     type="danger",
     @click="onDelete",
   ) Delete
@@ -46,6 +50,8 @@ export default defineComponent({
   },
   emits: ['schemaChanged', 'resetSelection'],
   setup(props, { emit }) {
+    // TODO: It desperatly needs a refactor, lots of duplicated code now
+
     const createButton = () => {
       const schema = [...props.schema];
       const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
@@ -114,6 +120,23 @@ export default defineComponent({
       emit('schemaChanged', schema);
     };
 
+    const createTextInput = () => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (!section) {
+        return;
+      }
+
+      section.children?.push({
+        uuid: uuid(),
+        item: 'text-input',
+        name: 'New text input',
+      });
+
+      emit('schemaChanged', schema);
+    };
+
     const onNameChange = (value: string) => {
       const schema = [...props.schema];
       const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
@@ -143,6 +166,7 @@ export default defineComponent({
       createButtonGroup,
       createChoice,
       createRadio,
+      createTextInput,
 
       onNameChange,
       onDelete,
