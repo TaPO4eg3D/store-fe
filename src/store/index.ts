@@ -9,6 +9,7 @@ import type { Product } from '@/common/interfaces/product'
 import type { CartDialog } from './interfaces/cart-dialog'
 import type { ProductDialog } from './interfaces/product-dialog'
 import type { Currency } from '@/common/interfaces/currency'
+import type { Locale } from '@/common/interfaces/locale'
 
 export default createStore({
   state: {
@@ -29,7 +30,9 @@ export default createStore({
 
     defaultCurrency: {} as Currency,
 
-    currentCurrency: {} as Currency
+    currentCurrency: {} as Currency,
+
+    currentLocale: {} as Locale
   },
   mutations: {
     setProductDialogVisibility (state, isVisible: boolean) {
@@ -104,6 +107,10 @@ export default createStore({
     setCurrentCurrency (state, currentCurrency: Currency) {
       state.currentCurrency = currentCurrency
       localStorage.setItem('currency', JSON.stringify(state.currentCurrency))
+    },
+    setCurrentLocale (state, currentLocale: Locale) {
+      state.currentLocale = currentLocale
+      localStorage.setItem('locale', JSON.stringify(state.currentLocale))
     }
   },
   getters: {
@@ -121,7 +128,8 @@ export default createStore({
     },
     getCurrencies: (state) => state.currencies,
     getDefaultCurrency: (state) => state.defaultCurrency,
-    getCurrentCurrency: (state) => state.currentCurrency
+    getCurrentCurrency: (state) => state.currentCurrency,
+    getCurrentLocale: (state) => state.currentLocale
   },
   actions: {
     setDialogProduct (context, product: Product) {

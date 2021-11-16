@@ -27,7 +27,11 @@ el-dialog(
         :min="1"
         style="margin-right: 20px"
       )
-      el-button.buy-button(type="primary", plain, @click="addCartItem()") Add to cart
+      el-button.buy-button(
+        type="primary",
+        plain,
+        @click="addCartItem()"
+      ) {{ $t('product.add_to_cart') }}
 </template>
 
 <script lang="ts">
@@ -41,7 +45,7 @@ import {
 
 import { useStore } from 'vuex'
 
-import ProductOptions from '@/components/ProductOptions/ProductOptions.vue';
+import ProductOptions from '@/components/ProductOptions/ProductOptions.vue'
 
 export default defineComponent({
   props: {
@@ -55,11 +59,11 @@ export default defineComponent({
     }
   },
   components: {
-    ProductOptions,
+    ProductOptions
   },
-  setup(props) {
-    const store = useStore();
-    const productAmount = ref(1);
+  setup (props) {
+    const store = useStore()
+    const productAmount = ref(1)
 
     const handleClose = () => {
       productAmount.value = 1

@@ -1,6 +1,6 @@
 <template lang="pug">
 general-card.selling-hits(
-  header="Bestsellers",
+  :header="$t('home.headers.bestsellers')",
   :isSlider="true",
   ref="cardRef",
   v-if="products.length != 0"

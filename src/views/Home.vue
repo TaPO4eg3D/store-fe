@@ -25,23 +25,21 @@
         .quote {{ $t('home.info_description') }}
 
   about(
-    :title="aboutInfo.title"
+    :title="$t('home.headers.about_services')"
     :items="aboutInfo.items"
     )
-  .home__popular
-    popular-products
-  div
-    general-card.recommended(
-      header="Recommended products",
-      :isSlider="true",
-      :itemsPerSlide="itemsPerSlide",
-      :slideBreakpoints="slideBreakpoints",
-      v-if="recommendedProducts.length != 0"
-    )
-      .splide__slide(v-for="product in recommendedProducts")
-        product-card(
-          :product="product"
-        )
+  popular-products
+  general-card.recommended(
+    :header="$t('home.headers.recommended')",
+    :isSlider="true",
+    :itemsPerSlide="itemsPerSlide",
+    :slideBreakpoints="slideBreakpoints",
+    v-if="recommendedProducts.length != 0"
+  )
+    .splide__slide(v-for="product in recommendedProducts")
+      product-card(
+        :product="product"
+      )
 </template>
 
 <script lang="ts">
@@ -118,7 +116,6 @@ export default defineComponent({
     const recommendedProducts: Ref<Product[]> = ref([])
 
     const aboutInfo = {
-      title: 'About services',
       items: [
         {
           id: 0,

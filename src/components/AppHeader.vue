@@ -1,11 +1,13 @@
 <template lang="pug">
 .app-header
   .app-header__container
-    base-dropdown(
-      :items="currencies"
-      :initial-value="selectedCurrency"
-      @selected="handleSelectCurrency"
-    )
+    .app-header__left
+      switch-locale
+      base-dropdown(
+        :items="currencies"
+        :initial-value="selectedCurrency"
+        @selected="handleSelectCurrency"
+      )
     .app-header__right
       cart-button
 </template>
@@ -15,12 +17,14 @@ import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
 import CartButton from '@/components/Home/CartButton.vue'
+import SwitchLocale from '@/components/ui/SwitchLocale.vue'
 import { Currency } from '@/common/interfaces/currency'
 
 export default defineComponent({
   name: 'AppHeader',
   components: {
-    CartButton
+    CartButton,
+    SwitchLocale
   },
   watch: {
     currencies: {
@@ -62,6 +66,10 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+  &__left {
+    display: flex;
+    grid-gap: 10px;
   }
 }
 </style>

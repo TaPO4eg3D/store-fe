@@ -113,6 +113,7 @@ $breakpoints: (
 #app {
   display: grid;
   grid-gap: 20px;
+  margin-bottom: 20px;
 }
 
 .app-content {

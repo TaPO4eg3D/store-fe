@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as constants from '@/common/constants'
+import { LINKS } from '@/common/constants'
 
 import Navigation from '@/components/Home/Navigation.vue'
 import Search from '@/components/Home/Search.vue'
@@ -57,7 +57,7 @@ export default defineComponent({
     }
   },
   setup () {
-    const appLinks = constants.LINKS
+    const appLinks = LINKS
     return {
       appLinks
     }
