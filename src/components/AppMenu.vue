@@ -2,6 +2,7 @@
 .app-menu.divider
   navigation(
     :isHidden="isHiddenNavigation"
+    :isDesktop="isDesktop"
     @hidden-state="changeHiddenState"
   )
   .app-menu__right
@@ -33,7 +34,8 @@ export default defineComponent({
   },
   data () {
     return {
-      isHiddenNavigation: false
+      isHiddenNavigation: false,
+      isDesktop: false
     }
   },
   computed: {
@@ -49,11 +51,21 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.isHiddenNavigation = this.currentPath !== '/'
+    this.checkDesktop()
+    window.addEventListener('resize', () => {
+      this.checkDesktop()
+    })
+  },
+  beforeUnmount () {
+    window.removeEventListener('resize', () => {})
   },
   methods: {
     changeHiddenState (value: boolean) {
       this.isHiddenNavigation = value
+    },
+    checkDesktop () {
+      this.isDesktop = window.outerWidth > 991
+      this.isHiddenNavigation = this.currentPath !== '/' || (this.currentPath === '/' && !this.isDesktop)
     }
   },
   setup () {

@@ -40,7 +40,6 @@ export default defineComponent({
     }
   },
   mounted () {
-    console.log(this.defaultLocale)
     this.setCurrentLocale()
   },
   methods: {

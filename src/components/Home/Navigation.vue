@@ -32,6 +32,10 @@ export default defineComponent({
     isHidden: {
       type: Boolean,
       default: false
+    },
+    isDesktop: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -52,7 +56,7 @@ export default defineComponent({
   },
   methods: {
     changeHiddenState () {
-      if (this.$route.path !== '/') {
+      if (this.$route.path !== '/' || (this.$route.path === '/' && !this.isDesktop)) {
         this.isHiddenState = !this.isHiddenState
         this.$emit('hidden-state', this.isHiddenState)
       }
@@ -60,7 +64,7 @@ export default defineComponent({
   },
   setup () {
     // const categories: Ref<Category[]> | Ref<never[]> = ref([])
-    const categories = ref();
+    const categories = ref()
 
     onMounted(async () => {
       // TODO: Add an exception handling
