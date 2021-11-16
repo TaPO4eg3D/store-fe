@@ -8,6 +8,7 @@ export interface ProductOptionElement {
   children?: ProductOptionElement[];
 
   is_selected?: boolean;
+  required?: boolean;
   hint?: string;
   style?: object;
 

@@ -60,36 +60,15 @@ export default defineComponent({
   },
   setup () {
     // const categories: Ref<Category[]> | Ref<never[]> = ref([])
-    const categories = [
-      {
-        id: 0,
-        name: 'qwer0'
-      },
-      {
-        id: 1,
-        name: 'qwer1'
-      },
-      {
-        id: 2,
-        name: 'qwer2'
-      },
-      {
-        id: 3,
-        name: 'qwer3'
-      },
-      {
-        id: 4,
-        name: 'qwer4'
-      }
-    ]
+    const categories = ref();
 
     onMounted(async () => {
       // TODO: Add an exception handling
 
-      // const response = await axios.get<ListResponse<Category>>(
-      //   '/api/categories/'
-      // )
-      // categories.value = response.data.results
+      const response = await axios.get<ListResponse<Category>>(
+        '/api/categories/'
+      )
+      categories.value = response.data.results
     })
 
     return {

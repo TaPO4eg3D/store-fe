@@ -1,5 +1,6 @@
 <template lang="pug">
 el-checkbox(
+  v-if="isVisible",
   :model-value="isSelected",
   @change="handleChange"
 ) {{ item.name }}
@@ -8,6 +9,7 @@ el-checkbox(
 <script lang="ts">
 import { ProductOptionElement } from '@/common/interfaces/product-options'
 import { computed, defineComponent, PropType, ref } from 'vue'
+import { getVisibility, setVisibilityWatcher } from './Utils/isVisible';
 
 export default defineComponent({
   props: {
@@ -33,8 +35,12 @@ export default defineComponent({
       }
     };
 
+    const isVisible = getVisibility(props);
+    setVisibilityWatcher(emit, props.item, isVisible);
+
     return {
       isSelected,
+      isVisible,
       handleChange,
     }
   },

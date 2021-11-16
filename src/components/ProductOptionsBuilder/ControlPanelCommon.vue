@@ -4,6 +4,10 @@
     :model-value="selectedItem.is_selected",
     @change="onSetDefaultSelection",
   ) Selected by default
+  el-checkbox(
+    :model-value="selectedItem.required",
+    @change="onSetRequired",
+  ) Required to be selected
   el-input(
     :model-value="selectedItem.uuid"
     placeholder="UUID",
@@ -127,6 +131,12 @@ export default defineComponent({
       emit('schemaChanged', newSchema);
     };
 
+    const onSetRequired = () => {
+      const isRequired = props.selectedItem.required ?? false;
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { required: !isRequired });
+      emit('schemaChanged', newSchema);
+    };
+
     return {
       allItems,
       onNameChange,
@@ -137,6 +147,7 @@ export default defineComponent({
       onConditionSelect,
       onConditionRemove,
       onSetDefaultSelection,
+      onSetRequired,
 
       onItemRemove,
     }

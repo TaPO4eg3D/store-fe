@@ -27,10 +27,15 @@ export default defineComponent({
   },
   setup(props) {
     const selectedElements: Ref<Set<string>> = ref(new Set([]))
+    const requiredElements: Ref<Set<string>> = ref(new Set([]))
 
     const fillSelectedElements = (item: ProductOptionElement) => {
       if (item.is_selected) {
         selectedElements.value.add(item.uuid);
+      }
+
+      if (item.required) {
+        requiredElements.value.add(item.uuid);
       }
 
       item.children?.forEach(child => {
@@ -58,6 +63,8 @@ export default defineComponent({
 
     return {
       selectedElements,
+      requiredElements,
+
       handleSelect,
       handleUnselect,
     }

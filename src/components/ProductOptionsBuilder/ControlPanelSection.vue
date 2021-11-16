@@ -1,6 +1,10 @@
 <template lang="pug">
 .control-panel.control-panel-section
   .header Section Control Panel
+  el-input(
+    :model-value="selectedItem.name",
+    @input="onNameChange",
+  ) 
   el-button(
     type="primary",
     @click="createButton",
@@ -17,12 +21,16 @@
     type="primary",
     @click="createRadio",
   ) Create Radio
+  el-button(
+    type="danger",
+    @click="onDelete",
+  ) Delete
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
-import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
+import { ProductOptionSection } from '@/common/interfaces/product-options';
 
 import { v4 as uuid } from 'uuid';
 
@@ -33,23 +41,11 @@ export default defineComponent({
       type: Array as PropType<ProductOptionSection[]>
     },
     selectedItem: {
-      type: Object as PropType<ProductOptionElement>,
+      type: Object as PropType<ProductOptionSection>,
     },
   },
-  emits: ['schemaChanged'],
+  emits: ['schemaChanged', 'resetSelection'],
   setup(props, { emit }) {
-    const createSection = () => {
-      const schema = [...props.schema];
-      schema.push({
-        item: 'section',
-        name: `Section ${schema.length + 1}`,
-        uuid: `section-${schema.length + 1}`,
-        children: [],
-      });
-
-      emit('schemaChanged', schema);
-    };
-
     const createButton = () => {
       const schema = [...props.schema];
       const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
@@ -118,12 +114,38 @@ export default defineComponent({
       emit('schemaChanged', schema);
     };
 
+    const onNameChange = (value: string) => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (section) {
+        section.name = value;
+      }
+
+      emit('schemaChanged', schema);
+    };
+
+    const onDelete = () => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (section) {
+        const index = schema.indexOf(section);
+        schema.splice(index , 1);
+      }
+
+      emit('schemaChanged', schema);
+      emit('resetSelection');
+    };
+
     return {
-      createSection,
       createButton,
       createButtonGroup,
       createChoice,
       createRadio,
+
+      onNameChange,
+      onDelete,
     }
   },
 })

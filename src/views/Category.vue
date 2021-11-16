@@ -2,7 +2,7 @@
 .category
   h2.category__title {{ categoryName }}
   .category__content.divider
-    div
+    .side-section
       product-filter
       popular-products
     div
@@ -77,9 +77,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .category {
-  display: grid;
-  grid-gap: 20px;
   &__title {
+    margin-bottom: 20px;
     font-weight: normal;
   }
 }
@@ -99,5 +98,15 @@ export default defineComponent({
 
 .empty-container {
   margin: 0 auto;
+}
+
+.side-section {
+  div {
+    margin-bottom: 20px;
+  }
+
+  div:last-child {
+    margin-bottom: 0px;
+  }
 }
 </style>
