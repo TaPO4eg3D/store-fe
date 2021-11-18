@@ -28,18 +28,18 @@
     :title="$t('home.headers.about_services')"
     :items="aboutInfo.items"
     )
-  //popular-products
-  //general-card.recommended(
-  //  :header="$t('home.headers.recommended')",
-  //  :isSlider="true",
-  //  :itemsPerSlide="itemsPerSlide",
-  //  :slideBreakpoints="slideBreakpoints",
-  //  v-if="recommendedProducts.length != 0"
-  //)
-  //  .splide__slide(v-for="product in recommendedProducts")
-  //    product-card(
-  //      :product="product"
-  //    )
+  popular-products
+  general-card.recommended(
+    :header="$t('home.headers.recommended')",
+    :isSlider="true",
+    :itemsPerSlide="itemsPerSlide",
+    :slideBreakpoints="slideBreakpoints",
+    v-if="recommendedProducts.length != 0"
+  )
+    .splide__slide(v-for="product in recommendedProducts")
+      product-card(
+        :product="product"
+      )
 </template>
 
 <script lang="ts">

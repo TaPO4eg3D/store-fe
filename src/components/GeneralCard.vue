@@ -91,6 +91,8 @@ export default defineComponent({
 .general-card {
   border: 1px solid #DCDFE6;
   border-radius: 8px 8px 0px 0px;
+  max-width: $template-max-width;
+  width: 100%;
 
   .header-wrapper {
     user-select: none;
