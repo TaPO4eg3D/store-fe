@@ -25,9 +25,9 @@
         .quote {{ $t('home.info_description') }}
 
   about(
-    :title="$t('home.headers.about_services')"
-    :items="aboutInfo.items"
-    )
+    :title="$t('home.about.title')"
+    :items="aboutInfo"
+  )
   popular-products
   general-card.recommended(
     :header="$t('home.headers.recommended')",
@@ -95,6 +95,30 @@ export default defineComponent({
     Search,
     PopularProducts
   },
+  computed: {
+    aboutInfo () {
+      return [
+        {
+          id: 0,
+          img: 'security.png',
+          title: this.$t('home.about.security_title'),
+          description: this.$t('home.about.security_desc')
+        },
+        {
+          id: 1,
+          img: 'delivery.png',
+          title: this.$t('home.about.delivery_title'),
+          description: this.$t('home.about.delivery_desc')
+        },
+        {
+          id: 2,
+          img: 'support.png',
+          title: this.$t('home.about.support_title'),
+          description: this.$t('home.about.support_desc')
+        }
+      ]
+    }
+  },
   setup () {
     const breakpoints: {[point: string]: number} | undefined = inject('breakpoints')
 
@@ -115,33 +139,6 @@ export default defineComponent({
 
     const recommendedProducts: Ref<Product[]> = ref([])
 
-    const aboutInfo = {
-      items: [
-        {
-          id: 0,
-          img: 'security.png',
-          title: 'Security guarantee',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
-            'labore et dolore magna aliqua.'
-        },
-        {
-          id: 1,
-          img: 'delivery.png',
-          title: 'Instant delivery',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
-            'labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ' +
-            'ut aliquip ex ea commodo consequat.'
-        },
-        {
-          id: 2,
-          img: 'support.png',
-          title: 'Customer support',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
-            'labore et dolore magna aliqua.'
-        }
-      ]
-    }
-
     onMounted(async () => {
       // TODO: Add exception handling and refactor in general
       const response = await axios.get<ListResponse<any>>('/api/recommended-product-slides/')
@@ -156,8 +153,7 @@ export default defineComponent({
       activeSlide,
       itemsPerSlide,
       slideBreakpoints,
-      recommendedProducts,
-      aboutInfo
+      recommendedProducts
     }
   }
 })

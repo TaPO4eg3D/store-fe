@@ -13,9 +13,17 @@
   "home": {
     "info_description": "Вы можете приобрести оригинальные ключи активации для операционных систем, офисных программ, антивирусов, софта и другого по самым выгодным ценам. У нас быстрая, вежливая и грамотная техподдержка. Если что-то пойдёт не так - поможет решить возникший вопрос.",
     "headers": {
-      "about_services": "About services",
       "bestsellers": "Bestsellers",
       "recommended": "Recommended products"
+    },
+    "about": {
+      "title": "About services",
+      "security_title": "Security guarantee",
+      "security_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "delivery_title": "Instant delivery",
+      "delivery_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "support_title": "Customer support",
+      "support_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     }
   },
   "category": {
