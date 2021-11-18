@@ -112,6 +112,8 @@ export default defineComponent({
 
     display: flex;
     background-color: #F5F5F5;
+
+    border-radius: 8px 8px 0 0;
   }
 
   .header {
