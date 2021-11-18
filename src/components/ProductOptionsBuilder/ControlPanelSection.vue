@@ -26,6 +26,10 @@
     @click="createTextInput",
   ) Create TextInput
   el-button(
+    type="primary",
+    @click="createCommentInput",
+  ) Create CommentInput
+  el-button(
     type="danger",
     @click="onDelete",
   ) Delete
@@ -137,6 +141,23 @@ export default defineComponent({
       emit('schemaChanged', schema);
     };
 
+    const createCommentInput = () => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (!section) {
+        return;
+      }
+
+      section.children?.push({
+        uuid: uuid(),
+        item: 'comment-input',
+        name: 'New comment input',
+      });
+
+      emit('schemaChanged', schema);
+    };
+
     const onNameChange = (value: string) => {
       const schema = [...props.schema];
       const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
@@ -167,6 +188,7 @@ export default defineComponent({
       createChoice,
       createRadio,
       createTextInput,
+      createCommentInput,
 
       onNameChange,
       onDelete,

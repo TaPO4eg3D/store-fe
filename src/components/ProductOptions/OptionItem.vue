@@ -60,7 +60,14 @@
     @select="$emit('select', $event)",
     @unselect="$emit('unselect', $event)",
   )
-
+  option-comment-input(
+    v-if="item.item == 'comment-input'"
+    :item="item",
+    :selectedElements="selectedElements",
+    :selectedElementsAdditionOptions="selectedElementsAdditionOptions",
+    @select="$emit('select', $event)",
+    @unselect="$emit('unselect', $event)",
+  )
 </template>
 
 <script lang="ts">
@@ -75,6 +82,7 @@ import OptionChoiceItem from './Items/ChoiceItem.vue';
 import OptionRadio from './Items/Radio.vue';
 import OptionRadioItem from './Items/RadioItem.vue';
 import OptionTextInput from './Items/TextInput.vue';
+import OptionCommentInput from './Items/CommentInput.vue';
 
 export default defineComponent({
   name: 'option-item',
@@ -104,6 +112,7 @@ export default defineComponent({
    OptionRadioItem,
    OptionRadio,
    OptionTextInput,
+   OptionCommentInput,
   },
   setup(props, { emit }) {
     const handleButtonGroupSelect = (item: ProductOptionElement, { uuid }: { uuid: string }) => {
