@@ -30,6 +30,10 @@
     @click="createCommentInput",
   ) Create CommentInput
   el-button(
+    type="primary",
+    @click="createNumberInput",
+  ) Create NumberInput
+  el-button(
     type="danger",
     @click="onDelete",
   ) Delete
@@ -158,6 +162,23 @@ export default defineComponent({
       emit('schemaChanged', schema);
     };
 
+    const createNumberInput = () => {
+      const schema = [...props.schema];
+      const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
+
+      if (!section) {
+        return;
+      }
+
+      section.children?.push({
+        uuid: uuid(),
+        item: 'number-input',
+        name: 'New number input',
+      });
+
+      emit('schemaChanged', schema);
+    };
+
     const onNameChange = (value: string) => {
       const schema = [...props.schema];
       const section = schema.find(section => section.uuid === props.selectedItem?.uuid);
@@ -189,6 +210,7 @@ export default defineComponent({
       createRadio,
       createTextInput,
       createCommentInput,
+      createNumberInput,
 
       onNameChange,
       onDelete,
