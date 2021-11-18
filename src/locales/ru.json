@@ -29,6 +29,11 @@
   "category": {
     "empty": "ruNo products here"
   },
+  "filter": {
+    "header": "ruProduct Filter",
+    "type": "ruPrice",
+    "apply": "ruApply filters"
+  },
   "product": {
     "buy": "ruBuy",
     "add_to_cart": "ruAdd to cart"

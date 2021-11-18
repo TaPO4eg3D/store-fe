@@ -3,8 +3,8 @@
   h2.category__title {{ categoryName }}
   .category__content.divider
     .side-section
-      product-filter
-      popular-products
+      product-filter.side-section__filter
+      popular-products.side-section__popular
     div
       .product-list
         .empty-container(
@@ -81,18 +81,34 @@ export default defineComponent({
     margin-bottom: 20px;
     font-weight: normal;
   }
+
+  @include _575 {
+    &__title {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+  }
 }
 
 .product-list {
   width: 100%;
 
-  display: flex;
-  flex-wrap: wrap;
-
-  gap: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: $template-gap;
 
   .product-card {
-    max-width: 248px;
+    max-width: none;
+  }
+
+  @include _767 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include _575 {
+    grid-template-columns: 1fr;
+    justify-content: center;
+    grid-gap: $template-gap-adaptive;
   }
 }
 
@@ -101,12 +117,23 @@ export default defineComponent({
 }
 
 .side-section {
-  div {
-    margin-bottom: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  grid-gap: $template-gap;
 
-  div:last-child {
-    margin-bottom: 0px;
+  &__popular::v-deep {
+    min-width: auto;
+    .product-card {
+      padding: 0;
+      border: none;
+      max-width: none;
+    }
+    @include _991 {
+      min-width: 300px;
+      .product-card {
+        max-width: 220px;
+      }
+    }
   }
 }
 </style>

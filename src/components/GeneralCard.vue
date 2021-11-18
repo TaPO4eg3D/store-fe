@@ -1,5 +1,7 @@
 <template lang="pug">
-.general-card
+.general-card(
+  :class="cardClass"
+)
   .header-wrapper
     .header {{ header }}
     .slider-control(v-if="isSlider")
@@ -40,6 +42,16 @@ export default defineComponent({
     slideBreakpoints: {
       type: Object,
       default: {}
+    }
+  },
+  computed: {
+    cardClass () {
+      const {
+        isSlider
+      } = this
+      return [
+        { 'general-card_slider': isSlider }
+      ]
     }
   },
   setup (props) {
@@ -90,8 +102,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .general-card {
   border: 1px solid #DCDFE6;
-  border-radius: 8px 8px 0 0;
-  min-width: 300px;
+  border-radius: 8px;
+  &_slider {
+    min-width: 300px;
+  }
 
   .header-wrapper {
     user-select: none;

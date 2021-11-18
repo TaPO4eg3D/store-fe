@@ -29,6 +29,11 @@
   "category": {
     "empty": "No products here"
   },
+  "filter": {
+    "header": "Product Filter",
+    "type": "Price",
+    "apply": "Apply filters"
+  },
   "product": {
     "buy": "Buy",
     "add_to_cart": "Add to cart"

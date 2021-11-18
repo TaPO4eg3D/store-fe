@@ -75,7 +75,6 @@ export default defineComponent({
 .product-card {
   position: relative;
   max-width: 220px;
-  //box-sizing: border-box;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;

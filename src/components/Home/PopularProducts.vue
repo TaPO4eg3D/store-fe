@@ -3,7 +3,7 @@ general-card.selling-hits(
   :header="$t('home.headers.bestsellers')",
   :isSlider="true",
   ref="cardRef",
-  v-if="products.length != 0"
+  v-if="products.length !== 0"
 )
   .splide__slide(
     v-for="product in products",

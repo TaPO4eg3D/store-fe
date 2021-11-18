@@ -1,16 +1,19 @@
 <template lang="pug">
 general-card(
-  header="Product Filter"
+  :header="$t('filter.header')"
 )
   .product-filter
     .filter.price-filter
-      .title Price
+      .title {{ $t('filter.type') }}
       el-slider(
         range,
         v-model="priceRange",
       )
     .apply-filters(style="margin-top: 20px")
-      el-button(type="primary" plain) Apply filters
+      el-button(
+        type="primary"
+        plain
+      ) {{ $t('filter.apply') }}
 </template>
 
 <script lang="ts">
