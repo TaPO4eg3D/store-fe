@@ -112,7 +112,7 @@ $breakpoints: (
 
 #app {
   display: grid;
-  grid-gap: 20px;
+  grid-gap: $template-gap;
   margin-bottom: 20px;
 }
 
@@ -120,7 +120,14 @@ $breakpoints: (
   @include container;
   margin: 0 auto;
   display: grid;
-  grid-gap: 20px;
+  grid-gap: $template-gap;
+}
+
+@include _575 {
+  #app,
+  .app-content {
+    grid-gap: $template-gap-adaptive;
+  }
 }
 
 //@include respond-below(slg) {

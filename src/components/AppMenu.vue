@@ -1,13 +1,13 @@
 <template lang="pug">
 .app-menu.divider
-  navigation(
+  navigation.app-menu__left(
     :isHidden="isHiddenNavigation"
     :isDesktop="isDesktop"
     @hidden-state="changeHiddenState"
   )
   .app-menu__right
-    search
-    base-button(
+    search.app-menu__search
+    base-button.app-menu__btn(
       :title="$t('cart.title')",
       styles="plain",
       type="primary",
@@ -82,7 +82,31 @@ export default defineComponent({
   &__right {
     display: grid;
     grid-template-columns: 2.5fr .5fr;
-    grid-gap: 20px;
+    grid-gap: $template-gap;
+  }
+  @include _991 {
+    &__left {
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+    &__right{
+      grid-row-start: 1;
+      grid-row-end: 2;
+    }
+  }
+  @include _575 {
+    &__right {
+      grid-template-columns: 1fr;
+      grid-gap: $template-gap-adaptive;
+    }
+    &__search {
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+    &__btn {
+      grid-row-start: 1;
+      grid-row-end: 2;
+    }
   }
 }
 </style>

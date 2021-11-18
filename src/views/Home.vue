@@ -1,7 +1,7 @@
 <template lang="pug">
 .home
   .home__slider.divider
-    div
+    div.home__empty
     .home__offers
       // Slider of offers
       .slider-wrapper
@@ -166,10 +166,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .home {
   display: grid;
-  grid-gap: 20px;
+  grid-gap: $template-gap;
   &__offers {
     display: grid;
-    grid-gap: 20px;
+    grid-gap: $template-gap;
   }
 }
 .slider-wrapper {
@@ -209,7 +209,20 @@ export default defineComponent({
   }
 }
 
-.splide__slide {
-  //width: auto !important;
+@include _991 {
+  .home {
+    &__empty {
+      display: none;
+    }
+  }
+}
+
+@include _575 {
+  .home {
+    grid-gap: $template-gap-adaptive;
+    &__offers {
+      grid-gap: $template-gap-adaptive;
+    }
+  }
 }
 </style>

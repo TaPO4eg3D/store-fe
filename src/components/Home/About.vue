@@ -41,7 +41,21 @@ export default defineComponent({
   &__items {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
+    grid-gap: $template-gap;
+  }
+  @include _767 {
+    &__items {
+      grid-template-columns: 1fr;
+    }
+  }
+  @include _575 {
+    &__title {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    &__items {
+      grid-gap: $template-gap-adaptive;
+    }
   }
 }
 </style>

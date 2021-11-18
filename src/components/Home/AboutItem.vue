@@ -49,5 +49,14 @@ export default defineComponent({
     line-height: 20px;
     font-weight: 300;
   }
+  @include _575 {
+    &__img img {
+      width: 30px;
+      height: 30px;
+    }
+    &__title {
+      font-size: 16px;
+    }
+  }
 }
 </style>
