@@ -125,6 +125,11 @@ export default defineComponent({
       margin-left: auto;
     }
   }
+
+  @include _575 {
+    width: 100%;
+    max-width: none;
+  }
 }
 
 .product-card .control .buy-button {

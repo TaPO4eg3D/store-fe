@@ -90,9 +90,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .general-card {
   border: 1px solid #DCDFE6;
-  border-radius: 8px 8px 0px 0px;
-  max-width: $template-max-width;
-  width: 100%;
+  border-radius: 8px 8px 0 0;
+  min-width: 300px;
 
   .header-wrapper {
     user-select: none;
