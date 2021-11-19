@@ -53,15 +53,61 @@ a:hover {
   }
 }
 
+.splide__slide {
+  display: flex;
+  justify-content: center;
+}
+
 .el-badge__content.is-fixed {
   transform: translateY(10%) translateX(35%) !important;
 }
 
 .el-overlay-dialog {
-  overflow: hidden !important;
+  text-align: center !important;
 }
 
-.splide__slide {
-  display: flex;
-  justify-content: center;
+.el-dialog {
+  text-align: left !important;
+  border-radius: 8px !important;
+  display: inline-block !important;
+  &__header {
+    padding: $dialog-padding $dialog-padding 0 !important;
+    font-weight: 750;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start;
+    grid-gap: 20px;
+  }
+  &__title {
+    font-size: 20px !important;
+  }
+  &__close {
+    font-size: 25px !important;
+  }
+  &__headerbtn {
+    position: relative !important;
+    top: 0 !important;
+    right: 0 !important;
+  }
+  &__body {
+    padding: $dialog-padding $dialog-padding 0 !important;
+  }
+  &__footer {
+    padding: 10px $dialog-padding $dialog-padding !important;
+  }
+
+  @include _1199 {
+    width: 75% !important;
+  }
+
+  @include _767 {
+    border-radius: 0 !important;
+    &__title {
+      font-size: 16px !important;
+    }
+  }
+
+  @include _575 {
+    width: 100% !important;
+  }
 }

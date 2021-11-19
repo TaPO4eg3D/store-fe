@@ -6,28 +6,24 @@ el-dialog(
   @closed="handleClose()",
 )
   .product-dialog
-    el-row(:gutter="30")
-      el-col(:span="12")
-        .product-preview
-          img(:src="product.preview_image")
-      el-col(:span="12")
-        .product-info
-          .product-price
-            .original-price(v-if="product.discount_price") {{ product.price }} руб.
-            .price {{ product.discount_price || product.price }} руб. + 0 руб.
-          .product-description {{ product.description }}
-          .options
-            product-options(
-              :sections="product.additional_options || []"
-            )
+    .product-dialog__preview
+      img(:src="product.preview_image")
+    .product-dialog__info
+      .product-dialog__price.price
+        .price__original(v-if="product.discount_price") {{ product.price }} руб.
+        .price__discount {{ product.discount_price || product.price }} руб. + 0 руб.
+      .product-dialog__description {{ product.description }}
+      .product-dialog__options
+        product-options(
+          :sections="product.additional_options || []"
+        )
   template(#footer)
-    .product-dialog-footer
-      el-input-number(
+    .product-dialog__footer.footer
+      el-input-number.footer__input(
         v-model="productAmount",
         :min="1"
-        style="margin-right: 20px"
       )
-      el-button.buy-button(
+      el-button.footer__buy(
         type="primary",
         plain,
         @click="addCartItem()"
@@ -87,23 +83,31 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.product-dialog .product-info {
-  padding: 30px;
-}
 
-.product-dialog .product-preview {
-  max-width: 400px;
-
-  img {
-    width: 100%;
-    height: auto;
+.product-dialog {
+  display: grid;
+  grid-template-columns: .5fr 1.5fr;
+  grid-gap: 15px;
+  &__preview {
+    text-align: center;
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+    }
+  }
+  &__info {
+    padding: 30px;
+  }
+  &__description {
+    margin-top: 20px;
   }
 }
 
-.product-dialog .product-price {
-  font-size: 28px;
-
-  .original-price {
+.price {
+  font-size: 22px;
+  font-weight: 750;
+  &__original {
     color: red;
     font-size: 24px;
     font-weight: 100;
@@ -114,13 +118,46 @@ export default defineComponent({
   }
 }
 
-.product-dialog .product-description {
-  margin-top: 20px;
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  grid-gap: 20px;
 }
 
-.product-dialog-footer {
-  .buy-button {
-    min-width: 120px;
+@include _767 {
+  .product-dialog {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+    &__info {
+      padding: 0;
+    }
+  }
+
+  .price {
+    font-size: 20px;
+    &__original {
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+@include _575 {
+  .product-dialog {
+    &__preview img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+
+@include _480 {
+  .footer {
+    flex-direction: column;
+    grid-gap: 10px;
+    &__input {
+      width: 100%;
+    }
   }
 }
 </style>
