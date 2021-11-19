@@ -32,7 +32,7 @@ export default defineComponent({
       if (isSelected.value) {
         emit('unselect', props.item.uuid);
       } else {
-        emit('select', props.item.uuid);
+        emit('select', { uuid: props.item.uuid });
       }
     };
 

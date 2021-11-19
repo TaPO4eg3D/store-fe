@@ -7,6 +7,7 @@
       :item="item"
       :level="0",
       :selectedElements="selectedElements",
+      :selectedElementsAdditionOptions="selectedElementsAdditionOptions",
       @select="$emit('select', $event)",
       @unselect="$emit('unselect', $event)",
     )
@@ -27,6 +28,9 @@ export default defineComponent({
     selectedElements: {
       required: true,
       type: Set as PropType<Set<String>>,
+    },
+    selectedElementsAdditionOptions: {
+      type: Object,
     },
   },
   emits: ['select', 'unselect',],

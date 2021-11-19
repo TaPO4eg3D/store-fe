@@ -4,6 +4,7 @@
     v-for="section in sections",
     :section="section",
     :selectedElements="selectedElements",
+    :selectedElementsAdditionOptions="selectedElementsAdditionOptions",
     @select="handleSelect",
     @unselect="handleUnselect",
   )
@@ -29,6 +30,10 @@ export default defineComponent({
     const selectedElements: Ref<Set<string>> = ref(new Set([]))
     const requiredElements: Ref<Set<string>> = ref(new Set([]))
 
+    const selectedElementsAdditionOptions: Ref<{
+      [uuid: string]: object,
+    }> = ref({});
+
     const fillSelectedElements = (item: ProductOptionElement) => {
       if (item.is_selected) {
         selectedElements.value.add(item.uuid);
@@ -51,9 +56,13 @@ export default defineComponent({
       });
     })
 
-    const handleSelect = (uuid: string) => {
-      console.log('SELECT: ', uuid);
+    const handleSelect = ({ uuid, options }: { uuid: string, options: object }) => {
+      console.log('SELECT: ', uuid, options);
       selectedElements.value.add(uuid);
+      
+      if (options) {
+        selectedElementsAdditionOptions.value[uuid] = options;
+      }
     };
 
     const handleUnselect = (uuid: string) => {
@@ -64,6 +73,7 @@ export default defineComponent({
     return {
       selectedElements,
       requiredElements,
+      selectedElementsAdditionOptions,
 
       handleSelect,
       handleUnselect,

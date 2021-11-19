@@ -1,9 +1,10 @@
 <template lang="pug">
-el-radio(
+el-input(
   v-if="isVisible",
-  :label="1",
-  :model-value="isSelected",
-  @change="handleChange"
+  :model-value="inputText",
+  :label="item.name",
+  type="textarea",
+  @input="handleChange"
 ) {{ item.name }}
 </template>
 
@@ -22,27 +23,37 @@ export default defineComponent({
       required: true,
       type: Set as PropType<Set<string>>,
     },
+    selectedElementsAdditionOptions: {
+      type: Object,
+    },
   },
+  emits: ['select', 'unselect'],
   setup(props, { emit }) {
-    const isSelected = computed(() => {
-      return props.selectedElements.has(props.item.uuid) ? 1 : 0;
-    });
-
-    const handleChange = () => {
-      if (isSelected.value) {
+    const handleChange = (value: string) => {
+      if (value === '') {
         emit('unselect', props.item.uuid);
       } else {
-        emit('select', { uuid: props.item.uuid });
+        emit('select', { uuid: props.item.uuid, options: { value }})
       }
     };
 
     const isVisible = getVisibility(props);
     setVisibilityWatcher(emit, props.item, isVisible);
 
+    const inputText = computed(() => {
+      const opts: any = props.selectedElementsAdditionOptions;
+
+      if (opts) {
+        return opts[props.item.uuid]?.value;
+      }
+
+      return '';
+    });
+
     return {
-      isSelected,
       isVisible,
       handleChange,
+      inputText,
     }
   },
 })
