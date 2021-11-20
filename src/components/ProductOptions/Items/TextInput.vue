@@ -1,10 +1,13 @@
 <template lang="pug">
-el-input(
-  v-if="isVisible",
-  :model-value="inputText",
-  :label="item.name",
-  @input="handleChange"
-) {{ item.name }}
+.text-input
+  .label {{ item.name }}:
+  el-input(
+    v-if="isVisible",
+    :model-value="inputText",
+    :label="item.name",
+    @input="handleChange"
+    :placeholder="item?.hint",
+  ) {{ item.name }}
 </template>
 
 <script lang="ts">
@@ -58,6 +61,10 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.label {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
 </style>
