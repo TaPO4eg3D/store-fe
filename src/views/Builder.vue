@@ -61,6 +61,20 @@
       @schemaChanged="onSchemaChange",
       @resetSelection="onResetSelection",
     )
+    control-panel-text-input(
+      v-if="selectedItemComponent?.item === 'text-input'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
+    )
+    control-panel-comment-input(
+      v-if="selectedItemComponent?.item === 'comment-input'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
+    )
     el-button(
       type="success",
       style="margin-top: 40px",
@@ -86,13 +100,15 @@ import ControlPanelChoice from '@/components/ProductOptionsBuilder/ControlPanelC
 import ControlPanelChoiceItem from '@/components/ProductOptionsBuilder/ControlPanelChoiceItem.vue'
 import ControlPanelRadio from '@/components/ProductOptionsBuilder/ControlPanelRadio.vue'
 import ControlPanelRadioItem from '@/components/ProductOptionsBuilder/ControlPanelRadioItem.vue'
+import ControlPanelTextInput from '@/components/ProductOptionsBuilder/ControlPanelTextInput.vue'
+import ControlPanelCommentInput from '@/components/ProductOptionsBuilder/ControlPanelCommentInput.vue'
 
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
 
 import Hierarchy from '@/components/ProductOptions/Hierarchy/Hierarchy.vue'
 import ProductOptions from '@/components/ProductOptions/ProductOptions.vue'
+
 import { Product } from '@/common/interfaces/product';
-import { ListResponse } from '@/common/interfaces/list-response';
 
 
 export default defineComponent({
@@ -107,6 +123,8 @@ export default defineComponent({
     ControlPanelChoiceItem,
     ControlPanelRadio,
     ControlPanelRadioItem,
+    ControlPanelTextInput,
+    ControlPanelCommentInput,
 
     ProductOptions,
   },
