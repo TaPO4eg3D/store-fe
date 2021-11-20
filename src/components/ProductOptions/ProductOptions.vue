@@ -109,6 +109,16 @@ export default defineComponent({
       return price;
     });
 
+    const isValid = computed<boolean>(() => {
+      for (const uuid of requiredElements.value) {
+        if (!selectedElements.value.has(uuid)) {
+          return false;
+        }
+      }
+
+      return true;
+    })
+
     return {
       selectedElements,
       requiredElements,
@@ -117,6 +127,7 @@ export default defineComponent({
       resultingPrice,
       itemMap,
 
+      isValid,
       handleSelect,
       handleUnselect,
     }
