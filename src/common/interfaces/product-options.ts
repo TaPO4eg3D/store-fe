@@ -1,3 +1,8 @@
+export interface NumberInputMeta {
+  step_size: number;
+  strict_step: false;
+}
+
 export interface ProductOptionElement {
   uuid: string;
   item: string;
@@ -10,7 +15,8 @@ export interface ProductOptionElement {
   is_selected?: boolean;
   required?: boolean;
   hint?: string;
-  style?: object;
+
+  meta?: object;
 
   condition?: string[];
 }

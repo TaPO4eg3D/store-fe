@@ -75,6 +75,13 @@
       @schemaChanged="onSchemaChange",
       @resetSelection="onResetSelection",
     )
+    control-panel-number-input(
+      v-if="selectedItemComponent?.item === 'number-input'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
+    )
     el-button(
       type="success",
       style="margin-top: 40px",
@@ -102,6 +109,7 @@ import ControlPanelRadio from '@/components/ProductOptionsBuilder/ControlPanelRa
 import ControlPanelRadioItem from '@/components/ProductOptionsBuilder/ControlPanelRadioItem.vue'
 import ControlPanelTextInput from '@/components/ProductOptionsBuilder/ControlPanelTextInput.vue'
 import ControlPanelCommentInput from '@/components/ProductOptionsBuilder/ControlPanelCommentInput.vue'
+import ControlPanelNumberInput from '@/components/ProductOptionsBuilder/ControlPanelNumberInput.vue'
 
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
 
@@ -125,6 +133,7 @@ export default defineComponent({
     ControlPanelRadioItem,
     ControlPanelTextInput,
     ControlPanelCommentInput,
+    ControlPanelNumberInput,
 
     ProductOptions,
   },

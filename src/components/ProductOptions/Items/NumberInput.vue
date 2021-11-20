@@ -4,12 +4,13 @@ el-input(
   :model-value="inputText",
   :label="item.name",
   type="number",
-  @input="handleChange"
+  :step="fieldMeta.step_size",
+  @input="handleChange",
 ) {{ item.name }}
 </template>
 
 <script lang="ts">
-import { ProductOptionElement } from '@/common/interfaces/product-options'
+import { NumberInputMeta, ProductOptionElement } from '@/common/interfaces/product-options'
 import { computed, defineComponent, PropType, ref } from 'vue'
 import { getVisibility, setVisibilityWatcher } from './Utils/isVisible';
 
@@ -29,11 +30,22 @@ export default defineComponent({
   },
   emits: ['select', 'unselect'],
   setup(props, { emit }) {
+    const fieldMeta = computed<NumberInputMeta | null>(() => {
+      return props.item?.meta as NumberInputMeta;
+    })
+
     const handleChange = (value: string) => {
       if (value === '') {
         emit('unselect', props.item.uuid);
       } else {
-        emit('select', { uuid: props.item.uuid, options: { value }})
+        let finalValue = +value;
+
+        if (fieldMeta.value?.strict_step) {
+          const stepSize = fieldMeta.value.step_size;
+          finalValue = Math.floor(finalValue / stepSize) * stepSize;
+        }
+
+        emit('select', { uuid: props.item.uuid, options: { value: finalValue }})
       }
     };
 
@@ -51,6 +63,7 @@ export default defineComponent({
     });
 
     return {
+      fieldMeta,
       isVisible,
       handleChange,
       inputText,
