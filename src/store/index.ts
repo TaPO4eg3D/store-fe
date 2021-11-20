@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 
 import { ElNotification } from 'element-plus'
 
-import type { Cart } from './interfaces/cart'
+import { isEqual } from 'lodash';
+
 import type { CartItem } from './interfaces/cart-item'
 
 import type { Product } from '@/common/interfaces/product'
@@ -22,8 +23,8 @@ export default createStore({
     } as CartDialog,
 
     cart: JSON.parse(
-      localStorage.getItem('cart') || '{}'
-    ) as Cart,
+      localStorage.getItem('cart') || '[]'
+    ) as CartItem[],
 
     currencies: [] as Currency[],
 
@@ -51,40 +52,73 @@ export default createStore({
       }
     },
     addCartItem (state, cartItem: CartItem) {
-      // If a product is in already in the cart, than just
+      // If a product is in already in the cart (with matching options), than just
       // increase an amount in the cart
 
-      if (cartItem.product.id in state.cart) {
-        const existedItem = state.cart[cartItem.product.id]
+      const appendToCart = (): boolean => {
+        const existingItems = state.cart.filter((_cartItem => {
+          if (_cartItem.product.id === cartItem.product.id) {
+            return true;
+          }
+        }));
 
-        state.cart = {
-          ...state.cart,
-          [cartItem.product.id]: {
-            ...existedItem,
-            amount: existedItem.amount + cartItem.amount
-          }
+        if (existingItems.length === 0) {
+          return false;
         }
-      } else {
-        state.cart = {
-          ...state.cart,
-          [cartItem.product.id]: {
-            ...cartItem
+
+        for (const existingItem of existingItems) {
+          if (!isEqual(existingItem.additionalOptions?.sort(), cartItem.additionalOptions?.sort())) {
+            continue;
           }
+
+          if (!isEqual(existingItem.additionalOptionsMeta, cartItem.additionalOptionsMeta)) {
+            continue;
+          }
+
+          const index = state.cart.indexOf(existingItem);
+
+          const newCart = [...state.cart];
+          const oldItem = newCart[index];
+
+          newCart.splice(index, 1, {
+            ...oldItem,
+            amount: oldItem.amount + cartItem.amount,
+            price: cartItem.price,
+          })
+
+          state.cart = newCart;
+
+          return true;
         }
+
+        return false;
+      }
+
+      const appended = appendToCart();
+
+      if (!appended) {
+        state.cart = [
+          ...state.cart,
+          cartItem,
+        ]
       }
 
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
-    setCartItemAmount (state, { productId, amount }: { productId: number, amount: number }) {
-      const cartItem = state.cart[productId]
-
-      state.cart[productId] = {
-        ...cartItem,
+    setCartItemAmount (state, { itemIndex, amount }: { itemIndex: number, amount: number }) {
+      const item = {
+        ...state.cart[itemIndex],
         amount
-      }
+      };
+      const newCart = [...state.cart];
+      newCart.splice(itemIndex, 1, item);
+
+      state.cart = newCart;
+
+      localStorage.setItem('cart', JSON.stringify(state.cart))
     },
-    removeCartItem (state, productId: number) {
-      delete state.cart[productId]
+    removeCartItem (state, itemIndex: number) {
+      state.cart.splice(itemIndex, 1);
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
     setCurrencies (state, payload: { default: Currency, available: Currency[] }) {
@@ -108,15 +142,11 @@ export default createStore({
   },
   getters: {
     itemsInCart: state => {
-      return Object.values(state.cart).reduce((acc: number, cartItem: CartItem) => {
-        acc += cartItem.amount
-        return acc
-      }, 0)
+      return state.cart.length;
     },
     totalPrice: state => {
-      return Object.values(state.cart).reduce((total: number, cartItem: CartItem) => {
-        const price = cartItem.product.discount_price || cartItem.product.price
-        return total + (cartItem.amount * price)
+      return state.cart.reduce((acc, cartItem) => {
+        return acc + cartItem.price * cartItem.amount;
       }, 0)
     },
     getCurrencies: (state) => state.currencies,
@@ -135,23 +165,24 @@ export default createStore({
       context.commit('setCartDialogVisibility', isVisible)
     },
     addCartItem (context, cartItem: CartItem) {
+      context.commit('addCartItem', cartItem)
+
       ElNotification.success({
         title: 'Item has been added',
         message: `${cartItem.product.name} (x${cartItem.amount}) has been added to your cart`
       })
-
-      context.commit('addCartItem', cartItem)
     },
-    removeCartItem (context, product: Product) {
+    removeCartItem (context, itemIndex: number) {
+      const cartItem = context.state.cart[itemIndex];
+      context.commit('removeCartItem', itemIndex);
+
       ElNotification.success({
         title: 'Item has been removed',
-        message: `${product.name} has been removed from your cart`
+        message: `${cartItem.product.name} has been removed from your cart`
       })
-
-      context.commit('removeCartItem', product.id)
     },
-    setCartItemAmount (context, { productId, amount }: {productId: number, amount: number}) {
-      context.commit('setCartItemAmount', { productId, amount })
+    setCartItemAmount (context, { itemIndex, amount }: {itemIndex: number, amount: number}) {
+      context.commit('setCartItemAmount', { itemIndex, amount })
     },
     fetchCurrencies ({ commit }, payload) {
       commit('setCurrencies', payload)

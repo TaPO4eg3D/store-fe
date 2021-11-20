@@ -9,8 +9,9 @@ el-dialog(
     v-if="cartItems.length !== 0"
   )
     cart-item(
-      v-for="cartItem in cartItems",
+      v-for="cartItem, index in cartItems",
       :cartItem="cartItem",
+      :itemIndex="index",
     )
   el-empty(
     v-else,
@@ -53,7 +54,7 @@ export default defineComponent({
     }
 
     const cartItems = computed(() => {
-      return Object.values(store.state.cart)
+      return store.state.cart;
     })
 
     const totalPrice = computed(() => {

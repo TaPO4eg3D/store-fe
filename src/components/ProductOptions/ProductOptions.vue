@@ -62,7 +62,6 @@ export default defineComponent({
     })
 
     const handleSelect = ({ uuid, options }: { uuid: string, options: object }) => {
-      console.log('SELECT: ', uuid, options);
       selectedElements.value.add(uuid);
       
       if (options) {
@@ -71,7 +70,6 @@ export default defineComponent({
     };
 
     const handleUnselect = (uuid: string) => {
-      console.log('UNSELECT: ', uuid);
       selectedElements.value.delete(uuid);
     };
 

@@ -9,7 +9,7 @@
       :min="1",
     )
   .price
-    strong {{ totalPrice }} руб.
+    strong {{ cartItem?.price * cartItem?.amount }} руб.
   .control
     el-popconfirm(
       title="Are you sure that you want to delete that item?",
@@ -33,6 +33,9 @@ export default defineComponent({
   props: {
     cartItem: {
       type: Object as PropType<CartItem>
+    },
+    itemIndex: {
+      type: Number,
     }
   },
   setup (props) {
@@ -40,8 +43,12 @@ export default defineComponent({
 
     const productQuantity: any = computed({
       set (value: number): void {
+        if (props.itemIndex == null) {
+          return;
+        }
+
         store.dispatch('setCartItemAmount', {
-          productId: props.cartItem?.product.id,
+          itemIndex: props.itemIndex,
           amount: value
         })
       },
@@ -50,25 +57,11 @@ export default defineComponent({
       }
     })
 
-    const totalPrice = computed(() => {
-      const product = props.cartItem?.product
-
-      if (!product) {
-        return 0
-      }
-
-      const price = product.discount_price ||
-        product.price
-
-      return price * productQuantity.value
-    })
-
     const deleteCartItem = () => {
-      store.dispatch('removeCartItem', props.cartItem?.product)
+      store.dispatch('removeCartItem', props.itemIndex)
     }
 
     return {
-      totalPrice,
       deleteCartItem,
       productQuantity
     }
