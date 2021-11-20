@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
-import { defineComponent, PropType, ref, Ref, watch } from 'vue'
+import { NumberInputMeta, ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
+import { defineComponent, PropType, ref, Ref, watch, computed } from 'vue'
 
 import OptionSection from './Section.vue'
 
@@ -30,6 +30,8 @@ export default defineComponent({
     const selectedElements: Ref<Set<string>> = ref(new Set([]))
     const requiredElements: Ref<Set<string>> = ref(new Set([]))
 
+    const itemMap: { [uuid: string]: ProductOptionElement } = {};
+
     const selectedElementsAdditionOptions: Ref<{
       [uuid: string]: object,
     }> = ref({});
@@ -43,12 +45,15 @@ export default defineComponent({
         requiredElements.value.add(item.uuid);
       }
 
+      itemMap[item.uuid] = item;
+
       item.children?.forEach(child => {
         fillSelectedElements(child);
       })
     };
 
     watch(props, () => {
+      console.log(props);
       props.sections.forEach(section => {
         section.children.forEach(child => {
           fillSelectedElements(child);
@@ -70,10 +75,47 @@ export default defineComponent({
       selectedElements.value.delete(uuid);
     };
 
+    const resultingPrice = computed<number>(() => {
+      let price = 0;
+
+      selectedElements.value.forEach(uuid => {
+        const item = itemMap[uuid];
+        
+        if (!item) {
+          return;
+        }
+
+        const price_modifier = item.price_modifier || 0;
+
+        if (price_modifier === 0) {
+          return;
+        }
+
+        if (item.item === 'number-input') {
+          const { value } = selectedElementsAdditionOptions.value[uuid] as any;
+          const meta = item.meta as NumberInputMeta;
+          
+          if (meta.step_size !== 0) {
+            const diff = price_modifier / meta.step_size;
+            price += value * diff;
+
+            return;
+          } 
+        }
+
+        price += item.price_modifier || 0;
+      });
+
+      return price;
+    });
+
     return {
       selectedElements,
       requiredElements,
       selectedElementsAdditionOptions,
+
+      resultingPrice,
+      itemMap,
 
       handleSelect,
       handleUnselect,

@@ -14,10 +14,11 @@ el-dialog(
         .product-info
           .product-price
             .original-price(v-if="product.discount_price") {{ product.price }} руб.
-            .price {{ product.discount_price || product.price }} руб. + 0 руб.
+            .price {{ product.discount_price || product.price }} руб. + {{ productOptionsRef?.resultingPrice }} руб.
           .product-description {{ product.description }}
           .options
             product-options(
+              ref="productOptionsRef",
               :sections="product.additional_options || []"
             )
   template(#footer)
@@ -35,6 +36,7 @@ import { Product } from '@/common/interfaces/product'
 import {
   defineComponent,
   PropType,
+  Ref,
   ref,
   watch
 } from 'vue'
@@ -52,7 +54,7 @@ export default defineComponent({
     product: {
       type: Object as PropType<Product>,
       required: true
-    }
+    },
   },
   components: {
     ProductOptions,
@@ -60,6 +62,8 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const productAmount = ref(1);
+
+    const productOptionsRef: Ref<typeof ProductOptions | null> = ref(null);
 
     const handleClose = () => {
       productAmount.value = 1
@@ -74,9 +78,10 @@ export default defineComponent({
     }
 
     return {
+      productOptionsRef,
       productAmount,
       handleClose,
-      addCartItem
+      addCartItem,
     }
   }
 })

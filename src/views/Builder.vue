@@ -1,6 +1,7 @@
 <template lang="pug">
 .builder
   .control-container
+    .total-price Total Price: {{ productOptionsRef?.resultingPrice }}
     hierarchy(
       :schema="workingSchema",
       :selectedItem="selectedItem",
@@ -89,6 +90,7 @@
     ) Save Schema
   .preview
     product-options(
+      ref="productOptionsRef",
       :sections="workingSchema",
     )
 </template>
@@ -139,6 +141,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    const productOptionsRef: Ref<typeof ProductOptions | null> = ref(null);
 
     const itemMap: Ref<Map<string, ProductOptionElement>> = ref(new Map());
     const workingSchema: Ref<ProductOptionSection[]> = ref([]);
@@ -223,6 +226,7 @@ export default defineComponent({
 
       selectedItem,
       selectedItemComponent,
+      productOptionsRef,
 
       onSchemaChange,
       onSelectItem,
@@ -239,6 +243,10 @@ export default defineComponent({
   display: grid;
 
   grid-template-columns: 400px 1fr;
+
+  .total-price {
+    margin-bottom: 10px;
+  }
 
   .control-container {
     display: flex;
