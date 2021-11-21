@@ -17,7 +17,7 @@ el-dialog(
     :description="$t('cart.description_empty')",
   )
 
-  .total-price Total price: {{ totalPrice }} руб.
+  .total-price {{ $t('cart.total') }}: {{ totalPrice }} руб.
 
   template(#footer="")
     span.dialog-footer

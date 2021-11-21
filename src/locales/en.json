@@ -6,7 +6,9 @@
     "title": "Cart",
     "description_empty": "No items in your cart",
     "button_cancel": "Cancel",
-    "button_confirm": "Confirm"
+    "button_confirm": "Confirm",
+    "total": "Total price",
+    "delete": "Are you sure that you want to delete that item?"
   },
   "product_search_placeholder": "Input product name",
   "sell_to_us": "Sell to us",

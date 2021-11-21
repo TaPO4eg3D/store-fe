@@ -1,25 +1,27 @@
 <template lang="pug">
 .cart-item
-  .preview
-    img(:src="cartItem?.product?.preview_image")
-  .name {{ cartItem?.product?.name }}
-  .quantiy
-    el-input-number(
-      v-model="productQuantity",
-      :min="1",
-    )
-  .price
-    strong {{ totalPrice }} руб.
-  .control
-    el-popconfirm(
-      title="Are you sure that you want to delete that item?",
-      @confirm="deleteCartItem()",
-    )
-      template(#reference)
-        el-button(
-          type="danger",
-          icon="el-icon-delete",
-        )
+  .cart-item__left
+    .preview
+      img(:src="cartItem?.product?.preview_image")
+    .name {{ cartItem?.product?.name }}
+  .cart-item__right
+    .quantiy
+      el-input-number(
+        v-model="productQuantity",
+        :min="1",
+      )
+    .price
+      strong {{ totalPrice }} руб.
+    .control
+      el-popconfirm(
+        :title="$t('cart.delete')",
+        @confirm="deleteCartItem()",
+      )
+        template(#reference)
+          el-button(
+            type="danger",
+            icon="el-icon-delete",
+          )
 </template>
 
 <script lang="ts">
@@ -78,9 +80,22 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .cart-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+
+  &__left {
+    display: flex;
+    grid-gap: 10px;
+    align-items: center;
+  }
+
+  &__right {
+    display: flex;
+    grid-gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   border-radius: 10px;
 
@@ -94,12 +109,28 @@ export default defineComponent({
     height: 80px;
   }
 
-  .name {
-    text-align: center;
-    min-width: 200px;
-    max-width: 200px;
+  .control {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-    text-overflow: ellipsis;
+  @include _1500 {
+    grid-template-columns: 1fr;
+  }
+
+  @include _1199 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include _991 {
+    grid-template-columns: 1fr;
+  }
+
+  @include _575 {
+    .preview img {
+      width: 55px;
+      height: 55px;
+    }
   }
 }
 </style>

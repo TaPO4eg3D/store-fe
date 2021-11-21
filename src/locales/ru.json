@@ -6,7 +6,9 @@
     "title": "ruCart",
     "description_empty": "ruNo items in your cart",
     "button_cancel": "ruCancel",
-    "button_confirm": "ruConfirm"
+    "button_confirm": "ruConfirm",
+    "total": "ruTotal price",
+    "delete": "ruAre you sure that you want to delete that item?"
   },
   "product_search_placeholder": "ruInput product name",
   "sell_to_us": "ruSell to us",
