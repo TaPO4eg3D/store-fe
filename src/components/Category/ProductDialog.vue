@@ -11,10 +11,11 @@ el-dialog(
     .product-dialog__info
       .product-dialog__price.price
         .price__original(v-if="product.discount_price") {{ product.price }} руб.
-        .price__discount {{ product.discount_price || product.price }} руб. + 0 руб.
+        .price__discount {{ product.discount_price || product.price }} руб. + {{ productOptionsRef?.resultingPrice }} руб.
       .product-dialog__description {{ product.description }}
       .product-dialog__options
         product-options(
+          ref="productOptionsRef",
           :sections="product.additional_options || []"
         )
   template(#footer)
@@ -26,6 +27,7 @@ el-dialog(
       el-button.footer__buy(
         type="primary",
         plain,
+        :disabled="!productOptionsRef?.isValid ?? true",
         @click="addCartItem()"
       ) {{ $t('product.add_to_cart') }}
 </template>
@@ -35,6 +37,7 @@ import { Product } from '@/common/interfaces/product'
 import {
   defineComponent,
   PropType,
+  Ref,
   ref,
   watch
 } from 'vue'
@@ -61,6 +64,8 @@ export default defineComponent({
     const store = useStore()
     const productAmount = ref(1)
 
+    const productOptionsRef: Ref<typeof ProductOptions | null> = ref(null)
+
     const handleClose = () => {
       productAmount.value = 1
       store.dispatch('setProductDialogVisibility', false)
@@ -74,6 +79,7 @@ export default defineComponent({
     }
 
     return {
+      productOptionsRef,
       productAmount,
       handleClose,
       addCartItem
@@ -83,7 +89,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 .product-dialog {
   display: grid;
   grid-template-columns: .5fr 1.5fr;
@@ -149,12 +154,12 @@ export default defineComponent({
       height: 150px;
     }
   }
-}
 
 @include _480 {
   .footer {
     flex-direction: column;
     grid-gap: 10px;
+
     &__input {
       width: 100%;
     }

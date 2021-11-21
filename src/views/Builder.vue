@@ -1,6 +1,7 @@
 <template lang="pug">
 .builder
   .control-container
+    .total-price Total Price: {{ productOptionsRef?.resultingPrice }}
     hierarchy(
       :schema="workingSchema",
       :selectedItem="selectedItem",
@@ -61,6 +62,27 @@
       @schemaChanged="onSchemaChange",
       @resetSelection="onResetSelection",
     )
+    control-panel-text-input(
+      v-if="selectedItemComponent?.item === 'text-input'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
+    )
+    control-panel-comment-input(
+      v-if="selectedItemComponent?.item === 'comment-input'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
+    )
+    control-panel-number-input(
+      v-if="selectedItemComponent?.item === 'number-input'",
+      :schema="workingSchema",
+      :selectedItem="selectedItemComponent",
+      @schemaChanged="onSchemaChange",
+      @resetSelection="onResetSelection",
+    )
     el-button(
       type="success",
       style="margin-top: 40px",
@@ -68,6 +90,7 @@
     ) Save Schema
   .preview
     product-options(
+      ref="productOptionsRef",
       :sections="workingSchema",
     )
 </template>
@@ -86,13 +109,16 @@ import ControlPanelChoice from '@/components/ProductOptionsBuilder/ControlPanelC
 import ControlPanelChoiceItem from '@/components/ProductOptionsBuilder/ControlPanelChoiceItem.vue'
 import ControlPanelRadio from '@/components/ProductOptionsBuilder/ControlPanelRadio.vue'
 import ControlPanelRadioItem from '@/components/ProductOptionsBuilder/ControlPanelRadioItem.vue'
+import ControlPanelTextInput from '@/components/ProductOptionsBuilder/ControlPanelTextInput.vue'
+import ControlPanelCommentInput from '@/components/ProductOptionsBuilder/ControlPanelCommentInput.vue'
+import ControlPanelNumberInput from '@/components/ProductOptionsBuilder/ControlPanelNumberInput.vue'
 
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
 
 import Hierarchy from '@/components/ProductOptions/Hierarchy/Hierarchy.vue'
 import ProductOptions from '@/components/ProductOptions/ProductOptions.vue'
+
 import { Product } from '@/common/interfaces/product';
-import { ListResponse } from '@/common/interfaces/list-response';
 
 
 export default defineComponent({
@@ -107,11 +133,15 @@ export default defineComponent({
     ControlPanelChoiceItem,
     ControlPanelRadio,
     ControlPanelRadioItem,
+    ControlPanelTextInput,
+    ControlPanelCommentInput,
+    ControlPanelNumberInput,
 
     ProductOptions,
   },
   setup() {
     const route = useRoute();
+    const productOptionsRef: Ref<typeof ProductOptions | null> = ref(null);
 
     const itemMap: Ref<Map<string, ProductOptionElement>> = ref(new Map());
     const workingSchema: Ref<ProductOptionSection[]> = ref([]);
@@ -196,6 +226,7 @@ export default defineComponent({
 
       selectedItem,
       selectedItemComponent,
+      productOptionsRef,
 
       onSchemaChange,
       onSelectItem,
@@ -212,6 +243,10 @@ export default defineComponent({
   display: grid;
 
   grid-template-columns: 400px 1fr;
+
+  .total-price {
+    margin-bottom: 10px;
+  }
 
   .control-container {
     display: flex;

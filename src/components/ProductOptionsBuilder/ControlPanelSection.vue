@@ -42,7 +42,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
-import { ProductOptionSection } from '@/common/interfaces/product-options';
+import { ProductOptionSection, NumberInputMeta } from '@/common/interfaces/product-options';
 
 import { v4 as uuid } from 'uuid';
 
@@ -170,7 +170,13 @@ export default defineComponent({
         return;
       }
 
+      const meta: NumberInputMeta = {
+        step_size: 0,
+        strict_step: false,
+      };
+
       section.children?.push({
+        meta,
         uuid: uuid(),
         item: 'number-input',
         name: 'New number input',
