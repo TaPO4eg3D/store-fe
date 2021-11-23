@@ -60,7 +60,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .switch-locale {
   .el-dropdown-selfdefine {
     background: #f5f5f5;
@@ -77,6 +77,8 @@ export default defineComponent({
   }
   .title {
     text-transform: uppercase;
+    display: flex;
+    grid-gap: 5px;
   }
 }
 

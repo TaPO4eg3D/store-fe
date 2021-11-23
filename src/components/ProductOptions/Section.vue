@@ -23,27 +23,27 @@ export default defineComponent({
   props: {
     section: {
       required: true,
-      type: Object as PropType<ProductOptionSection>,
+      type: Object as PropType<ProductOptionSection>
     },
     selectedElements: {
       required: true,
-      type: Set as PropType<Set<String>>,
+      type: Set as PropType<Set<string>>
     },
     selectedElementsAdditionOptions: {
-      type: Object,
-    },
+      type: Object
+    }
   },
-  emits: ['select', 'unselect',],
+  emits: ['select', 'unselect'],
   components: {
-    OptionItem,
+    OptionItem
   },
-  setup() {
-    
-  },
+  setup () {
+
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .option-section {
   .header {
     font-weight: 800;

@@ -53,9 +53,8 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue'
 
-import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
-import { getAllItems, updateItemProps, deleteItem } from './Utils/update-item-props';
-
+import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
+import { getAllItems, updateItemProps, deleteItem } from './Utils/update-item-props'
 
 export default defineComponent({
   props: {
@@ -65,77 +64,77 @@ export default defineComponent({
     },
     selectedItem: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
-    },
+      type: Object as PropType<ProductOptionElement>
+    }
   },
   emits: ['schemaChanged', 'resetSelection'],
-  setup(props, { emit }) {
-    const allItems = ref(getAllItems(props.schema));
+  setup (props, { emit }) {
+    const allItems = ref(getAllItems(props.schema))
 
     watch(props.schema, () => {
-      allItems.value = getAllItems(props.schema);
-    });
+      allItems.value = getAllItems(props.schema)
+    })
 
     const onNameChange = (value: string) => {
-      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { name: value });
-      emit('schemaChanged', newSchema);
-    };
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { name: value })
+      emit('schemaChanged', newSchema)
+    }
 
     const onAddCondition = () => {
-      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { 
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, {
         condition: [
           ...props.selectedItem.condition || [],
-          '',
+          ''
         ]
-       });
+      })
 
-      emit('schemaChanged', newSchema);
-    };
+      emit('schemaChanged', newSchema)
+    }
 
     const onConditionSelect = (value: string, index: number) => {
-      const conditions = [...props.selectedItem.condition || []];
-      conditions[index] = value;
+      const conditions = [...props.selectedItem.condition || []]
+      conditions[index] = value
 
-      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { 
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, {
         condition: conditions
-      });
+      })
 
-      emit('schemaChanged', newSchema);
-    };
+      emit('schemaChanged', newSchema)
+    }
 
     const onConditionRemove = (index: number) => {
-      const conditions = [...props.selectedItem.condition || []];
-      conditions.splice(index, 1);
+      const conditions = [...props.selectedItem.condition || []]
+      conditions.splice(index, 1)
 
-      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { 
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, {
         condition: conditions
-      });
+      })
 
-      emit('schemaChanged', newSchema);
-    };
+      emit('schemaChanged', newSchema)
+    }
 
     const onPriceChange = (value: number) => {
-      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { price_modifier: +value });
-      emit('schemaChanged', newSchema);
-    };
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { price_modifier: +value })
+      emit('schemaChanged', newSchema)
+    }
 
     const onItemRemove = () => {
-      const newSchema = deleteItem(props.selectedItem.uuid, props.schema);
-      emit('schemaChanged', newSchema);
-      emit('resetSelection');
-    };
+      const newSchema = deleteItem(props.selectedItem.uuid, props.schema)
+      emit('schemaChanged', newSchema)
+      emit('resetSelection')
+    }
 
     const onSetDefaultSelection = () => {
-      const isSelected = props.selectedItem.is_selected ?? false;
-      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { is_selected: !isSelected });
-      emit('schemaChanged', newSchema);
-    };
+      const isSelected = props.selectedItem.is_selected ?? false
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { is_selected: !isSelected })
+      emit('schemaChanged', newSchema)
+    }
 
     const onSetRequired = () => {
-      const isRequired = props.selectedItem.required ?? false;
-      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { required: !isRequired });
-      emit('schemaChanged', newSchema);
-    };
+      const isRequired = props.selectedItem.required ?? false
+      const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, { required: !isRequired })
+      emit('schemaChanged', newSchema)
+    }
 
     return {
       allItems,
@@ -149,13 +148,13 @@ export default defineComponent({
       onSetDefaultSelection,
       onSetRequired,
 
-      onItemRemove,
+      onItemRemove
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .condition {
   display: flex;
 

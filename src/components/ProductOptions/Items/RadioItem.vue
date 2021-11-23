@@ -10,44 +10,44 @@ el-radio(
 <script lang="ts">
 import { ProductOptionElement } from '@/common/interfaces/product-options'
 import { computed, defineComponent, PropType, ref } from 'vue'
-import { getVisibility, setVisibilityWatcher } from './Utils/isVisible';
+import { getVisibility, setVisibilityWatcher } from './Utils/isVisible'
 
 export default defineComponent({
   props: {
     item: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
+      type: Object as PropType<ProductOptionElement>
     },
     selectedElements: {
       required: true,
-      type: Set as PropType<Set<string>>,
-    },
+      type: Set as PropType<Set<string>>
+    }
   },
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const isSelected = computed(() => {
-      return props.selectedElements.has(props.item.uuid) ? 1 : 0;
-    });
+      return props.selectedElements.has(props.item.uuid) ? 1 : 0
+    })
 
     const handleChange = () => {
       if (isSelected.value) {
-        emit('unselect', props.item.uuid);
+        emit('unselect', props.item.uuid)
       } else {
-        emit('select', { uuid: props.item.uuid });
+        emit('select', { uuid: props.item.uuid })
       }
-    };
+    }
 
-    const isVisible = getVisibility(props);
-    setVisibilityWatcher(emit, props.item, isVisible);
+    const isVisible = getVisibility(props)
+    setVisibilityWatcher(emit, props.item, isVisible)
 
     return {
       isSelected,
       isVisible,
-      handleChange,
+      handleChange
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 </style>

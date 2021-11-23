@@ -97,9 +97,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
-import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router'
 
-import axios from 'axios';
+import axios from 'axios'
 
 import ControlPanelMain from '@/components/ProductOptionsBuilder/ControlPanelMain.vue'
 import ControlPanelSection from '@/components/ProductOptionsBuilder/ControlPanelSection.vue'
@@ -113,13 +113,12 @@ import ControlPanelTextInput from '@/components/ProductOptionsBuilder/ControlPan
 import ControlPanelCommentInput from '@/components/ProductOptionsBuilder/ControlPanelCommentInput.vue'
 import ControlPanelNumberInput from '@/components/ProductOptionsBuilder/ControlPanelNumberInput.vue'
 
-import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
+import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
 
 import Hierarchy from '@/components/ProductOptions/Hierarchy/Hierarchy.vue'
 import ProductOptions from '@/components/ProductOptions/ProductOptions.vue'
 
-import { Product } from '@/common/interfaces/product';
-
+import { Product } from '@/common/interfaces/product'
 
 export default defineComponent({
   components: {
@@ -137,90 +136,90 @@ export default defineComponent({
     ControlPanelCommentInput,
     ControlPanelNumberInput,
 
-    ProductOptions,
+    ProductOptions
   },
-  setup() {
-    const route = useRoute();
-    const productOptionsRef: Ref<typeof ProductOptions | null> = ref(null);
+  setup () {
+    const route = useRoute()
+    const productOptionsRef: Ref<typeof ProductOptions | null> = ref(null)
 
-    const itemMap: Ref<Map<string, ProductOptionElement>> = ref(new Map());
-    const workingSchema: Ref<ProductOptionSection[]> = ref([]);
+    const itemMap: Ref<Map<string, ProductOptionElement>> = ref(new Map())
+    const workingSchema: Ref<ProductOptionSection[]> = ref([])
 
-    const selectedItem: Ref<string | null> = ref(null);
+    const selectedItem: Ref<string | null> = ref(null)
 
     const traverseItem = (item: ProductOptionElement) => {
-      itemMap.value.set(item.uuid, item);
+      itemMap.value.set(item.uuid, item)
 
       item.children?.forEach(child => {
-        traverseItem(child);
-      });
-    };
+        traverseItem(child)
+      })
+    }
 
     const updateItemMap = () => {
       workingSchema.value.forEach(section => {
         // TODO: FIX TYPINGS
         // @ts-ignore
-        itemMap.value.set(section.uuid, section);
+        itemMap.value.set(section.uuid, section)
 
         section.children.forEach(item => {
-          traverseItem(item);
-        });
-      });
-    };
+          traverseItem(item)
+        })
+      })
+    }
 
     const onSchemaChange = (schema: ProductOptionSection[]) => {
-      console.log(schema);
-      workingSchema.value = schema;
-      updateItemMap();
-    };
+      console.log(schema)
+      workingSchema.value = schema
+      updateItemMap()
+    }
 
     const onSelectItem = (uuid: string) => {
-      selectedItem.value = uuid;
-    };
+      selectedItem.value = uuid
+    }
 
     const onResetSelection = () => {
-      selectedItem.value = null;
+      selectedItem.value = null
     }
 
     const selectedItemComponent = computed(() => {
       if (!selectedItem.value) {
-        return null;
+        return null
       }
 
-      const _selectedItem = itemMap.value.get(selectedItem.value);
+      const _selectedItem = itemMap.value.get(selectedItem.value)
 
       if (!_selectedItem) {
-        return null;
+        return null
       }
-      
-      console.log(_selectedItem.item);
-      return _selectedItem;
-    });
 
-    let product: Product | null = null;
+      console.log(_selectedItem.item)
+      return _selectedItem
+    })
+
+    let product: Product | null = null
 
     onMounted(async () => {
-      const productID = route.params.id;
-      const responseProduct = await axios.get<Product>(`/api/products/${productID}/`);
+      const productID = route.params.id
+      const responseProduct = await axios.get<Product>(`/api/products/${productID}/`)
 
-      product = responseProduct.data;
-      const additionalOptions = product.additional_options;
+      product = responseProduct.data
+      const additionalOptions = product.additional_options
 
       if (additionalOptions) {
-        onSchemaChange(additionalOptions);
+        onSchemaChange(additionalOptions)
       }
-    });
+    })
 
     const saveSchema = async () => {
-      const productID = route.params.id;
+      const productID = route.params.id
 
       await axios.put(`/api/products/${productID}/`, {
-        additional_options: workingSchema.value,
-      } as Partial<Product>);
+        additional_options: workingSchema.value
+      } as Partial<Product>)
 
-      alert('Done!');
-    };
-    
+      alert('Done!')
+    }
+
     return {
       workingSchema,
 
@@ -232,13 +231,13 @@ export default defineComponent({
       onSelectItem,
       onResetSelection,
 
-      saveSchema,
+      saveSchema
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .builder {
   display: grid;
 

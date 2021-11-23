@@ -16,12 +16,12 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue'
 
-import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
+import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
 
-import ControlPanelCommon from './ControlPanelCommon.vue';
-import { updateItemProps } from './Utils/update-item-props';
+import ControlPanelCommon from './ControlPanelCommon.vue'
+import { updateItemProps } from './Utils/update-item-props'
 
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 
 export default defineComponent({
   props: {
@@ -31,39 +31,39 @@ export default defineComponent({
     },
     selectedItem: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
-    },
+      type: Object as PropType<ProductOptionElement>
+    }
   },
   components: {
-    ControlPanelCommon,
+    ControlPanelCommon
   },
   emits: ['schemaChanged', 'resetSelection'],
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const createRadioItem = () => {
-      const children = props.selectedItem.children || [];
+      const children = props.selectedItem.children || []
       children.push({
         uuid: uuid(),
         item: 'radio-item',
-        name: 'New Radio Item',
-      });
+        name: 'New Radio Item'
+      })
 
       const newSchema = updateItemProps(
         props.selectedItem.uuid,
         props.schema,
-        { children },
-      );
+        { children }
+      )
 
-      emit('schemaChanged', newSchema);
-    };
+      emit('schemaChanged', newSchema)
+    }
 
     return {
-      createRadioItem,
+      createRadioItem
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .condition {
   display: flex;
 

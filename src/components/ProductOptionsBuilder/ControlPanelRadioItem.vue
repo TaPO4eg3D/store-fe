@@ -12,33 +12,33 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue'
 
-import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
+import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
 
-import ControlPanelCommon from './ControlPanelCommon.vue';
+import ControlPanelCommon from './ControlPanelCommon.vue'
 
 export default defineComponent({
   props: {
     schema: {
       required: true,
-      type: Array as PropType<ProductOptionSection[]>,
+      type: Array as PropType<ProductOptionSection[]>
     },
     selectedItem: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
-    },
-  },
-  components: {
-    ControlPanelCommon,
-  },
-  emits: ['schemaChanged', 'resetSelection'],
-  setup(props, { emit }) {
-    return {
+      type: Object as PropType<ProductOptionElement>
     }
   },
+  components: {
+    ControlPanelCommon
+  },
+  emits: ['schemaChanged', 'resetSelection'],
+  setup (props, { emit }) {
+    return {
+    }
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .condition {
   display: flex;
 

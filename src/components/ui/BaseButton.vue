@@ -59,8 +59,8 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
-.base-button {
+<style lang="scss" scoped>
+.base-button::v-deep {
   width: 100%;
   min-width: 150px;
   span {

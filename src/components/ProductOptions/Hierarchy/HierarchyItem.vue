@@ -1,7 +1,7 @@
 <template lang="pug">
 .item-wrapper(
   :style="{ 'margin-left': `${8 * level}px` }"
-) 
+)
   .item(
     :class="{\
       'is-active': item.uuid === selectedItem,\
@@ -25,24 +25,24 @@ export default defineComponent({
   name: 'hierarchy-item',
   props: {
     item: {
-      type: Object as PropType<ProductOptionElement>,
+      type: Object as PropType<ProductOptionElement>
     },
     level: {
       required: true,
       type: Number,
-      default: 0,
+      default: 0
     },
     selectedItem: {
-      type: String,
-    },
+      type: String
+    }
   },
   emits: ['selectItem'],
-  setup() {
-    
-  },
+  setup () {
+
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 </style>

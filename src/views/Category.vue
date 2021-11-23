@@ -1,5 +1,6 @@
 <template lang="pug">
 .category
+  base-breadcrumb
   h2.category__title {{ categoryName }}
   .category__content.divider
     .side-section
@@ -26,14 +27,11 @@ import axios from 'axios'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-import Navigation from '@/components/Home/Navigation.vue'
-import Search from '@/components/Home/Search.vue'
-
 import GeneralCard from '@/components/GeneralCard.vue'
+import ProductCard from '@/components/ProductCard.vue'
+import BaseBreadcrumb from '@/components/ui/BaseBreadcrumb.vue'
 
 import ProductFilter from '@/components/Category/ProductFilter.vue'
-import ProductCard from '@/components/ProductCard.vue'
-
 import ProductDialog from '@/components/Category/ProductDialog.vue'
 import PopularProducts from '@/components/Home/PopularProducts.vue'
 
@@ -43,13 +41,12 @@ import { Category } from '@/common/interfaces/category'
 
 export default defineComponent({
   components: {
-    Navigation,
-    Search,
     ProductFilter,
     ProductCard,
     GeneralCard,
     ProductDialog,
-    PopularProducts
+    PopularProducts,
+    BaseBreadcrumb
   },
   setup () {
     const route = useRoute()

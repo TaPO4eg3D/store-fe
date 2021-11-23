@@ -83,103 +83,103 @@ import { defineComponent, PropType } from 'vue'
 
 import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
 
-import OptionButton from './Items/Button.vue';
-import OptionButtonGroup from './Items/ButtonGroup.vue';
-import OptionChoice from './Items/Choice.vue';
-import OptionChoiceItem from './Items/ChoiceItem.vue';
-import OptionRadio from './Items/Radio.vue';
-import OptionRadioItem from './Items/RadioItem.vue';
-import OptionTextInput from './Items/TextInput.vue';
-import OptionCommentInput from './Items/CommentInput.vue';
-import OptionNumberInput from './Items/NumberInput.vue';
+import OptionButton from './Items/Button.vue'
+import OptionButtonGroup from './Items/ButtonGroup.vue'
+import OptionChoice from './Items/Choice.vue'
+import OptionChoiceItem from './Items/ChoiceItem.vue'
+import OptionRadio from './Items/Radio.vue'
+import OptionRadioItem from './Items/RadioItem.vue'
+import OptionTextInput from './Items/TextInput.vue'
+import OptionCommentInput from './Items/CommentInput.vue'
+import OptionNumberInput from './Items/NumberInput.vue'
 
 export default defineComponent({
   name: 'option-item',
   props: {
     item: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
+      type: Object as PropType<ProductOptionElement>
     },
     level: {
       required: true,
-      type: Number,
+      type: Number
     },
     selectedElements: {
       required: true,
-      type: Set as PropType<Set<string>>,
+      type: Set as PropType<Set<string>>
     },
     selectedElementsAdditionOptions: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   emits: ['select', 'unselect'],
   components: {
-   OptionButton,
-   OptionButtonGroup,
-   OptionChoice,
-   OptionChoiceItem,
-   OptionRadioItem,
-   OptionRadio,
-   OptionTextInput,
-   OptionCommentInput,
-   OptionNumberInput,
+    OptionButton,
+    OptionButtonGroup,
+    OptionChoice,
+    OptionChoiceItem,
+    OptionRadioItem,
+    OptionRadio,
+    OptionTextInput,
+    OptionCommentInput,
+    OptionNumberInput
   },
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const handleButtonGroupSelect = (item: ProductOptionElement, { uuid }: { uuid: string }) => {
       // Unselect everything from this group
       item.children?.forEach(child => {
         if (child.uuid !== uuid) {
-          emit('unselect', child.uuid);
+          emit('unselect', child.uuid)
         } else {
-          emit('select', { uuid });
+          emit('select', { uuid })
         }
-      });
+      })
 
       // And mark the group itself as selected
-      emit('select', { uuid: item.uuid });
+      emit('select', { uuid: item.uuid })
     }
 
     const handleButtonGroupUnselect = (item: ProductOptionElement) => {
       item.children?.forEach(child => {
-        emit('unselect', child.uuid);
-      });
+        emit('unselect', child.uuid)
+      })
 
-      emit('unselect', item.uuid);
+      emit('unselect', item.uuid)
     }
 
     const handleChoiceSelect = (item: ProductOptionElement, uuid: string) => {
-      emit('select', uuid);
+      emit('select', uuid)
       emit('select', { uuid: item.uuid })
-    };
+    }
 
     const handleChoiceUnselect = (item: ProductOptionElement, uuid: string) => {
-      emit('unselect', uuid);
+      emit('unselect', uuid)
 
-      for (let child of item.children || []) {
+      for (const child of item.children || []) {
         if (props.selectedElements.has(child.uuid)) {
-          return;
+          return
         }
       }
 
-      emit('unselect', item.uuid);
-    };
+      emit('unselect', item.uuid)
+    }
 
     const handeRadioUnselect = (item: ProductOptionElement, uuid: string) => {
-      emit('unselect', uuid);
+      emit('unselect', uuid)
 
       item.children?.forEach(child => {
-        emit('unselect', child.uuid);
-      });
+        emit('unselect', child.uuid)
+      })
 
       emit('unselect', item.uuid)
-    };
+    }
 
     const handeRadioSelect = (item: ProductOptionElement, uuid: string) => {
-      handeRadioUnselect(item, uuid);
+      handeRadioUnselect(item, uuid)
 
-      emit('select', uuid);
+      emit('select', uuid)
       emit('select', { uuid: item.uuid })
-    };
+    }
 
     return {
       handleButtonGroupSelect,
@@ -189,13 +189,13 @@ export default defineComponent({
       handleChoiceUnselect,
 
       handeRadioSelect,
-      handeRadioUnselect,
+      handeRadioUnselect
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .option-item {
   width: 100%;
   margin-bottom: 5px;

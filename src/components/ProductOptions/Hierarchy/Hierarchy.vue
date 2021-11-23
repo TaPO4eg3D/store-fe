@@ -25,10 +25,10 @@
 </template>
 
 <script lang="ts">
-import { ProductOptionSection } from '@/common/interfaces/product-options';
+import { ProductOptionSection } from '@/common/interfaces/product-options'
 import { defineComponent, PropType, Ref, ref } from 'vue'
 
-import HierarchyItem from './HierarchyItem.vue';
+import HierarchyItem from './HierarchyItem.vue'
 
 export default defineComponent({
   props: {
@@ -37,21 +37,21 @@ export default defineComponent({
       type: Array as PropType<ProductOptionSection[]>
     },
     selectedItem: {
-      type: String,
-    },
+      type: String
+    }
   },
   emits: ['selectItem'],
   components: {
-    HierarchyItem,
+    HierarchyItem
   },
-  setup() {
+  setup () {
     return {
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .hierarchy {
   border: 1px solid black;
   min-height: 300px;

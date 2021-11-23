@@ -9,46 +9,46 @@ el-button.options-button(
 <script lang="ts">
 import { ProductOptionElement } from '@/common/interfaces/product-options'
 import { defineComponent, PropType, computed, Prop } from 'vue'
-import { getVisibility, setVisibilityWatcher } from './Utils/isVisible';
+import { getVisibility, setVisibilityWatcher } from './Utils/isVisible'
 
 export default defineComponent({
   props: {
     item: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
+      type: Object as PropType<ProductOptionElement>
     },
     selectedElements: {
       required: true,
-      type: Set as PropType<Set<string>>,
-    },
+      type: Set as PropType<Set<string>>
+    }
   },
   emits: ['select', 'unselect'],
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const isSelected = computed(() => {
-      return props.selectedElements.has(props.item.uuid);
-    });
+      return props.selectedElements.has(props.item.uuid)
+    })
 
     const handleButtonClick = () => {
       if (isSelected.value) {
-        emit('unselect', props.item.uuid);
+        emit('unselect', props.item.uuid)
       } else {
-        emit('select', { uuid: props.item.uuid });
+        emit('select', { uuid: props.item.uuid })
       }
-    };
+    }
 
-    const isVisible = getVisibility(props);
-    setVisibilityWatcher(emit, props.item, isVisible);
+    const isVisible = getVisibility(props)
+    setVisibilityWatcher(emit, props.item, isVisible)
 
     return {
       isVisible,
       isSelected,
-      handleButtonClick,
+      handleButtonClick
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .options-button {
   width: 100%;
 }

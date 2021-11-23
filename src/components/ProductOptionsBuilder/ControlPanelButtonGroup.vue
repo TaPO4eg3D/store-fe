@@ -16,12 +16,12 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue'
 
-import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
+import { ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
 
-import ControlPanelCommon from './ControlPanelCommon.vue';
-import { updateItemProps } from './Utils/update-item-props';
+import ControlPanelCommon from './ControlPanelCommon.vue'
+import { updateItemProps } from './Utils/update-item-props'
 
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 
 export default defineComponent({
   props: {
@@ -31,14 +31,14 @@ export default defineComponent({
     },
     selectedItem: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
-    },
+      type: Object as PropType<ProductOptionElement>
+    }
   },
   components: {
-    ControlPanelCommon,
+    ControlPanelCommon
   },
   emits: ['schemaChanged', 'resetSelection'],
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const createButton = () => {
       const newSchema = updateItemProps(props.selectedItem.uuid, props.schema, {
         children: [
@@ -46,22 +46,22 @@ export default defineComponent({
           {
             uuid: uuid(),
             name: 'New Button',
-            item: 'button',
+            item: 'button'
           }
         ]
-      });
+      })
 
       emit('schemaChanged', newSchema)
     }
 
     return {
-      createButton,
+      createButton
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .condition {
   display: flex;
 

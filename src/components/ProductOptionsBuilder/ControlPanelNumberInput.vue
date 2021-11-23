@@ -22,10 +22,10 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from 'vue'
 
-import { NumberInputMeta, ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options';
+import { NumberInputMeta, ProductOptionElement, ProductOptionSection } from '@/common/interfaces/product-options'
 
-import ControlPanelCommon from './ControlPanelCommon.vue';
-import { updateItemProps } from './Utils/update-item-props';
+import ControlPanelCommon from './ControlPanelCommon.vue'
+import { updateItemProps } from './Utils/update-item-props'
 
 export default defineComponent({
   props: {
@@ -35,17 +35,17 @@ export default defineComponent({
     },
     selectedItem: {
       required: true,
-      type: Object as PropType<ProductOptionElement>,
-    },
+      type: Object as PropType<ProductOptionElement>
+    }
   },
   components: {
-    ControlPanelCommon,
+    ControlPanelCommon
   },
   emits: ['schemaChanged', 'resetSelection'],
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const fieldMeta = computed<NumberInputMeta | {}>(() => {
-      return props.selectedItem?.meta || {};
-    });
+      return props.selectedItem?.meta || {}
+    })
 
     const onStepSizeUpdate = (value: number) => {
       const newSchema = updateItemProps(
@@ -54,13 +54,13 @@ export default defineComponent({
         {
           meta: {
             ...props.selectedItem?.meta || {},
-            step_size: value,
-          } as NumberInputMeta,
-        },
+            step_size: value
+          } as NumberInputMeta
+        }
       )
 
-      emit('schemaChanged', newSchema);
-    };
+      emit('schemaChanged', newSchema)
+    }
 
     const onStrictStepUpdate = (value: boolean) => {
       const newSchema = updateItemProps(
@@ -69,25 +69,25 @@ export default defineComponent({
         {
           meta: {
             ...props.selectedItem?.meta || {},
-            strict_step: value,
-          } as NumberInputMeta,
-        },
+            strict_step: value
+          } as NumberInputMeta
+        }
       )
 
-      emit('schemaChanged', newSchema);
-    };
+      emit('schemaChanged', newSchema)
+    }
 
     return {
       fieldMeta,
 
       onStepSizeUpdate,
-      onStrictStepUpdate,
+      onStrictStepUpdate
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .condition {
   display: flex;
 

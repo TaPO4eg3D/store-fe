@@ -50,10 +50,8 @@ import { inject, defineComponent, ref, Ref, onMounted, watch } from 'vue'
 import Splide from '@splidejs/splide'
 
 import About from '@/components/Home/About.vue'
-import Navigation from '@/components/Home/Navigation.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import GeneralCard from '@/components/GeneralCard.vue'
-import Search from '@/components/Home/Search.vue'
 import PopularProducts from '@/components/Home/PopularProducts.vue'
 
 import { Product } from '@/common/interfaces/product'
@@ -89,10 +87,8 @@ export default defineComponent({
   name: 'Home',
   components: {
     About,
-    Navigation,
     ProductCard,
     GeneralCard,
-    Search,
     PopularProducts
   },
   computed: {
