@@ -74,14 +74,15 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .category {
+  display: grid;
+  grid-gap: $template-gap;
   &__title {
-    margin-bottom: 20px;
     font-weight: normal;
   }
 
   @include _575 {
+    grid-gap: $template-gap-adaptive;
     &__title {
-      margin-bottom: 10px;
       font-size: 20px;
     }
   }

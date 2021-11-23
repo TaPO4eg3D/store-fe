@@ -1,17 +1,23 @@
 <template lang="pug">
 el-breadcrumb.base-breadcrumb(separator="/")
-  el-breadcrumb-item(:to="{ path: '/' }") homepage
-  el-breadcrumb-item
-    a(href="/") qwer1
-  el-breadcrumb-item qwer2
-  el-breadcrumb-item qwer3
+  el-breadcrumb-item(:to="{ path: '/' }")
+    router-link(
+      :to="{ name: 'Home' }"
+    ) {{ $t('breadcrumb.homepage') }}
+  el-breadcrumb-item {{ routeTitle }}
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default defineComponent({
-  name: 'BaseBreadcrumb'
+  name: 'BaseBreadcrumb',
+  computed: {
+    ...mapGetters({
+      routeTitle: 'getRoute'
+    })
+  }
 })
 </script>
 

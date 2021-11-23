@@ -39,5 +39,8 @@
   "product": {
     "buy": "Buy",
     "add_to_cart": "Add to cart"
+  },
+  "breadcrumb": {
+    "homepage": "Home"
   }
 }

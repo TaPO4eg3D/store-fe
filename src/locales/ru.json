@@ -1,22 +1,22 @@
 {
   "title": "ruStore",
   "message": "ruhello i18n !!",
-  "catalog": "ruCatalog",
+  "catalog": "Каталог",
   "cart": {
-    "title": "ruCart",
-    "description_empty": "ruNo items in your cart",
-    "button_cancel": "ruCancel",
-    "button_confirm": "ruConfirm",
-    "total": "ruTotal price",
-    "delete": "ruAre you sure that you want to delete that item?"
+    "title": "Корзина",
+    "description_empty": "Ваша корзина пуста",
+    "button_cancel": "Отмена",
+    "button_confirm": "Подтвердить",
+    "total": "Общая стоимость",
+    "delete": "Вы уверены, что хотите удалить товар?"
   },
-  "product_search_placeholder": "ruInput product name",
-  "sell_to_us": "ruSell to us",
+  "product_search_placeholder": "Введите название товара",
+  "sell_to_us": "Продайте нам",
   "home": {
     "info_description": "ruВы можете приобрести оригинальные ключи активации для операционных систем, офисных программ, антивирусов, софта и другого по самым выгодным ценам. У нас быстрая, вежливая и грамотная техподдержка. Если что-то пойдёт не так - поможет решить возникший вопрос.",
     "headers": {
-      "bestsellers": "ruBestsellers",
-      "recommended": "ruRecommended products"
+      "bestsellers": "Хиты продаж",
+      "recommended": "Мы рекомендуем"
     },
     "about": {
       "title": "ruAbout services",
@@ -29,15 +29,18 @@
     }
   },
   "category": {
-    "empty": "ruNo products here"
+    "empty": "Нет товаров в данной категории"
   },
   "filter": {
-    "header": "ruProduct Filter",
-    "type": "ruPrice",
-    "apply": "ruApply filters"
+    "header": "Параметры",
+    "type": "Цена",
+    "apply": "Применить фильтры"
   },
   "product": {
-    "buy": "ruBuy",
-    "add_to_cart": "ruAdd to cart"
+    "buy": "Купить",
+    "add_to_cart": "Добавить в корзину"
+  },
+  "breadcrumb": {
+    "homepage": "Главная"
   }
 }

@@ -32,7 +32,9 @@ export default createStore({
 
     currentCurrency: {} as Currency,
 
-    currentLocale: {} as Locale
+    currentLocale: {} as Locale,
+
+    route: {}
   },
   mutations: {
     setProductDialogVisibility (state, isVisible: boolean) {
@@ -111,6 +113,9 @@ export default createStore({
     setCurrentLocale (state, currentLocale: Locale) {
       state.currentLocale = currentLocale
       localStorage.setItem('locale', JSON.stringify(state.currentLocale))
+    },
+    setRoute (state, route) {
+      state.route = route
     }
   },
   getters: {
@@ -129,7 +134,8 @@ export default createStore({
     getCurrencies: (state) => state.currencies,
     getDefaultCurrency: (state) => state.defaultCurrency,
     getCurrentCurrency: (state) => state.currentCurrency,
-    getCurrentLocale: (state) => state.currentLocale
+    getCurrentLocale: (state) => state.currentLocale,
+    getRoute: (state) => state.route
   },
   actions: {
     setDialogProduct (context, product: Product) {
