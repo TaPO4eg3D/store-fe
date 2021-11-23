@@ -22,6 +22,7 @@ import { defineComponent } from 'vue'
 import { LOCALES } from '@/common/constants'
 import { useStore, mapGetters } from 'vuex'
 import { Locale } from '@/common/interfaces/locale'
+import { setDocumentLang } from '@/common/utils/i18n/document'
 
 export default defineComponent({
   name: 'SwitchLocale',
@@ -51,10 +52,12 @@ export default defineComponent({
         this.store.commit('setCurrentLocale', JSON.parse(local))
         this.$i18n.locale = JSON.parse(local).code
       }
+      setDocumentLang(this.$i18n.locale)
     },
     selectLocale (lang: Locale) {
       this.$i18n.locale = lang.code
       this.store.commit('setCurrentLocale', lang)
+      setDocumentLang(this.$i18n.locale)
     }
   }
 })

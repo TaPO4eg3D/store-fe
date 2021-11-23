@@ -5,8 +5,17 @@
     img(:src="product.preview_image", draggable="false")
   .title(href="#") {{ product.name }}
   .price-section
-    .original-price(v-if="product.discount_price") {{ product.price }} руб.
-    .price {{ product.discount_price || product.price }} руб.
+    i18n-n.original-price(
+      v-if="product.discount_price"
+      tag="span"
+      :value="+product.price"
+      format="currency"
+      :locale="GetCurrentCurrency()")
+    i18n-n.price(
+      tag="span"
+      :value="+product.discount_price || +product.price"
+      format="currency"
+      :locale="GetCurrentCurrency()")
   .control
     el-button-group(style="display: flex")
       el-button.buy-button(@click="showProductDialog()")
@@ -37,8 +46,6 @@ export default defineComponent({
       type: Object as PropType<Product>,
       required: true
     }
-  },
-  components: {
   },
   setup (props) {
     const store = useStore()

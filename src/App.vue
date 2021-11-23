@@ -34,13 +34,15 @@ export default defineComponent({
       default: {
         code: 'USD',
         display: '$',
-        rate: 1
+        rate: 1,
+        currencyCode: 'en'
       },
       available: [
         {
           code: 'RUB',
           display: 'руб.',
-          rate: 74.5
+          rate: 74.5,
+          currencyCode: 'ru'
         }
       ]
     }

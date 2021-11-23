@@ -3,4 +3,5 @@ export interface Currency {
   display: string,
   rate: number,
   title?: string,
+  currencyCode?: string
 }

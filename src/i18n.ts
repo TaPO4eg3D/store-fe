@@ -1,4 +1,5 @@
 import { createI18n, LocaleMessages, VueMessageType } from 'vue-i18n'
+import numberFormats from '@/locales/numberFormats.ts'
 
 /**
  * Load locale messages
@@ -25,5 +26,6 @@ export default createI18n({
   locale: process.env.VUE_APP_I18N_LOCALE || 'en',
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   // @ts-ignore
-  messages: loadLocaleMessages()
+  messages: loadLocaleMessages(),
+  numberFormats
 })

@@ -27,6 +27,7 @@ import 'element-plus/dist/index.css'
 // import 'element-plus/lib/theme-chalk/display.css'
 
 import axios from 'axios'
+import { useStore } from 'vuex'
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'development'
@@ -60,6 +61,15 @@ app.component('arrow-left-bold', ArrowLeftBold)
 app.component('arrow-right-bold', ArrowRightBold)
 app.component('arrow-down', ArrowDown)
 app.component('top-right', TopRight)
+
+app.mixin({
+  methods: {
+    GetCurrentCurrency () {
+      const store = useStore()
+      return store.getters.getCurrentCurrency.currencyCode
+    }
+  }
+})
 
 app.use(i18n)
   .use(store)
