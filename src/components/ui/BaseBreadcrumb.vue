@@ -4,19 +4,19 @@ el-breadcrumb.base-breadcrumb(separator="/")
     router-link(
       :to="{ name: 'Home' }"
     ) {{ $t('breadcrumb.homepage') }}
-  el-breadcrumb-item {{ routeTitle }}
+  el-breadcrumb-item {{ secondLevel }}
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'BaseBreadcrumb',
-  computed: {
-    ...mapGetters({
-      routeTitle: 'getRoute'
-    })
+  props: {
+    secondLevel: {
+      type: String,
+      default: ''
+    }
   }
 })
 </script>

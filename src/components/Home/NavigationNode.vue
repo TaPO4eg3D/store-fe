@@ -10,10 +10,7 @@ el-menu-item(
   v-if="!category.child",
   :index="category.id.toString()"
 )
-  router-link(
-    :to="{ name: 'Category', params: { id: category.id, title: category.name } }",
-    @click="setRoute(category.name)"
-  ) {{ category.name }}
+  router-link(:to="{ name: 'Category', params: { id: category.id } }") {{ category.name }}
 </template>
 
 <script lang="ts">
@@ -33,14 +30,6 @@ export default defineComponent({
       type: Object as PropType<Category>,
       required: true
     }
-  },
-  methods: {
-    setRoute (title: string) {
-      this.store.commit('setRoute', title)
-    }
-  },
-  setup (props) {
-    // console.log(props.category.id)
   }
 })
 </script>

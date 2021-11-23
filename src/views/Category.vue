@@ -1,6 +1,6 @@
 <template lang="pug">
 .category
-  base-breadcrumb
+  base-breadcrumb(:secondLevel="categoryName")
   h2.category__title {{ categoryName }}
   .category__content.divider
     .side-section
