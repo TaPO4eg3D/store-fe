@@ -154,6 +154,7 @@ export default defineComponent({
       height: 150px;
     }
   }
+}
 
 @include _480 {
   .footer {
