@@ -10,6 +10,7 @@ app-header
     :isVisible="showCartDialog"
   )
   router-view
+scroll-to-top
 </template>
 
 <script lang="ts">
@@ -20,13 +21,15 @@ import AppHeader from '@/components/AppHeader.vue'
 import AppMenu from '@/components/AppMenu.vue'
 import CartDialog from '@/components/Cart/CartDialog.vue'
 import ProductDialog from '@/components/Category/ProductDialog.vue'
+import ScrollToTop from '@/components/ui/ScrollToTop.vue'
 
 export default defineComponent({
   components: {
     AppHeader,
     AppMenu,
     CartDialog,
-    ProductDialog
+    ProductDialog,
+    ScrollToTop
   },
   setup () {
     const store = useStore()

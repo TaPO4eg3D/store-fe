@@ -19,7 +19,7 @@ import {
   ArrowLeftBold,
   ArrowRightBold,
   ShoppingCartFull,
-  TopRight
+  TopRight, ArrowUpBold
 } from '@element-plus/icons'
 
 import '@splidejs/splide/dist/css/splide-core.min.css'
@@ -60,6 +60,7 @@ app.component('shopping-cart-full', ShoppingCartFull)
 app.component('arrow-left-bold', ArrowLeftBold)
 app.component('arrow-right-bold', ArrowRightBold)
 app.component('arrow-down', ArrowDown)
+app.component('arrow-up-bold', ArrowUpBold)
 app.component('top-right', TopRight)
 
 app.mixin({
