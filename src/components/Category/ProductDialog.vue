@@ -10,8 +10,28 @@ el-dialog(
       img(:src="product.preview_image")
     .product-dialog__info
       .product-dialog__price.price
-        .price__original(v-if="product.discount_price") {{ product.price }} руб.
-        .price__discount {{ product.discount_price || product.price }} руб. + {{ productOptionsRef?.resultingPrice }} руб.
+        i18n-n.price__original(
+          v-if="product.discount_price"
+          tag="div"
+          :value="+product.price * GetCurrencyRate()"
+          format="currency"
+          :locale="GetCurrentCurrency()"
+        )
+        div.price__discount
+          i18n-n(
+            tag="span"
+            :value="(+product.discount_price || +product.price) * GetCurrencyRate()"
+            format="currency"
+            :locale="GetCurrentCurrency()"
+          )
+          span(v-if="productOptionsRef?.resultingPrice") +
+          i18n-n(
+            v-if="productOptionsRef?.resultingPrice"
+            tag="span"
+            :value="+productOptionsRef?.resultingPrice * GetCurrencyRate()"
+            format="currency"
+            :locale="GetCurrentCurrency()"
+          )
       .product-dialog__description {{ product.description }}
       .product-dialog__options
         product-options(

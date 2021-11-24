@@ -46,7 +46,7 @@ export default defineComponent({
   watch: {
     currentPath: {
       handler (value) {
-        this.isHiddenNavigation = value !== '/'
+        this.isHiddenNavigation = value !== '/' || (value === '/' && !this.isDesktop)
       }
     }
   },

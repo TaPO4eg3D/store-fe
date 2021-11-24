@@ -67,6 +67,10 @@ app.mixin({
     GetCurrentCurrency () {
       const store = useStore()
       return store.getters.getCurrentCurrency.currencyCode
+    },
+    GetCurrencyRate () {
+      const store = useStore()
+      return store.getters.getCurrentCurrency.rate
     }
   }
 })

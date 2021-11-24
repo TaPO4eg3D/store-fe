@@ -17,7 +17,14 @@ el-dialog(
     :description="$t('cart.description_empty')",
   )
 
-  .total-price {{ $t('cart.total') }}: {{ totalPrice }} руб.
+  .total-price
+    span {{ $t('cart.total') }}:
+    i18n-n(
+      tag="span"
+      :value="+totalPrice * GetCurrencyRate()"
+      format="currency"
+      :locale="GetCurrentCurrency()"
+    )
 
   template(#footer="")
     span.dialog-footer
@@ -83,5 +90,9 @@ export default defineComponent({
   font-size: 14px;
 
   text-align: right;
+
+  span:first-child {
+    margin-right: 5px;
+  }
 }
 </style>

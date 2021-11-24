@@ -11,7 +11,13 @@
         :min="1",
       )
     .price
-      strong {{ totalPrice }} руб.
+      strong
+        i18n-n(
+          tag="span"
+          :value="+totalPrice * GetCurrencyRate()"
+          format="currency"
+          :locale="GetCurrentCurrency()"
+        )
     .control
       el-popconfirm(
         :title="$t('cart.delete')",

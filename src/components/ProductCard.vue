@@ -3,19 +3,21 @@
   .discount-label(v-if="discountTag !== 0") - {{ discountTag }}%
   .picture
     img(:src="product.preview_image", draggable="false")
-  .title(href="#") {{ product.name }}
+  .title {{ product.name }}
   .price-section
     i18n-n.original-price(
       v-if="product.discount_price"
       tag="span"
-      :value="+product.price"
+      :value="+product.price * GetCurrencyRate()"
       format="currency"
-      :locale="GetCurrentCurrency()")
+      :locale="GetCurrentCurrency()"
+    )
     i18n-n.price(
       tag="span"
-      :value="+product.discount_price || +product.price"
+      :value="(+product.discount_price || +product.price) * GetCurrencyRate()"
       format="currency"
-      :locale="GetCurrentCurrency()")
+      :locale="GetCurrentCurrency()"
+    )
   .control
     el-button-group(style="display: flex")
       el-button.buy-button(@click="showProductDialog()")
