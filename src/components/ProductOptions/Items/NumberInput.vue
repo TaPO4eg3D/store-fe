@@ -78,6 +78,7 @@ export default defineComponent({
 .label {
   font-size: 12px;
   font-weight: bold;
+  margin-top: 12px;
   margin-bottom: 6px;
 }
 </style>

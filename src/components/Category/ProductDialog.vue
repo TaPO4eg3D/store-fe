@@ -127,6 +127,10 @@ export default defineComponent({
   }
 }
 
+.product-dialog .options {
+  margin-top: 20px;
+}
+
 .product-dialog .product-description {
   margin-top: 20px;
 }
