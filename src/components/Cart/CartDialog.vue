@@ -27,7 +27,8 @@ el-dialog(
       ) {{ $t('cart.button_cancel') }}
       el-button(
         type="primary"
-        ) {{ $t('cart.button_confirm') }}
+        @click="createOrder",
+      ) {{ $t('cart.button_confirm') }}
 </template>
 
 <script lang="ts">
@@ -53,6 +54,10 @@ export default defineComponent({
       store.dispatch('setCartDialogVisibility', false)
     }
 
+    const createOrder = () => {
+      store.dispatch('createOrder');
+    };
+
     const cartItems = computed(() => {
       return store.state.cart;
     })
@@ -64,7 +69,8 @@ export default defineComponent({
     return {
       cartItems,
       totalPrice,
-      handleDialogClose
+      handleDialogClose,
+      createOrder,
     }
   }
 })

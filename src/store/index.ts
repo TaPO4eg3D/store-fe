@@ -4,12 +4,16 @@ import { ElNotification } from 'element-plus'
 
 import { isEqual } from 'lodash';
 
+import axios from 'axios';
+
 import type { CartItem } from './interfaces/cart-item'
 
 import type { Product } from '@/common/interfaces/product'
 import type { CartDialog } from './interfaces/cart-dialog'
 import type { ProductDialog } from './interfaces/product-dialog'
 import type { Currency } from '@/common/interfaces/currency'
+import type { OrderDialog } from './interfaces/order-dialog'
+import type { Order } from '@/common/interfaces/order'
 
 export default createStore({
   state: {
@@ -21,6 +25,10 @@ export default createStore({
     cartDialog: {
       show: false
     } as CartDialog,
+
+    orderDialog: {
+      show: false,
+    } as OrderDialog,
 
     cart: JSON.parse(
       localStorage.getItem('cart') || '[]'
@@ -37,19 +45,29 @@ export default createStore({
       state.productDialog = {
         ...state.productDialog,
         show: isVisible
-      }
+      };
     },
     setCartDialogVisibility (state, isVisible: boolean) {
       state.cartDialog = {
         ...state.cartDialog,
         show: isVisible
-      }
+      };
+    },
+    setOrderDialogVisibility (state, isVisible: boolean) {
+      state.orderDialog = {
+        ...state.orderDialog,
+        show: isVisible,
+      };
     },
     setDialogProduct (state, product: Product) {
       state.productDialog = {
         ...state.productDialog,
         product
-      }
+      };
+    },
+    clearCart (state) {
+      state.cart = [];
+      localStorage.setItem('cart', JSON.stringify(state.cart))
     },
     addCartItem (state, cartItem: CartItem) {
       // If a product is in already in the cart (with matching options), than just
@@ -164,6 +182,9 @@ export default createStore({
     setCartDialogVisibility (context, isVisible: boolean) {
       context.commit('setCartDialogVisibility', isVisible)
     },
+    setOrderDialogVisibility (context, isVisible: boolean) {
+      context.commit('setOrderDialogVisibility', isVisible);
+    },
     addCartItem (context, cartItem: CartItem) {
       context.commit('addCartItem', cartItem)
 
@@ -186,7 +207,26 @@ export default createStore({
     },
     fetchCurrencies ({ commit }, payload) {
       commit('setCurrencies', payload)
-    }
+    },
+    async createOrder({ state, commit } ) {
+      const response = await axios.post('/api/orders', {
+        items: state.cart.map((cartItem: CartItem) => {
+          return {
+            product_id: cartItem.product.id,
+            amount: cartItem.amount,
+            selected_items: cartItem.additionalOptions,
+            selected_items_meta: cartItem.additionalOptionsMeta,
+          }
+        })
+      } as Order);
+
+      const data: any = response.data;
+      
+      commit('clearCart');
+      window.location = data.url;
+      
+      return;
+    },
   },
   modules: {
   }
