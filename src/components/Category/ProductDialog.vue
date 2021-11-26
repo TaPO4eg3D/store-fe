@@ -53,6 +53,7 @@ el-dialog(
 </template>
 
 <script lang="ts">
+import { cloneDeep } from 'lodash';
 import { Product } from '@/common/interfaces/product'
 import {
   defineComponent,
@@ -64,7 +65,8 @@ import {
 
 import { useStore } from 'vuex'
 
-import ProductOptions from '@/components/ProductOptions/ProductOptions.vue'
+import ProductOptions from '@/components/ProductOptions/ProductOptions.vue';
+import { CartItem } from '@/store/interfaces/cart-item';
 
 export default defineComponent({
   props: {
@@ -92,10 +94,15 @@ export default defineComponent({
     }
 
     const addCartItem = () => {
+      const productPrice = +(props.product.discount_price || props.product.price);
+
       store.dispatch('addCartItem', {
         product: props.product,
-        amount: productAmount.value
-      })
+        amount: productAmount.value,
+        additionalOptions: JSON.parse(JSON.stringify(Array.from(productOptionsRef.value?.selectedElements))),
+        additionalOptionsMeta: JSON.parse(JSON.stringify(productOptionsRef.value?.selectedElementsAdditionOptions)),
+        price: productPrice + (+(productOptionsRef.value?.resultingPrice || 0)),
+      } as CartItem)
     }
 
     return {
@@ -147,6 +154,14 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
   grid-gap: 20px;
+}
+
+.product-dialog .options {
+  margin-top: 20px;
+}
+
+.product-dialog .product-description {
+  margin-top: 20px;
 }
 
 @include _767 {

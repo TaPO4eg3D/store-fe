@@ -52,17 +52,21 @@ export default defineComponent({
       })
     };
 
-    watch(props, () => {
-      console.log(props);
+    const fillSections = () => {
       props.sections.forEach(section => {
         section.children.forEach(child => {
           fillSelectedElements(child);
         });
       });
+    };
+
+    watch(props, () => {
+      fillSections();
     })
 
+    fillSections();
+
     const handleSelect = ({ uuid, options }: { uuid: string, options: object }) => {
-      console.log('SELECT: ', uuid, options);
       selectedElements.value.add(uuid);
       
       if (options) {
@@ -71,13 +75,11 @@ export default defineComponent({
     };
 
     const handleUnselect = (uuid: string) => {
-      console.log('UNSELECT: ', uuid);
       selectedElements.value.delete(uuid);
     };
 
     const resultingPrice = computed<number>(() => {
       let price = 0;
-
       selectedElements.value.forEach(uuid => {
         const item = itemMap[uuid];
         

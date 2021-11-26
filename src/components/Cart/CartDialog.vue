@@ -9,8 +9,9 @@ el-dialog(
     v-if="cartItems.length !== 0"
   )
     cart-item(
-      v-for="cartItem in cartItems",
+      v-for="cartItem, index in cartItems",
       :cartItem="cartItem",
+      :itemIndex="index",
     )
   el-empty(
     v-else,
@@ -33,7 +34,8 @@ el-dialog(
       ) {{ $t('cart.button_cancel') }}
       el-button(
         type="primary"
-        ) {{ $t('cart.button_confirm') }}
+        @click="createOrder",
+      ) {{ $t('cart.button_confirm') }}
 </template>
 
 <script lang="ts">
@@ -59,8 +61,12 @@ export default defineComponent({
       store.dispatch('setCartDialogVisibility', false)
     }
 
+    const createOrder = () => {
+      store.dispatch('createOrder');
+    };
+
     const cartItems = computed(() => {
-      return Object.values(store.state.cart)
+      return store.state.cart;
     })
 
     const totalPrice = computed(() => {
@@ -70,7 +76,8 @@ export default defineComponent({
     return {
       cartItems,
       totalPrice,
-      handleDialogClose
+      handleDialogClose,
+      createOrder,
     }
   }
 })
