@@ -5,19 +5,10 @@
     img(:src="product.preview_image", draggable="false")
   .title {{ product.name }}
   .price-section
-    i18n-n.original-price(
+    span.original-price(
       v-if="product.discount_price"
-      tag="span"
-      :value="+product.price * GetCurrencyRate()"
-      format="currency"
-      :locale="GetCurrentCurrency()"
-    )
-    i18n-n.price(
-      tag="span"
-      :value="(+product.discount_price || +product.price) * GetCurrencyRate()"
-      format="currency"
-      :locale="GetCurrentCurrency()"
-    )
+    ) {{ displayOriginalPrice }}
+    span.price {{ displayPrice }}
   .control
     el-button-group(style="display: flex")
       el-button.buy-button(@click="showProductDialog()")
@@ -71,8 +62,24 @@ export default defineComponent({
       return Math.ceil(100 - (props.product.discount_price / props.product.price) * 100)
     })
 
+    const displayPrice = computed(() => {
+      const currentCurrency = store.getters.getCurrentCurrency;
+      const price = (+props.product.discount_price || +props.product.price) * currentCurrency?.rate;
+
+      return `${price.toFixed(2)}${currentCurrency?.display}`;
+    });
+
+    const displayOriginalPrice = computed(() => {
+      const currentCurrency = store.getters.getCurrentCurrency;
+      const price = +props.product.price * currentCurrency?.rate;
+
+      return `${price.toFixed(2)}${currentCurrency?.display}`;
+    });
+
     return {
       discountTag,
+      displayPrice,
+      displayOriginalPrice,
       showProductDialog,
       addCartItem
     }

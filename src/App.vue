@@ -33,33 +33,10 @@ export default defineComponent({
   },
   setup () {
     const store = useStore()
-    const addCurrencies = {
-      default: {
-        code: 'USD',
-        display: '$',
-        rate: 1,
-        currencyCode: 'en'
-      },
-      available: [
-        {
-          code: 'RUB',
-          display: 'руб.',
-          rate: 74.5,
-          currencyCode: 'ru'
-        }
-      ]
-    }
 
-    onMounted(() => {
-      store.commit('setCurrencies', addCurrencies)
-      store.commit('setDefaultCurrency', addCurrencies.default)
-      const local = localStorage.getItem('currency')
-      if (local === null) {
-        store.commit('setCurrentCurrency', addCurrencies.default)
-      } else {
-        store.commit('setCurrentCurrency', JSON.parse(local))
-      }
-    })
+    onMounted(async () => {
+      await store.dispatch('fetchCurrencies');
+    });
 
     return {
       showProductDialog: computed(() => store.state.productDialog.show),

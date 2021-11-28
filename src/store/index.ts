@@ -11,7 +11,7 @@ import type { CartItem } from './interfaces/cart-item'
 import type { Product } from '@/common/interfaces/product'
 import type { CartDialog } from './interfaces/cart-dialog'
 import type { ProductDialog } from './interfaces/product-dialog'
-import type { Currency } from '@/common/interfaces/currency'
+import type { Currency, CurrencyResponse } from '@/common/interfaces/currency'
 import type { Locale } from '@/common/interfaces/locale'
 import type { Order } from '@/common/interfaces/order'
 
@@ -199,8 +199,20 @@ export default createStore({
     setCartItemAmount (context, { itemIndex, amount }: {itemIndex: number, amount: number}) {
       context.commit('setCartItemAmount', { itemIndex, amount })
     },
-    fetchCurrencies ({ commit }, payload) {
-      commit('setCurrencies', payload)
+    async fetchCurrencies ({ commit }) {
+      const response = await axios.get<CurrencyResponse>('/api/currencies/');
+      const data = response.data;
+
+      commit('setCurrencies', data);
+      commit('setDefaultCurrency', data.default);
+
+      const localCurrency = localStorage.getItem('currency');
+
+      if (!localCurrency) {
+        commit('setCurrentCurrency', data.default);
+      } else {
+        commit('setCurrentCurrency', JSON.parse(localCurrency));
+      }
     },
     async createOrder({ state, commit } ) {
       const response = await axios.post('/api/orders', {

@@ -5,3 +5,8 @@ export interface Currency {
   title?: string,
   currencyCode?: string
 }
+
+export interface CurrencyResponse {
+  default: Currency;
+  available: Currency[];
+}
