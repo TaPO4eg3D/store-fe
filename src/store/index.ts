@@ -26,6 +26,10 @@ export default createStore({
       show: false
     } as CartDialog,
 
+    orderDialog: {
+      show: false,
+    } as OrderDialog,
+
     cart: JSON.parse(
       localStorage.getItem('cart') || '[]'
     ) as CartItem[],
@@ -49,6 +53,12 @@ export default createStore({
       state.cartDialog = {
         ...state.cartDialog,
         show: isVisible
+      };
+    },
+    setOrderDialogVisibility (state, isVisible: boolean) {
+      state.orderDialog = {
+        ...state.orderDialog,
+        show: isVisible,
       };
     },
     setDialogProduct (state, product: Product) {
@@ -178,6 +188,9 @@ export default createStore({
     },
     setCartDialogVisibility (context, isVisible: boolean) {
       context.commit('setCartDialogVisibility', isVisible)
+    },
+    setOrderDialogVisibility (context, isVisible: boolean) {
+      context.commit('setOrderDialogVisibility', isVisible);
     },
     addCartItem (context, cartItem: CartItem) {
       context.commit('addCartItem', cartItem)
