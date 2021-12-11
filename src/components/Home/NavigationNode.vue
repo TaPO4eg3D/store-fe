@@ -6,7 +6,7 @@ el-sub-menu(
   template(#title='')
     span {{ category.name }}
   node(
-    v-for="child in category.children"
+    v-for="child in category.children",
     :category="child"
   )
 el-menu-item(
