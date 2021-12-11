@@ -8,12 +8,8 @@
         .daily-slider
           .splide__track
             .splide__list
-              li.splide__slide
-                img(src="../assets/test_image.jpg")
-              li.splide__slide
-                img(src="../assets/test_image.jpg")
-              li.splide__slide
-                img(src="../assets/test_image.jpg")
+              li.splide__slide(v-for="obj in homeSlides")
+                img(:src="obj.image")
         .dots
           .dot(
             v-for="i in slidesNumber",
@@ -134,6 +130,7 @@ export default defineComponent({
     const slidesNumber = ref(3)
 
     const recommendedProducts: Ref<Product[]> = ref([])
+    const homeSlides: Ref<{ image: string }[]> = ref([]);
 
     onMounted(async () => {
       // TODO: Add exception handling and refactor in general
@@ -141,6 +138,10 @@ export default defineComponent({
       recommendedProducts.value = response.data.results.map(item => {
         return item.product
       })
+
+      const homePageResponse = await axios.get<ListResponse<{ image: string }>>('/api/home-page-slides/?limit=100');
+      homeSlides.value = homePageResponse.data.results;
+      slidesNumber.value = homeSlides.value.length;
     })
 
     return {
@@ -149,7 +150,8 @@ export default defineComponent({
       activeSlide,
       itemsPerSlide,
       slideBreakpoints,
-      recommendedProducts
+      recommendedProducts,
+      homeSlides,
     }
   }
 })

@@ -1,13 +1,16 @@
 <template lang="pug">
 el-sub-menu(
-  v-if="category.child",
+  v-if="(category.children?.length || 0) > 0",
   :index="category.id.toString()",
 )
   template(#title='')
     span {{ category.name }}
-  node(:category="category.child")
+  node(
+    v-for="child in category.children"
+    :category="child"
+  )
 el-menu-item(
-  v-if="!category.child",
+  v-else
   :index="category.id.toString()"
 )
   router-link(:to="{ name: 'Category', params: { id: category.id } }") {{ category.name }}
