@@ -21,7 +21,17 @@ export default defineComponent({
     sections: {
       required: true,
       type: Array as PropType<ProductOptionSection[]>
-    }
+    },
+    viewOnly: {
+      default: false,
+      type: Boolean,
+    },
+    _selectedElements: {
+      type: Array as PropType<string[]>
+    },
+    _selectedElementsMeta: {
+      type: Object,
+    },
   },
   components: {
     OptionSection,
@@ -30,11 +40,19 @@ export default defineComponent({
     const selectedElements: Ref<Set<string>> = ref(new Set([]))
     const requiredElements: Ref<Set<string>> = ref(new Set([]))
 
+    if (props._selectedElements) {
+      selectedElements.value = new Set(props._selectedElements);
+    }
+
     const itemMap: { [uuid: string]: ProductOptionElement } = {};
 
     const selectedElementsAdditionOptions: Ref<{
       [uuid: string]: object,
     }> = ref({});
+
+    if (props._selectedElementsMeta) {
+      selectedElementsAdditionOptions.value = props._selectedElementsMeta;
+    }
 
     const fillSelectedElements = (item: ProductOptionElement) => {
       if (item.is_selected) {

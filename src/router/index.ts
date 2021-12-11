@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 
 const Category = () => import('../views/Category.vue')
 const Builder = () => import('../views/Builder.vue')
+const Orders =  () => import('../views/Orders.vue');
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/builder/:id',
     name: 'Builder',
     component: Builder
+  },
+  {
+    path: '/orders/',
+    name: 'Orders',
+    component: Orders,
   }
 ]
 
