@@ -3,6 +3,7 @@ el-dialog(
   :model-value="isVisible",
 )
   product-options(
+    v-if="isVisible",
     :sections="sections",
     :_selectedElements="selectedItems",
     :_selectedElementsMeta="selectedItemsMeta",
