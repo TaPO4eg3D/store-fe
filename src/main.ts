@@ -32,7 +32,7 @@ import { useStore } from 'vuex'
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8000'
-    : 'TODO'
+    : ''
 
 const app = createApp(App)
 
